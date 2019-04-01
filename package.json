@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
     "react": "^16.8.6",
+    "react-ace": "^6.4.0",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
     "terminal-in-react": "^4.3.1"

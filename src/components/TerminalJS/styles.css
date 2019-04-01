@@ -1,0 +1,7 @@
+.terminal {
+  display: flex;
+  justify-content: "center";
+  height: "100%";
+  height: 630px;
+  align-items: center;
+}
