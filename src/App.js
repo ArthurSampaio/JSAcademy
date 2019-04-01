@@ -7,8 +7,11 @@ import TerminalJS from './components/TerminalJS/TerminalJS'
 class App extends Component {
   render() {
     return (
+
       <div className="App">
-        <TerminalJS eval='2+2' />
+        <div >
+          <TerminalJS eval='2+2' />
+        </div>
       </div>
     );
   }
