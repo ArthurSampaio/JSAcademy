@@ -2,7 +2,8 @@
   justify-content: "center";
   align-items: center;
   flex-direction: column;
-  padding: 1.25rem;
+  margin: 1.25rem;
+  padding: 1rem;
   background-color: #F0F0F0;
   box-sizing: border-box;
 }
@@ -15,6 +16,42 @@
 .title{
   float: left;
   flex-direction: row;
+}
+
+.output-container{
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.console {
+  display: inline-block;
+  background-color: #fff;
+  margin: 0;
+  padding: .8em;
+  border: 1px solid #eaf2f4;
+  box-shadow: 2px 2px 5px -2px rgba(0,0,0,.1);
+  width: 91%;
+  height: 120px;
+  font-family: courier;
+}
+
+.console code {
+  float: left;
+  font-size: 0.75rem;
+}
+
+.buttons-output{
+  align-self: flex-start;
+  width: auto;
+  padding: 0.25rem;
+
+}
+
+.buttons-output button{
+  width: 100%;
+  margin-bottom: 10px;
+  margin: 1px;
 }
 
 

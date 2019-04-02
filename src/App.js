@@ -9,7 +9,7 @@ class App extends Component {
     return (
 
       <div className="App">
-        <div >
+        <div className={"test"}>
           <TerminalJS eval='2+2' />
         </div>
       </div>
