@@ -10,7 +10,7 @@ class App extends Component {
 
       <div className="App">
         <div className={"test"}>
-          <TerminalJS eval='2+2' />
+          <TerminalJS name="Terminal" />
         </div>
       </div>
     );

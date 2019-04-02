@@ -24,35 +24,28 @@ const TerminalJS = (props) => {
 
   const [input, setInput] = useState(defaultValue)
   const [output, setOuput] = useState(' ')
-
+  const { name } = props
 
   function onChange(newValue) {
     setInput(newValue)
   }
 
-  function updateInput(newValue) {
-    console.log('change', newValue);
-    setInput(newValue)
-  }
-
-  function evaluate(value) {
-    console.log(value)
-  }
-
   function execute() {
-    const b = eval(input)
-    console.log(b)
-    setOuput(b)
+    try {
+      const evaluate = eval(input)
+      setOuput(evaluate)
+    } catch (e) {
+      setOuput(e.message);
+    }
   }
 
   function clear() {
     setOuput(' ')
   }
 
-
   return (
     <div className={"terminal"}>
-      <header className={"title"}><h1><GiAstronautHelmet />{' '} TerminalName </h1></header>
+      <header className={"title"}><h1><GiAstronautHelmet />{' '} {name} </h1></header>
       <AceEditor
         mode="javascript"
         theme="monokai"
