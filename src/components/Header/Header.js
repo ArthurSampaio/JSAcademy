@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Menu from '../Menu/Menu'
 
 const styles = {
   root: {
@@ -23,12 +24,21 @@ const styles = {
 
 function Header(props) {
   const { classes } = props;
+  const [open, setOpen] = useState(false)
+
+  function openMenu() {
+    console.log(!open)
+    setOpen(!open);
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
+          <IconButton onClick={openMenu} className={classes.menuButton} color="inherit" aria-label="Menu">
+            <MenuIcon />  
+            <Menu onClick={open}/>
+
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
             JS Academy
