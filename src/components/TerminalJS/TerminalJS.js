@@ -55,9 +55,7 @@ const TerminalJS = (props) => {
         value={input}
       />
       <div className={"output-container"} >
-
         <div className={"buttons-output"}>
-
           <Button id="run" variant="contained" color="primary" onClick={execute}>
             <MdSend />
             Run
@@ -65,13 +63,10 @@ const TerminalJS = (props) => {
           <Button variant="contained" color="secondary" onClick={clear}>
             Clear
           </Button>
-
         </div>
-
         <div className={"console"}>
           <code>{output}</code>
         </div>
-
       </div>
     </div>
   );

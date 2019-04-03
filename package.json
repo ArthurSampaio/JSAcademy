@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "react": "^16.8.6",
     "react-ace": "^6.4.0",
     "react-dom": "^16.8.6",
     "react-icons": "^3.5.0",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "terminal-in-react": "^4.3.1"
   },
