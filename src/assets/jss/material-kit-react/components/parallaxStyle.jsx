@@ -20,7 +20,6 @@ const parallaxStyle = {
       position: "absolute",
       zIndex: "1",
       width: "100%",
-      height: "100%",
       display: "block",
       left: "0",
       top: "0",
