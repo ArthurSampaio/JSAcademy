@@ -70,10 +70,10 @@ const defaultFont = {
 };
 
 const primaryColor = "#9c27b0";
-const warningColor = "#ff9800";
-const dangerColor = "#f44336";
-const successColor = "#4caf50";
-const infoColor = "#00acc1";
+const warningColor = "#FFB020";
+const dangerColor = "#D33131";
+const successColor = "#7AC70C";
+const infoColor = "#1CB0F6";
 const roseColor = "#e91e63";
 const grayColor = "#999999";
 

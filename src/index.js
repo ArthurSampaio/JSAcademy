@@ -6,7 +6,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import "./assets/scss/material-kit-react.scss";
 
 // pages for this product
-import Components from "views/Components/Components.jsx";
+import Skill from "views/Skill/Skill";
 import LandingPage from "views/LandingPage/LandingPage.jsx";
 import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
@@ -21,7 +21,7 @@ ReactDOM.render(
       <Route path="/profile-page" component={ProfilePage} />
       <Route path="/login-page" component={LoginPage} />
       <Route path="/test" component={TerminalTest} />
-      <Route path="/components" component={Components} />
+      <Route path="/skill" component={Skill} />
       <Route path="/register" component={RegisterPage} />
 
       <Route path="/" component={LandingPage} />
