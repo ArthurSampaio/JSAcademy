@@ -3,9 +3,9 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // @material-ui/icons
-import Chat from "@material-ui/icons/Chat";
-import VerifiedUser from "@material-ui/icons/VerifiedUser";
-import Fingerprint from "@material-ui/icons/Fingerprint";
+import School from "@material-ui/icons/School";
+import AvTimer from "@material-ui/icons/AvTimer";
+import DeveloperMode from "@material-ui/icons/DeveloperMode";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -20,41 +20,41 @@ class ProductSection extends React.Component {
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Let's talk product</h2>
-            <h5 className={classes.description}>
+            <h2 className={classes.title}>Por que JS Academy?</h2>
+            {/* <h5 className={classes.description}>
               This is the paragraph where you can write more details about your
               product. Keep you user engaged by providing meaningful
               information. Remember that by this time, the user is curious,
               otherwise he wouldn't scroll to get here. Add a button if you want
               the user to see more.
-            </h5>
+            </h5> */}
           </GridItem>
         </GridContainer>
         <div>
           <GridContainer>
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
-                title="Free Chat"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Chat}
+                title="A melhor maneira de aprender Javascript"
+                description="Aprender aqui na JS Academy é muito divertido. Nossos exercícios são 100% práticos e curtinhos, de mode que, com pouco tempo você já saberá as principais feature da linguagem."
+                icon={School}
                 iconColor="info"
                 vertical
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
-                title="Verified Users"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={VerifiedUser}
+                title="Aprendar em qualquer hora, em qualquer lugar"
+                description="Torne suas pausas e esperas mais produtivas. A partir de qualquer dispositivo com internet é possível fazer nossos exercícios. "
+                icon={AvTimer}
                 iconColor="success"
                 vertical
               />
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
-                title="Fingerprint"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Fingerprint}
+                title="Javascript para progamadores"
+                description="Somos focados em ensinar Javascript e Programação Funcional para programadores ativos, que estão querendo atualizar seus conhecimentos ou simplesmente estudar um pouco mais."
+                icon={DeveloperMode}
                 iconColor="danger"
                 vertical
               />
