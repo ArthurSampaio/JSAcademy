@@ -47,6 +47,20 @@ const TerminalJS = (props) => {
     }
   }
 
+  function runTests() {
+    try {
+      const b = [1, 2, 3, 4]
+      const bb = [1, 2, 3, 4, 6]
+
+      const evaluate = eval(input)
+      const isAccept = evaluate.toString() === [2, 4, 6, 8].toString()
+      setAccept(isAccept)
+
+    } catch (e) {
+      setOuput(e.message);
+    }
+  }
+
   function clear() {
     setOuput(' ')
     setAccept(false)
@@ -68,6 +82,10 @@ const TerminalJS = (props) => {
         <div className={"buttons-output"}>
           <Button id="run" variant="contained" color="primary" onClick={execute}>
             Run
+          </Button>
+
+          <Button variant="contained" onClick={runTests}>
+            Execute Tests
           </Button>
           <Button variant="contained" color="secondary" onClick={clear}>
             Clear
