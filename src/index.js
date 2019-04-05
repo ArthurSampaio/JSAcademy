@@ -29,8 +29,17 @@ ReactDOM.render(
 );
 
 function TerminalTest() {
+
+  const testValue =
+    `function a (b) {
+      const d = (x) => 2*x
+      const e = b.map(item => d(item))
+      return e
+  
+  }
+  a(b)`
   return (
-    <TerminalJS name="Terminal" />
+    <TerminalJS name="Terminal" func={testValue} />
 
   )
 }

@@ -88,7 +88,8 @@ class ProfilePage extends React.Component {
                   intimate feel with a solid groove structure.{" "}
                 </p>
               </div>
-              <GridContainer justify="center">
+            </div>
+            {/* <GridContainer justify="center">
                 <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
                   <NavPills
                     alignCenter
@@ -204,7 +205,7 @@ class ProfilePage extends React.Component {
                   />
                 </GridItem>
               </GridContainer>
-            </div>
+            </div> */}
           </div>
         </div>
         <Footer />

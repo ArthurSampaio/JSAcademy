@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Terminal from 'terminal-in-react';
 import brace from 'brace';
+import PropTypes from "prop-types";
+
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
@@ -9,30 +11,37 @@ import './styles.css';
 import Button from '@material-ui/core/Button';
 
 
-const defaultValue =
-  `function a () {
-  
-  const d = (x) => 2*x
-  const b = [1,2,3,4]
-  const e = b.map(item => d(item))
-  return e.toString()
- 
-}
-a()`
 const TerminalJS = (props) => {
 
-  const [input, setInput] = useState(defaultValue)
+  const { func, name } = props
+  const [input, setInput] = useState(func)
   const [output, setOuput] = useState(' ')
-  const { name } = props
+  const [accept, setAccept] = useState(false)
 
   function onChange(newValue) {
     setInput(newValue)
   }
 
+  useEffect(() => {
+    // Update the document title using the browser API
+    console.log(accept)
+  });
+
   function execute() {
     try {
+      const b = [1, 2, 3, 4]
+      const bb = [1, 2, 3, 4, 6]
+
       const evaluate = eval(input)
-      setOuput(evaluate)
+      console.log(evaluate)
+      console.log([2, 4, 6, 8])
+      setOuput(evaluate.toString())
+
+      // if (evaluate.toString() === [2, 4, 6, 8].toString()) {
+      //   setAccept(true)
+      // } else {
+      //   setAccept(false)
+      // }
     } catch (e) {
       setOuput(e.message);
     }
@@ -40,10 +49,12 @@ const TerminalJS = (props) => {
 
   function clear() {
     setOuput(' ')
+    setAccept(false)
+
   }
 
   return (
-    <div className={"terminal"}>
+    <div className={`terminal ${accept ? 'accept-true' : ''} `}>
       <header className={"title"}><h1>{' '} {name} </h1></header>
       <AceEditor
         mode="javascript"
@@ -69,5 +80,6 @@ const TerminalJS = (props) => {
     </div>
   );
 }
+
 
 export default TerminalJS;
