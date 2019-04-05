@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Terminal from 'terminal-in-react';
 import brace from 'brace';
 import PropTypes from "prop-types";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 import './styles.css';
+
+import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 
 import Button from '@material-ui/core/Button';
 
@@ -22,10 +25,6 @@ const TerminalJS = (props) => {
     setInput(newValue)
   }
 
-  useEffect(() => {
-    // Update the document title using the browser API
-    console.log(accept)
-  });
 
   function execute() {
     try {
@@ -100,4 +99,4 @@ const TerminalJS = (props) => {
 }
 
 
-export default TerminalJS;
+export default withStyles(basicsStyle)(TerminalJS);

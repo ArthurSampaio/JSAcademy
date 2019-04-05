@@ -55,6 +55,7 @@ const headerStyle = {
     ...defaultFont,
     lineHeight: "30px",
     fontSize: "18px",
+    fontWeight: "600",
     borderRadius: "3px",
     textTransform: "none",
     color: "inherit",

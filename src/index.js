@@ -11,6 +11,7 @@ import LandingPage from "views/LandingPage/LandingPage.jsx";
 import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 import TerminalJS from "./components/TerminalJS/TerminalJS"
+import RegisterPage from "views/RegisterPage/RegisterPage"
 
 var hist = createBrowserHistory();
 
@@ -21,6 +22,8 @@ ReactDOM.render(
       <Route path="/login-page" component={LoginPage} />
       <Route path="/test" component={TerminalTest} />
       <Route path="/components" component={Components} />
+      <Route path="/register-page" component={RegisterPage} />
+
       <Route path="/" component={LandingPage} />
 
     </Switch>

@@ -4,11 +4,11 @@ const componentsStyle = {
   container,
   brand: {
     color: "#FFFFFF",
-    textAlign: "left"
+    textAlign: "center"
   },
   title: {
     fontSize: "4.2rem",
-    fontWeight: "600",
+    fontWeight: "300",
     display: "inline-block",
     position: "relative"
   },
