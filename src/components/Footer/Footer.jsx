@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 import { List, ListItem, withStyles } from "@material-ui/core";
+import Button from "components/CustomButtons/Button.jsx";
+
 
 // @material-ui/icons
 import Favorite from "@material-ui/icons/Favorite";
@@ -29,12 +31,13 @@ function Footer({ ...props }) {
           <List className={classes.list}>
 
             <ListItem className={classes.inlineBlock}>
-              <Link className={classes.block}
-                to="/profile-page">
+
+              <Button color="transparent" className={classes.block} component={Link} to="/profile-page">
+
 
                 About
 
-              </Link>
+              </Button>
             </ListItem>
 
             <ListItem className={classes.inlineBlock}>

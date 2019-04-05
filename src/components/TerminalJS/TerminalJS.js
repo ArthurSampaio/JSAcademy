@@ -11,7 +11,7 @@ import './styles.css';
 
 import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 
-import Button from '@material-ui/core/Button';
+import Button from "components/CustomButtons/Button.jsx";
 
 
 const TerminalJS = (props) => {
@@ -83,10 +83,10 @@ const TerminalJS = (props) => {
             Run
           </Button>
 
-          <Button variant="contained" onClick={runTests}>
+          <Button variant="contained" color="warning" onClick={runTests}>
             Execute Tests
           </Button>
-          <Button variant="contained" color="secondary" onClick={clear}>
+          <Button variant="contained" color="danger" onClick={clear}>
             Clear
           </Button>
         </div>

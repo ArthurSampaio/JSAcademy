@@ -36,7 +36,7 @@ class LandingPage extends React.Component {
         <Header
           color="transparent"
           routes={dashboardRoutes}
-          brand={<span><Explore className={classes.icons} />{' '}
+          brand={<span>
             {'Javascript Academy'}</span>}
           rightLinks={<HeaderLinks />}
           fixed
@@ -52,7 +52,7 @@ class LandingPage extends React.Component {
               <GridItem xs={12} sm={12} md={6}>
                 <h1 className={classes.title}>Aprenda Javascript. Agora!</h1>
                 <br />
-                <Link to="/test">
+                <Link to="/register">
                   <Button
                     color="primary"
                     size="lg"

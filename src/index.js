@@ -22,7 +22,7 @@ ReactDOM.render(
       <Route path="/login-page" component={LoginPage} />
       <Route path="/test" component={TerminalTest} />
       <Route path="/components" component={Components} />
-      <Route path="/register-page" component={RegisterPage} />
+      <Route path="/register" component={RegisterPage} />
 
       <Route path="/" component={LandingPage} />
 

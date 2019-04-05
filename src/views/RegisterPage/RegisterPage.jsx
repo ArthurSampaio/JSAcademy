@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
+import { Link } from "react-router-dom";
+
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react components for routing our app without refresh
-import { Link } from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
@@ -18,10 +19,10 @@ import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 
-import componentsStyle from "assets/jss/material-kit-react/views/components.jsx";
+
+import componentsStyle from "assets/jss/material-kit-react/views/register.jsx";
 
 const RegisterPage = (props) => {
 
@@ -32,6 +33,13 @@ const RegisterPage = (props) => {
     console.log(onchange.target.value)
     setSelectRadio(onchange.target.value)
   }
+
+  const dailyMinutes = [
+    { value: "a", text: "Melhor que nada", time: "5" },
+    { value: "b", text: "De boa", time: "10" },
+    { value: "c", text: "Instigado", time: "15" },
+    { value: "d", text: "Sange nos olhos", time: "20" }
+  ]
 
   return (
     <div>
@@ -44,87 +52,58 @@ const RegisterPage = (props) => {
       />
       <Parallax image={require("assets/img/register-bg.png")}>
         <div className={classes.container}>
-          <GridContainer>
-            <GridItem>
-              <div className={classes.brand}>
-                <h3 className={classes.title}>
-                  A Badass Material-UI Kit based on  Design.
-                  </h3>
-
-                <div
-                  className={
-                    classes.checkboxAndRadio +
-                    " " +
-                    classes.checkboxAndRadioHorizontal
-                  }
-                >
-                  <FormControlLabel
-                    control={
-                      <Radio
-                        checked={selectRadio === "a"}
-                        onChange={onChangeRadio}
-                        value="a"
-                        name="radio button enabled"
-                        aria-label="A"
-                        icon={
-                          <FiberManualRecord
-                            className={classes.radioUnchecked}
+          <div className={classes.brand}>
+            <h3 className={classes.title}>
+              Ótimo! Agora escolha sua meta diária.
+            </h3>
+            <GridContainer>
+              <GridItem >
+                {dailyMinutes.map(item => (
+                  <Fragment key={item.value} className={classes.contentAlign}>
+                    <div
+                      className={
+                        classes.checkboxAndRadio +
+                        " " +
+                        classes.checkboxAndRadioHorizontal
+                      }
+                    >
+                      <FormControlLabel
+                        control={
+                          <Radio
+                            checked={selectRadio === item.value}
+                            onChange={onChangeRadio}
+                            value={item.value}
+                            name="radio button enabled"
+                            aria-label="A"
+                            icon={
+                              <FiberManualRecord
+                                className={classes.radioUnchecked}
+                              />
+                            }
+                            checkedIcon={
+                              <FiberManualRecord className={classes.radioChecked} />
+                            }
+                            classes={{
+                              checked: classes.radio
+                            }}
                           />
                         }
-                        checkedIcon={
-                          <FiberManualRecord className={classes.radioChecked} />
-                        }
                         classes={{
-                          checked: classes.radio
+                          label: classes.label
                         }}
+                        label={`${item.text} - ${item.time} minutos`}
                       />
-                    }
-                    classes={{
-                      label: classes.label
-                    }}
-                    label="First Radio"
-                  />
-                </div>
-                <div
-                  className={
-                    classes.checkboxAndRadio +
-                    " " +
-                    classes.checkboxAndRadioHorizontal
-                  }
-                >
-                  <FormControlLabel
-                    control={
-                      <Radio
-                        checked={selectRadio === "b"}
-                        onChange={onChangeRadio}
+                    </div>
+                  </Fragment>
+                ))}
+                <Button component={Link} to="/test" className={classes.buttonRegister} id="run" variant="contained" color="primary" >
+                  Definir Meta.
+                </Button>
+              </GridItem>
 
-                        value="b"
-                        name="radio button enabled"
-                        aria-label="B"
-                        icon={
-                          <FiberManualRecord
-                            className={classes.radioUnchecked}
-                          />
-                        }
-                        checkedIcon={
-                          <FiberManualRecord className={classes.radioChecked} />
-                        }
-                        classes={{
-                          checked: classes.radio
-                        }}
-                      />
-                    }
-                    classes={{
-                      label: classes.label
-                    }}
-                    label="Second Radio"
-                  />
-                </div>
+            </GridContainer>
+          </div>
 
-
-              </div>
-            </GridItem>
-          </GridContainer>
         </div>
       </Parallax>
       <Footer />

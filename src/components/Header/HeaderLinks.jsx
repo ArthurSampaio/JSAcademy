@@ -24,22 +24,21 @@ function HeaderLinks({ ...props }) {
     <List className={classes.list}>
 
       <ListItem className={classes.listItem}>
-        <Link to="/login-page">
-          <Button
-            color="transparent"
-            target="_blank"
-            className={classes.navLink}
-          >
-            <CloudDownload className={classes.icons} /> Entrar
-          </Button>
-        </Link>
+        <Button
+          color="transparent"
+          target="_blank"
+          className={classes.navLink}
+          component={Link}
+          to="/login-page">
+          <CloudDownload className={classes.icons} /> Entrar
+        </Button>
 
       </ListItem>
 
       <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-tooltip"
-          title="Follow us on instagram"
+          title="Starred us on github"
           placement={window.innerWidth > 959 ? "top" : "left"}
           classes={{ tooltip: classes.tooltip }}
         >
