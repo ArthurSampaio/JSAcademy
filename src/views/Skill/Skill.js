@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react components for routing our app without refresh
@@ -34,7 +34,7 @@ const Skill = (props) => {
           <div className={classes.brand}>
             <h1 className={classes.title}>Material Kit React.</h1>
           </div>
-          <SectionBasics />
+          <SectionBasics {...props} />
         </div>
       </div>
       <Footer />

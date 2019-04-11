@@ -12,35 +12,32 @@ import './styles.css';
 import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 
 import Button from "components/CustomButtons/Button.jsx";
-import ExercisesAPI from "../../services/ExercisesAPI.js"
 
 const TerminalJS = (props) => {
 
-  const { func, name } = props
+  const { func, name, task } = props
   const [input, setInput] = useState(func)
   const [output, setOuput] = useState(' ')
   const [accept, setAccept] = useState(false)
-  const [task, setTask] = useState({})
+  console.log(props)
 
   function onChange(newValue) {
-    console.log(task)
     setInput(newValue)
+    console.log(func)
+    console.log(task)
+
   }
 
   useEffect(() => {
     // Update the document title using the browser API
-    const a = getApi();
-    a.then(res => {
-      console.log(res)
-      setTask(res);
-      setInput(res.appraisedFunction)
-    })
+    // setInput(task.appraisedFunction)
+
   }, []);
 
 
-  function getApi() {
-    return ExercisesAPI.getExercisesById("5caf3d60cafbe413ea27d17a");
-  }
+  // function getApi() {
+  //   return ExercisesAPI.getExercisesById("5caf3d60cafbe413ea27d17a");
+  // }
 
   function execute() {
     try {
@@ -48,8 +45,6 @@ const TerminalJS = (props) => {
       const bb = [1, 2, 3, 4, 6]
 
       const evaluate = eval(input)
-      console.log(evaluate)
-      console.log([2, 4, 6, 8])
       setOuput(evaluate.toString())
 
       // if (evaluate.toString() === [2, 4, 6, 8].toString()) {
