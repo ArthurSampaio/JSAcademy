@@ -25,6 +25,15 @@ const TerminalJS = (props) => {
     setInput(newValue)
   }
 
+  useEffect(() => {
+    // Update the document title using the browser API
+    getApi();
+  });
+
+
+  function getApi() {
+    fetch('/api/exercise').then(res => res.json()).then(ex => console.log(ex));
+  }
 
   function execute() {
     try {
