@@ -12,7 +12,7 @@ import './styles.css';
 import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
 
 import Button from "components/CustomButtons/Button.jsx";
-
+import ExercisesAPI from "../../services/ExercisesAPI.js"
 
 const TerminalJS = (props) => {
 
@@ -32,7 +32,7 @@ const TerminalJS = (props) => {
 
 
   function getApi() {
-    fetch('/api/exercise').then(res => res.json()).then(ex => console.log(ex));
+    ExercisesAPI.getExercisesById(123123);
   }
 
   function execute() {
