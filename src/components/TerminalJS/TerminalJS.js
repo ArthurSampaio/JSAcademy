@@ -31,14 +31,15 @@ const TerminalJS = (props) => {
     // Update the document title using the browser API
     const a = getApi();
     a.then(res => {
-      setTask(res[0]);
-      setInput(res[0].appraisedFunction)
+      console.log(res)
+      setTask(res);
+      setInput(res.appraisedFunction)
     })
   }, []);
 
 
   function getApi() {
-    return ExercisesAPI.getExercisesById(123123);
+    return ExercisesAPI.getExercisesById("5caf3d60cafbe413ea27d17a");
   }
 
   function execute() {
@@ -83,7 +84,7 @@ const TerminalJS = (props) => {
 
   return (
     <div className={`terminal ${accept ? 'accept-true' : ''} `}>
-      <div>   <div className={"title"}><h1>{' '} {name} </h1></div>
+      <div>   <div className={"title"}><h1>{' '} {task.title} </h1></div>
         <div> <p>{task.description}</p></div>
       </div>
 
