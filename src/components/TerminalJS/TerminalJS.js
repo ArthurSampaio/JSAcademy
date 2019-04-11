@@ -20,19 +20,25 @@ const TerminalJS = (props) => {
   const [input, setInput] = useState(func)
   const [output, setOuput] = useState(' ')
   const [accept, setAccept] = useState(false)
+  const [task, setTask] = useState({})
 
   function onChange(newValue) {
+    console.log(task)
     setInput(newValue)
   }
 
   useEffect(() => {
     // Update the document title using the browser API
-    getApi();
-  });
+    const a = getApi();
+    a.then(res => {
+      setTask(res[0]);
+      setInput(res[0].appraisedFunction)
+    })
+  }, []);
 
 
   function getApi() {
-    ExercisesAPI.getExercisesById(123123);
+    return ExercisesAPI.getExercisesById(123123);
   }
 
   function execute() {
@@ -77,7 +83,10 @@ const TerminalJS = (props) => {
 
   return (
     <div className={`terminal ${accept ? 'accept-true' : ''} `}>
-      <header className={"title"}><h1>{' '} {name} </h1></header>
+      <div>   <div className={"title"}><h1>{' '} {name} </h1></div>
+        <div> <p>{task.description}</p></div>
+      </div>
+
       <AceEditor
         mode="javascript"
         theme="monokai"

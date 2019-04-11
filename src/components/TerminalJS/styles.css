@@ -2,10 +2,10 @@
   justify-content: "center";
   align-items: center;
   flex-direction: column;
-  margin: 1.25rem;
   padding: 1rem;
   background-color: #F0F0F0;
   box-sizing: border-box;
+  position: relative;
 }
 
 #terminal-editor {
@@ -14,8 +14,8 @@
 }
 
 .title{
+  width: 100%;
   float: left;
-  flex-direction: row;
 }
 
 .output-container{
