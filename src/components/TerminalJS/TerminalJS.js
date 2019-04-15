@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Terminal from 'terminal-in-react';
-import brace from 'brace';
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 
