@@ -47,8 +47,7 @@ const TerminalJS = (props) => {
       task.testCases.map((item) => {
         const inp = JSON.parse(item.input)
         const out = JSON.parse(item.output)
-        const accpt = evaluate(inp).toString() === out.toString()
-        if (!accpt) {
+        if (evaluate(inp).toString() !== out.toString()) {
           acc = false
         }
       })
