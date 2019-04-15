@@ -12,16 +12,18 @@ const SectionBasics = (props) => {
 
   const { classes } = props;
   const [task, setTask] = useState({})
-  const [func, setFunc] = useState('');
+  const [func, setFunc] = useState(' ');
 
   useEffect(() => {
     // Update the document title using the browser API
-    getTask().then(res => {
+    const fetchData = async () => {
+      const res = await getTask();
       setFunc(res.appraisedFunction);
 
       setTask(res);
-    })
-  }, []);
+    }
+    fetchData();
+  }, [func]);
 
   function getTask() {
     const { match } = props;
@@ -39,11 +41,7 @@ const SectionBasics = (props) => {
   return (
     <div className={classes.sections}>
       <div className={classes.container}>
-        <div className={classes.title}>
-          <h2>Basic Elements</h2>
-        </div>
-        <TerminalJS name="Terminal" task={task} func={func} />
-
+        <TerminalJS task={task} />
       </div>
     </div>
   );

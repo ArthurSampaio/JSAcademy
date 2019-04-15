@@ -32,7 +32,6 @@ const Skill = (props) => {
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
           <div className={classes.brand}>
-            <h1 className={classes.title}>Material Kit React.</h1>
           </div>
           <SectionBasics {...props} />
         </div>

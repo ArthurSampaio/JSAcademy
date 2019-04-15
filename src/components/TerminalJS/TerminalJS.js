@@ -15,29 +15,20 @@ import Button from "components/CustomButtons/Button.jsx";
 
 const TerminalJS = (props) => {
 
-  const { func, name, task } = props
-  const [input, setInput] = useState(func)
+  const { task } = props
+  const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
   const [accept, setAccept] = useState(false)
-  console.log(props)
 
   function onChange(newValue) {
     setInput(newValue)
-    console.log(func)
-    console.log(task)
-
   }
 
   useEffect(() => {
-    // Update the document title using the browser API
-    // setInput(task.appraisedFunction)
+    setInput(task.appraisedFunction)
 
-  }, []);
+  }, [task]);
 
-
-  // function getApi() {
-  //   return ExercisesAPI.getExercisesById("5caf3d60cafbe413ea27d17a");
-  // }
 
   function execute() {
     try {
@@ -45,6 +36,9 @@ const TerminalJS = (props) => {
       const bb = [1, 2, 3, 4, 6]
 
       const evaluate = eval(input)
+      console.log(this)
+      console.log(input)
+      console.log(evaluate)
       setOuput(evaluate.toString())
 
       // if (evaluate.toString() === [2, 4, 6, 8].toString()) {
