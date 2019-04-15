@@ -13,34 +13,29 @@ import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/
 
 import Button from "components/CustomButtons/Button.jsx";
 
-
 const TerminalJS = (props) => {
 
-  const { func, name } = props
-  const [input, setInput] = useState(func)
+  const { task } = props
+  const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
   const [accept, setAccept] = useState(false)
+
+  const functionRegex = /function\s*([A-z0-9]+)?\s*\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)\s*\{(?:[^}{]+|\{(?:[^}{]+|\{[^}{]*\})*\})*\}/g
 
   function onChange(newValue) {
     setInput(newValue)
   }
 
+  useEffect(() => {
+    setInput(task.appraisedFunction)
+
+  }, [task]);
+
 
   function execute() {
     try {
-      const b = [1, 2, 3, 4]
-      const bb = [1, 2, 3, 4, 6]
-
       const evaluate = eval(input)
-      console.log(evaluate)
-      console.log([2, 4, 6, 8])
       setOuput(evaluate.toString())
-
-      // if (evaluate.toString() === [2, 4, 6, 8].toString()) {
-      //   setAccept(true)
-      // } else {
-      //   setAccept(false)
-      // }
     } catch (e) {
       setOuput(e.message);
     }
@@ -48,12 +43,18 @@ const TerminalJS = (props) => {
 
   function runTests() {
     try {
-      const b = [1, 2, 3, 4]
-      const bb = [1, 2, 3, 4, 6]
-
-      const evaluate = eval(input)
-      const isAccept = evaluate.toString() === [2, 4, 6, 8].toString()
-      setAccept(isAccept)
+      const func = input.match(functionRegex)
+      const evaluate = eval(`(${func})`)
+      let acc = true
+      task.testCases.map((item) => {
+        const inp = JSON.parse(item.input)
+        const out = JSON.parse(item.output)
+        const accpt = evaluate(inp).toString() === out.toString()
+        if (!accpt) {
+          acc = false
+        }
+      })
+      setAccept(acc)
 
     } catch (e) {
       setOuput(e.message);
@@ -68,7 +69,10 @@ const TerminalJS = (props) => {
 
   return (
     <div className={`terminal ${accept ? 'accept-true' : ''} `}>
-      <header className={"title"}><h1>{' '} {name} </h1></header>
+      <div>   <div className={"title"}><h1>{' '} {task.title} </h1></div>
+        <div> <p>{task.description}</p></div>
+      </div>
+
       <AceEditor
         mode="javascript"
         theme="monokai"

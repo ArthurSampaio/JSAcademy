@@ -21,7 +21,7 @@ ReactDOM.render(
       <Route path="/profile-page" component={ProfilePage} />
       <Route path="/login-page" component={LoginPage} />
       <Route path="/test" component={TerminalTest} />
-      <Route path="/skill" component={Skill} />
+      <Route path="/skill/:taskId" component={Skill} />
       <Route path="/register" component={RegisterPage} />
 
       <Route path="/" component={LandingPage} />
