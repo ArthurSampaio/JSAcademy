@@ -20,6 +20,8 @@ const TerminalJS = (props) => {
   const [output, setOuput] = useState(' ')
   const [accept, setAccept] = useState(false)
 
+  const functionRegex = /function\s*([A-z0-9]+)?\s*\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)\s*\{(?:[^}{]+|\{(?:[^}{]+|\{[^}{]*\})*\})*\}/g
+
   function onChange(newValue) {
     setInput(newValue)
   }
@@ -41,8 +43,9 @@ const TerminalJS = (props) => {
 
   function runTests() {
     try {
-      const evaluate = eval(`(${input})`)
-      let acc = true;
+      const func = input.match(functionRegex)
+      const evaluate = eval(`(${func})`)
+      let acc = true
       task.testCases.map((item) => {
         const inp = JSON.parse(item.input)
         const out = JSON.parse(item.output)
