@@ -57,6 +57,11 @@
 .content{}
 
 .accept-true {
-  background-color: #7AC70C;
+  background-color: #8EE000;
   color: #FFFFFF
+}
+
+.accept-false {
+  color: #fff;
+  background-color: #E53B3B;
 }
