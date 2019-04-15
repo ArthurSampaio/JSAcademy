@@ -32,20 +32,8 @@ const TerminalJS = (props) => {
 
   function execute() {
     try {
-      const b = [1, 2, 3, 4]
-      const bb = [1, 2, 3, 4, 6]
-
       const evaluate = eval(input)
-      console.log(this)
-      console.log(input)
-      console.log(evaluate)
       setOuput(evaluate.toString())
-
-      // if (evaluate.toString() === [2, 4, 6, 8].toString()) {
-      //   setAccept(true)
-      // } else {
-      //   setAccept(false)
-      // }
     } catch (e) {
       setOuput(e.message);
     }
@@ -53,12 +41,17 @@ const TerminalJS = (props) => {
 
   function runTests() {
     try {
-      const b = [1, 2, 3, 4]
-      const bb = [1, 2, 3, 4, 6]
-
-      const evaluate = eval(input)
-      const isAccept = evaluate.toString() === [2, 4, 6, 8].toString()
-      setAccept(isAccept)
+      const evaluate = eval(`(${input})`)
+      let acc = true;
+      task.testCases.map((item) => {
+        const inp = JSON.parse(item.input)
+        const out = JSON.parse(item.output)
+        const accpt = evaluate(inp).toString() === out.toString()
+        if (!accpt) {
+          acc = false
+        }
+      })
+      setAccept(acc)
 
     } catch (e) {
       setOuput(e.message);
