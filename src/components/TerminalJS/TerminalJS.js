@@ -19,7 +19,7 @@ const TerminalJS = (props) => {
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
   const [accept, setAccept] = useState(false)
-
+  const [runned, setRunned] = useState(false)
   const functionRegex = /function\s*([A-z0-9]+)?\s*\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)\s*\{(?:[^}{]+|\{(?:[^}{]+|\{[^}{]*\})*\})*\}/g
 
   function onChange(newValue) {
@@ -54,6 +54,7 @@ const TerminalJS = (props) => {
           acc = false
         }
       })
+      setRunned(true)
       setAccept(acc)
 
     } catch (e) {
@@ -64,11 +65,11 @@ const TerminalJS = (props) => {
   function clear() {
     setOuput(' ')
     setAccept(false)
-
+    setRunned(false)
   }
 
   return (
-    <div className={`terminal ${accept ? 'accept-true' : ''} `}>
+    <div className={`terminal ${runned ? accept ? 'accept-true' : 'accept-false' : ''} `}>
       <div>   <div className={"title"}><h1>{' '} {task.title} </h1></div>
         <div> <p>{task.description}</p></div>
       </div>
