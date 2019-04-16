@@ -26,7 +26,9 @@ const TerminalJS = (props) => {
 
   useEffect(() => {
     setInput(task.appraisedFunction)
-
+    setOuput(' ')
+    setAccept(false)
+    setRunned(false)
   }, [task]);
 
 
