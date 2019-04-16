@@ -27,7 +27,6 @@ const TerminalJS = (props) => {
   useEffect(() => {
     setInput(task.appraisedFunction)
     setOuput(' ')
-    setAccept(false)
     setRunned(false)
   }, [task]);
 
@@ -53,8 +52,10 @@ const TerminalJS = (props) => {
           acc = false
         }
       })
+      onRunTest(acc)
       setRunned(true)
       setAccept(acc)
+
 
     } catch (e) {
       setOuput(e.message);
@@ -65,6 +66,10 @@ const TerminalJS = (props) => {
     setOuput(' ')
     setAccept(false)
     setRunned(false)
+  }
+
+  function onRunTest(acc) {
+    props.onRun(acc)
   }
 
   return (

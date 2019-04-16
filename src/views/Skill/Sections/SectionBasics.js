@@ -17,7 +17,6 @@ const SectionBasics = (props) => {
   const [lesson, setLesson] = useState({})
   const [order, setOrder] = useState(0)
 
-  console.log(lesson)
   useEffect(() => {
     // Update the document title using the browser API
     const fetchData = async () => {
@@ -44,11 +43,15 @@ const SectionBasics = (props) => {
     setOrder(newOrder);
   }
 
+  function handleChange(value) {
+    const help = value ? nextExercise : console.log
+    help()
+  }
 
   return (
     <div className={classes.sections}>
       <div className={classes.container}>
-        <TerminalJS task={task} />
+        <TerminalJS task={task} onRun={handleChange} />
       </div>
       <Button id="run" variant="contained" color="primary" onClick={previousExercise}>
         previous
