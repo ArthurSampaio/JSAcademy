@@ -33,17 +33,31 @@ const TerminalJS = (props) => {
 
   function execute() {
     try {
-      const evaluate = eval(input)
+      const evaluate = evaluateCode()
       setOuput(evaluate.toString())
     } catch (e) {
       setOuput(e.message);
     }
   }
 
+  function evaluateCode() {
+    try {
+      const evaluate = eval(input)
+      return evaluate;
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  function executeFunctionFromCode() {
+    const func = input.match(functionRegex)
+    const evaluate = eval(`(${func})`)
+    return evaluate
+  }
+
   function runTests() {
     try {
-      const func = input.match(functionRegex)
-      const evaluate = eval(`(${func})`)
+      const evaluate = executeFunctionFromCode()
       let acc = true
       task.testCases.map((item) => {
         const inp = JSON.parse(item.input)
