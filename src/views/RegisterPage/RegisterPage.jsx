@@ -37,7 +37,7 @@ const RegisterPage = (props) => {
     { value: "a", text: "Melhor que nada", time: "5" },
     { value: "b", text: "De boa", time: "10" },
     { value: "c", text: "Instigado", time: "15" },
-    { value: "d", text: "Sange nos olhos", time: "20" }
+    { value: "d", text: "Sangue nos olhos", time: "20" }
   ]
 
   return (
