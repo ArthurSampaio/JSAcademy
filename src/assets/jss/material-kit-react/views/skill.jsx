@@ -38,7 +38,7 @@ const componentsStyle = {
     textAlign: "center"
   },
   navigation: {
-    backgroundColor: "red",
+    bottom: "0"
   }
 };
 
