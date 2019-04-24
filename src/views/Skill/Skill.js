@@ -35,6 +35,8 @@ const Skill = props => {
       setLesson(res)
       setTask(res.exercises[order])
       setFunc(res.exercises[order].appraisedFunction)
+      setRunned(false)
+      setAccept(false)
     }
     fetchData()
   }, [func, order])
@@ -58,9 +60,13 @@ const Skill = props => {
     setRunned(true)
     setAccept(value)
     const help = value
-      ? () => console.log('Acertô')
+      ? () => setTimeout(function(){nextExercise() }, 2000)
       : () => console.log('Errou')
     help()
+  }
+
+  function onClear(value) {
+    setRunned(false)
   }
 
   function renderSnackConfirmation() {
@@ -85,13 +91,34 @@ const Skill = props => {
             your phone and find them...
           </span>
         }
-        close
         color="danger"
         icon="info_outline"
       />
     )
-    const snack = runned ? (accept ? correct : wrong) : ''
-    return snack
+    return  accept ? correct : wrong
+  }
+
+  function renderNavigation() {
+    return (
+      <div>
+        <Button
+          id="run"
+          variant="contained"
+          color="primary"
+          onClick={previousExercise}
+        >
+          previous
+        </Button>
+        <Button
+          id="run"
+          variant="contained"
+          color="primary"
+          onClick={nextExercise}
+        >
+          next
+        </Button>
+      </div>
+    )
   }
 
   return (
@@ -108,29 +135,14 @@ const Skill = props => {
         <div className={classes.container}>
           <div className={classes.sections}>
             <div className={classes.container}>
-              <TerminalJS task={task} onRun={handleChange} />
+              <TerminalJS task={task} onRun={handleChange} onClear={onClear} showButtonTest={runned} />
             </div>
           </div>
         </div>
 
         <div className={classes.navigation}>
-          {renderSnackConfirmation()}
-          <Button
-            id="run"
-            variant="contained"
-            color="primary"
-            onClick={previousExercise}
-          >
-            previous
-          </Button>
-          <Button
-            id="run"
-            variant="contained"
-            color="primary"
-            onClick={nextExercise}
-          >
-            next
-          </Button>
+          {runned ? renderSnackConfirmation() : renderNavigation()}
+
         </div>
       </div>
     </div>

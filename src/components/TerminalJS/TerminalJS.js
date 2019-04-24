@@ -12,7 +12,7 @@ import basicsStyle from 'assets/jss/material-kit-react/views/componentsSections/
 import Button from 'components/CustomButtons/Button.jsx'
 
 const TerminalJS = props => {
-  const { task } = props
+  const { task, showButtonTest } = props
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
   const [accept, setAccept] = useState(false)
@@ -33,7 +33,7 @@ const TerminalJS = props => {
     try {
       const evaluate = evaluateCode()
       console.log(evaluate)
-      setOuput((evaluate && evaluate.toString()) || "")
+      setOuput((evaluate && evaluate.toString()) || '')
     } catch (e) {
       setOuput(e.message)
     }
@@ -65,9 +65,10 @@ const TerminalJS = props => {
           acc = false
         }
       })
+      setAccept(acc)
+
       onRunTest(acc)
       setRunned(true)
-      setAccept(acc)
     } catch (e) {
       setOuput(e.message)
     }
@@ -77,6 +78,11 @@ const TerminalJS = props => {
     setOuput(' ')
     setAccept(false)
     setRunned(false)
+    onClear()
+  }
+
+  function onClear() {
+    props.onClear()
   }
 
   function onRunTest(acc) {
@@ -84,11 +90,7 @@ const TerminalJS = props => {
   }
 
   return (
-    <div
-      className={`terminal ${
-        runned ? (accept ? 'accept-true' : 'accept-false') : ''
-      } `}
-    >
+    <div className={`terminal `}>
       <div>
         {' '}
         <div className={'title'}>
@@ -119,7 +121,7 @@ const TerminalJS = props => {
             Run
           </Button>
 
-          <Button variant="contained" color="warning" onClick={runTests}>
+          <Button variant="contained" color="warning" onClick={runTests} disabled={showButtonTest}>
             Execute Tests
           </Button>
           <Button variant="contained" color="danger" onClick={clear}>
