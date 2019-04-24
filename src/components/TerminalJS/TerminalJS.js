@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from "prop-types";
-import withStyles from "@material-ui/core/styles/withStyles";
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import withStyles from '@material-ui/core/styles/withStyles'
 
-import AceEditor from 'react-ace';
-import 'brace/mode/javascript';
-import 'brace/theme/monokai';
-import './styles.css';
+import AceEditor from 'react-ace'
+import 'brace/mode/javascript'
+import 'brace/theme/monokai'
+import './styles.css'
 
-import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
+import basicsStyle from 'assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx'
 
-import Button from "components/CustomButtons/Button.jsx";
+import Button from 'components/CustomButtons/Button.jsx'
 
-const TerminalJS = (props) => {
-
+const TerminalJS = props => {
   const { task } = props
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
@@ -28,24 +27,24 @@ const TerminalJS = (props) => {
     setInput(task.appraisedFunction)
     setOuput(' ')
     setRunned(false)
-  }, [task]);
-
+  }, [task])
 
   function execute() {
     try {
       const evaluate = evaluateCode()
-      setOuput(evaluate.toString())
+      console.log(evaluate)
+      setOuput((evaluate && evaluate.toString()) || "")
     } catch (e) {
-      setOuput(e.message);
+      setOuput(e.message)
     }
   }
 
   function evaluateCode() {
     try {
       const evaluate = eval(input)
-      return evaluate;
+      return evaluate
     } catch (e) {
-      return e.message;
+      return e.message
     }
   }
 
@@ -59,7 +58,7 @@ const TerminalJS = (props) => {
     try {
       const evaluate = executeFunctionFromCode()
       let acc = true
-      task.testCases.map((item) => {
+      task.testCases.map(item => {
         const inp = JSON.parse(item.input)
         const out = JSON.parse(item.output)
         if (evaluate(inp).toString() !== out.toString()) {
@@ -69,10 +68,8 @@ const TerminalJS = (props) => {
       onRunTest(acc)
       setRunned(true)
       setAccept(acc)
-
-
     } catch (e) {
-      setOuput(e.message);
+      setOuput(e.message)
     }
   }
 
@@ -87,9 +84,20 @@ const TerminalJS = (props) => {
   }
 
   return (
-    <div className={`terminal ${runned ? accept ? 'accept-true' : 'accept-false' : ''} `}>
-      <div>   <div className={"title"}><h1>{' '} {task.title} </h1></div>
-        <div> <p>{task.description}</p></div>
+    <div
+      className={`terminal ${
+        runned ? (accept ? 'accept-true' : 'accept-false') : ''
+      } `}
+    >
+      <div>
+        {' '}
+        <div className={'title'}>
+          <h1> {task.title} </h1>
+        </div>
+        <div>
+          {' '}
+          <p>{task.description}</p>
+        </div>
       </div>
 
       <AceEditor
@@ -100,9 +108,14 @@ const TerminalJS = (props) => {
         editorProps={{ $blockScrolling: true }}
         value={input}
       />
-      <div className={"output-container"} >
-        <div className={"buttons-output"}>
-          <Button id="run" variant="contained" color="primary" onClick={execute}>
+      <div className={'output-container'}>
+        <div className={'buttons-output'}>
+          <Button
+            id="run"
+            variant="contained"
+            color="primary"
+            onClick={execute}
+          >
             Run
           </Button>
 
@@ -113,13 +126,12 @@ const TerminalJS = (props) => {
             Clear
           </Button>
         </div>
-        <div className={"console"}>
+        <div className={'console'}>
           <code>{output}</code>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-
-export default withStyles(basicsStyle)(TerminalJS);
+export default withStyles(basicsStyle)(TerminalJS)
