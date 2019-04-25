@@ -7,7 +7,7 @@ const componentsStyle = {
     textAlign: "center"
   },
   sections: {
-    padding: "70px 0",
+    padding: "35px 0",
   },
   title: {
     fontSize: "4.2rem",
@@ -38,6 +38,7 @@ const componentsStyle = {
     textAlign: "center"
   },
   navigation: {
+    padding: "0.5rem",
     bottom: "0"
   }
 };
