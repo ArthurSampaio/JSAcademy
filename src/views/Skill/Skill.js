@@ -1,44 +1,109 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 // nodejs library that concatenates classes
-import classNames from "classnames";
+import classNames from 'classnames'
 // react components for routing our app without refresh
-import { Link } from "react-router-dom";
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles'
 // @material-ui/icons
+
 // core components
-import Header from "components/Header/Header.jsx";
-import Footer from "components/Footer/Footer.jsx";
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.jsx";
+
+import Header from 'components/Header/Header.jsx'
+import TerminalJS from 'components/TerminalJS/TerminalJS'
+import SnackNavigation from '../../components/SnackNavigation/SnackNavigation'
 
 // sections for this page
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
-import SectionBasics from "./Sections/SectionBasics";
+import HeaderProgress from 'components/Header/HeaderProgress.jsx'
+import LessonAPI from '../../services/LessonAPI'
 
-import componentsStyle from "assets/jss/material-kit-react/views/components.jsx";
+import skillStyle from 'assets/jss/material-kit-react/views/skill.jsx'
 
-const Skill = (props) => {
+const Skill = props => {
+  const { classes, ...rest } = props
+  const [task, setTask] = useState({})
+  const [func, setFunc] = useState(' ')
+  const [lesson, setLesson] = useState({})
+  const [order, setOrder] = useState(0)
+  const [accept, setAccept] = useState(false)
+  const [runned, setRunned] = useState(false)
+  const [answers, setAnswers] = useState(0)
 
-  const { classes, ...rest } = props;
+  useEffect(() => {
+    // Update the document title using the browser API
+    const fetchData = async () => {
+      const res = await getLesson()
+      setLesson(res)
+      setTask(res.exercises[order])
+      setFunc(res.exercises[order].appraisedFunction)
+      setRunned(false)
+      setAccept(false)
+    }
+    fetchData()
+  }, [func, order])
+
+  function getLesson() {
+    const { match } = props
+    return LessonAPI.getLessonById(match.params.lessonId)
+  }
+
+  function nextExercise() {
+    const newOrder = order + 1 < lesson.exercises.length ? order + 1 : order
+    setOrder(newOrder)
+    console.log(lesson)
+  }
+
+  function previousExercise() {
+    const newOrder = order - 1 >= 0 ? order - 1 : order
+    setOrder(newOrder)
+  }
+
+  function updateExerciseWithAnswer(value) {
+    lesson.exercises[order].accept = value
+    setLesson(lesson)
+    const count = answers + (value ? (1 / lesson.exercises.length) * 100 : 0)
+    setAnswers(count)
+  }
+
+  function handleChange(value) {
+    setRunned(true)
+    setAccept(value)
+    updateExerciseWithAnswer(value)
+    const help = value
+      ? () => setTimeout(function () { nextExercise() }, 2000)
+      : () => console.log('Errou')
+    help()
+  }
+
+  function onClear(value) {
+    setRunned(false)
+  }
+
+
+
   return (
     <div>
       <Header
         brand="Javascript Academy"
-        rightLinks={<HeaderLinks />}
+        rightLinks={<HeaderProgress />}
         fixed
-        color="info"
+        color="success"
         {...rest}
       />
 
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <div className={classes.brand}>
+          <div className={classes.sections}>
+            <div className={classes.container}>
+              <TerminalJS task={task} onRun={handleChange} onClear={onClear} showButtonTest={runned} />
+            </div>
           </div>
-          <SectionBasics {...props} />
         </div>
+
+        <SnackNavigation accept={accept} runned={runned} previousExercise={previousExercise} nextExercise={nextExercise} linearValue={answers} />
       </div>
-      <Footer />
     </div>
-  );
+  )
 }
 
-export default withStyles(componentsStyle)(Skill);
+export default withStyles(skillStyle)(Skill)

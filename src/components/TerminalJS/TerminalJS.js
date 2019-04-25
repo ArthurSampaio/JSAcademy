@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from "prop-types";
-import withStyles from "@material-ui/core/styles/withStyles";
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import withStyles from '@material-ui/core/styles/withStyles'
 
-import AceEditor from 'react-ace';
-import 'brace/mode/javascript';
-import 'brace/theme/monokai';
-import './styles.css';
+import AceEditor from 'react-ace'
+import 'brace/mode/javascript'
+import 'brace/theme/monokai'
+import './styles.css'
 
-import basicsStyle from "assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx";
+import basicsStyle from 'assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx'
 
-import Button from "components/CustomButtons/Button.jsx";
+import Button from 'components/CustomButtons/Button.jsx'
 
-const TerminalJS = (props) => {
-
-  const { task } = props
+const TerminalJS = props => {
+  const { task, showButtonTest } = props
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
   const [accept, setAccept] = useState(false)
@@ -28,24 +27,24 @@ const TerminalJS = (props) => {
     setInput(task.appraisedFunction)
     setOuput(' ')
     setRunned(false)
-  }, [task]);
-
+  }, [task])
 
   function execute() {
     try {
       const evaluate = evaluateCode()
-      setOuput(evaluate.toString())
+      console.log(evaluate)
+      setOuput((evaluate && evaluate.toString()) || '')
     } catch (e) {
-      setOuput(e.message);
+      setOuput(e.message)
     }
   }
 
   function evaluateCode() {
     try {
       const evaluate = eval(input)
-      return evaluate;
+      return evaluate
     } catch (e) {
-      return e.message;
+      return e.message
     }
   }
 
@@ -59,20 +58,19 @@ const TerminalJS = (props) => {
     try {
       const evaluate = executeFunctionFromCode()
       let acc = true
-      task.testCases.map((item) => {
+      task.testCases.map(item => {
         const inp = JSON.parse(item.input)
         const out = JSON.parse(item.output)
         if (evaluate(inp).toString() !== out.toString()) {
           acc = false
         }
       })
-      onRunTest(acc)
-      setRunned(true)
       setAccept(acc)
 
-
+      onRunTest(acc)
+      setRunned(true)
     } catch (e) {
-      setOuput(e.message);
+      setOuput(e.message)
     }
   }
 
@@ -80,6 +78,11 @@ const TerminalJS = (props) => {
     setOuput(' ')
     setAccept(false)
     setRunned(false)
+    onClear()
+  }
+
+  function onClear() {
+    props.onClear()
   }
 
   function onRunTest(acc) {
@@ -87,9 +90,16 @@ const TerminalJS = (props) => {
   }
 
   return (
-    <div className={`terminal ${runned ? accept ? 'accept-true' : 'accept-false' : ''} `}>
-      <div>   <div className={"title"}><h1>{' '} {task.title} </h1></div>
-        <div> <p>{task.description}</p></div>
+    <div className={`terminal `}>
+      <div>
+        {' '}
+        <div className={'title'}>
+          <h1> {task.title} </h1>
+        </div>
+        <div>
+          {' '}
+          <p>{task.description}</p>
+        </div>
       </div>
 
       <AceEditor
@@ -100,26 +110,30 @@ const TerminalJS = (props) => {
         editorProps={{ $blockScrolling: true }}
         value={input}
       />
-      <div className={"output-container"} >
-        <div className={"buttons-output"}>
-          <Button id="run" variant="contained" color="primary" onClick={execute}>
+      <div className={'output-container'}>
+        <div className={'buttons-output'}>
+          <Button
+            id="run"
+            variant="contained"
+            color="primary"
+            onClick={execute}
+          >
             Run
           </Button>
 
-          <Button variant="contained" color="warning" onClick={runTests}>
+          <Button variant="contained" color="warning" onClick={runTests} disabled={showButtonTest}>
             Execute Tests
           </Button>
           <Button variant="contained" color="danger" onClick={clear}>
             Clear
           </Button>
         </div>
-        <div className={"console"}>
+        <div className={'console'}>
           <code>{output}</code>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-
-export default withStyles(basicsStyle)(TerminalJS);
+export default withStyles(basicsStyle)(TerminalJS)

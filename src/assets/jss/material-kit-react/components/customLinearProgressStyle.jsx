@@ -10,12 +10,12 @@ import {
 
 const customLinearProgressStyle = {
   root: {
-    height: "4px",
-    marginBottom: "20px",
+    height: "12px",
+    marginBottom: "8px",
     overflow: "hidden"
   },
   bar: {
-    height: "4px"
+    height: "12px"
   },
   primary: {
     backgroundColor: primaryColor
