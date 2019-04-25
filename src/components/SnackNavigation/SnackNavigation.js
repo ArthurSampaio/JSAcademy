@@ -5,14 +5,14 @@ import Check from "@material-ui/icons/Check";
 
 import snackbarStyle from "assets/jss/material-kit-react/components/snackNavigationStyle.jsx";
 
-import basicsStyle from 'assets/jss/material-kit-react/views/componentsSections/basicsStyle.jsx'
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.jsx";
 import SnackbarContent from 'components/Snackbar/SnackbarContent.jsx'
 
 import Button from 'components/CustomButtons/Button.jsx'
 
 const SnackNavigation = props => {
 
-  const { classes, accept, runned, previousExercise, nextExercise, ...rest } = props
+  const { classes, accept, runned, previousExercise, nextExercise, linearValue, ...rest } = props
 
   function renderNavigation() {
     return (
@@ -67,7 +67,13 @@ const SnackNavigation = props => {
   }
 
   return (
+
     <div className={classes.navigation}>
+      <CustomLinearProgress
+        variant="determinate"
+        color="info"
+        value={linearValue}
+      />
       {runned ? renderSnackConfirmation() : renderNavigation()}
 
     </div>

@@ -7,12 +7,14 @@ import withStyles from '@material-ui/core/styles/withStyles'
 // @material-ui/icons
 
 // core components
+import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.jsx";
+
 import Header from 'components/Header/Header.jsx'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import SnackNavigation from '../../components/SnackNavigation/SnackNavigation'
 
 // sections for this page
-import HeaderLinks from 'components/Header/HeaderLinks.jsx'
+import HeaderProgress from 'components/Header/HeaderProgress.jsx'
 import LessonAPI from '../../services/LessonAPI'
 
 import skillStyle from 'assets/jss/material-kit-react/views/skill.jsx'
@@ -25,6 +27,7 @@ const Skill = props => {
   const [order, setOrder] = useState(0)
   const [accept, setAccept] = useState(false)
   const [runned, setRunned] = useState(false)
+  const [answers, setAnswers] = useState(0)
 
   useEffect(() => {
     // Update the document title using the browser API
@@ -58,6 +61,8 @@ const Skill = props => {
   function updateExerciseWithAnswer(value) {
     lesson.exercises[order].accept = value
     setLesson(lesson)
+    const count = answers + (value ? (1 / lesson.exercises.length) * 100 : 0)
+    setAnswers(count)
   }
 
   function handleChange(value) {
@@ -80,9 +85,9 @@ const Skill = props => {
     <div>
       <Header
         brand="Javascript Academy"
-        rightLinks={<HeaderLinks />}
+        rightLinks={<HeaderProgress />}
         fixed
-        color="info"
+        color="success"
         {...rest}
       />
 
@@ -95,7 +100,7 @@ const Skill = props => {
           </div>
         </div>
 
-        <SnackNavigation accept={accept} runned={runned} previousExercise={previousExercise} nextExercise={nextExercise} />
+        <SnackNavigation accept={accept} runned={runned} previousExercise={previousExercise} nextExercise={nextExercise} linearValue={answers} />
       </div>
     </div>
   )
