@@ -38,7 +38,6 @@ const componentsStyle = {
     textAlign: "center"
   },
   navigation: {
-    padding: "0.5rem",
     bottom: "0"
   }
 };

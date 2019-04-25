@@ -32,6 +32,14 @@ const Skill = props => {
     // Update the document title using the browser API
     const fetchData = async () => {
       const res = await getLesson()
+      // const exercises = res.exercises.map(i => {
+      //   const obj = {
+      //     ...i,
+      //     accept: false
+      //   }
+      //   return obj
+      // })
+      // res.exercises = exercises
       setLesson(res)
       setTask(res.exercises[order])
       setFunc(res.exercises[order].appraisedFunction)
@@ -49,6 +57,7 @@ const Skill = props => {
   function nextExercise() {
     const newOrder = order + 1 < lesson.exercises.length ? order + 1 : order
     setOrder(newOrder)
+    console.log(lesson)
   }
 
   function previousExercise() {
@@ -56,11 +65,17 @@ const Skill = props => {
     setOrder(newOrder)
   }
 
+  function updateExerciseWithAnswer(value) {
+    lesson.exercises[order].accept = value
+    setLesson(lesson)
+  }
+
   function handleChange(value) {
     setRunned(true)
     setAccept(value)
+    updateExerciseWithAnswer(value)
     const help = value
-      ? () => setTimeout(function(){nextExercise() }, 2000)
+      ? () => setTimeout(function () { nextExercise() }, 2000)
       : () => console.log('Errou')
     help()
   }
@@ -95,7 +110,7 @@ const Skill = props => {
         icon="info_outline"
       />
     )
-    return  accept ? correct : wrong
+    return accept ? correct : wrong
   }
 
   function renderNavigation() {
