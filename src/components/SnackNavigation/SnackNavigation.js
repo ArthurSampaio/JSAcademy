@@ -42,8 +42,7 @@ const SnackNavigation = props => {
       <SnackbarContent
         message={
           <span>
-            <b>SUCCESS ALERT:</b> You've got some friends nearby, stop looking
-            at your phone and find them...
+            <b>RESPOSTA CORRETA:</b> Parabéns. Você será redirecionado para a próxima questão em instantes. 
           </span>
         }
         close
@@ -55,8 +54,7 @@ const SnackNavigation = props => {
       <SnackbarContent
         message={
           <span>
-            <b>DANGER ALERT:</b> You've got some friends nearby, stop looking at
-            your phone and find them...
+            <b>RESPOSTA INCORRETA:</b> :( clique <b>Clear</b> para tentar novamente.
           </span>
         }
         color="danger"
