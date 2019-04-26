@@ -30,7 +30,8 @@ const snackNavigationStyle = {
     color: "#FFFFFF"
   },
   buttonNavigation: {
-    marginLeft: "10%"
+    marginLeft: "10%",
+    paddingBottom: "10px"
   },
   title: {
     ...title,

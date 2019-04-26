@@ -104,20 +104,17 @@ const Skill = props => {
 
           <SnackNavigation accept={accept} runned={runned} previousExercise={previousExercise} nextExercise={nextExercise} linearValue={answers} />
         </div> : <div>
-            <Parallax filter image={require("assets/img/background-ld.png")}>
+            <Parallax filter image={require("assets/img/bg-finished.png")}>
               <div className={classes.container}>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <h1 className={classes.title}>Aprenda Javascript. Agora!</h1>
-                    <br />
                     <Button
-                      color="primary"
+                      color="warning"
                       size="lg"
-
                     >
                       <i className="fas fa-play" />
-                      Começar
-                </Button>
+                      Ir para o menu
+                    </Button>
                   </GridItem>
                 </GridContainer>
               </div>
