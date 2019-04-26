@@ -33,7 +33,7 @@ const TerminalJS = props => {
     try {
       const evaluate = evaluateCode()
       console.log(evaluate)
-      setOuput((evaluate && evaluate.toString()) || '')
+      setOuput((evaluate && JSON.stringify(evaluate)) || '')
     } catch (e) {
       setOuput(e.message)
     }
