@@ -29,6 +29,9 @@ const snackNavigationStyle = {
     height: "17px",
     color: "#FFFFFF"
   },
+  buttonNavigation: {
+    marginLeft: "10%"
+  },
   ...customCheckboxRadioSwitch
 };
 

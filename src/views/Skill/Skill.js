@@ -22,7 +22,6 @@ import skillStyle from 'assets/jss/material-kit-react/views/skill.jsx'
 const Skill = props => {
   const { classes, ...rest } = props
   const [task, setTask] = useState({})
-  const [func, setFunc] = useState(' ')
   const [lesson, setLesson] = useState({})
   const [order, setOrder] = useState(0)
   const [accept, setAccept] = useState(false)
@@ -35,12 +34,11 @@ const Skill = props => {
       const res = await getLesson()
       setLesson(res)
       setTask(res.exercises[order])
-      setFunc(res.exercises[order].appraisedFunction)
       setRunned(false)
       setAccept(false)
     }
     fetchData()
-  }, [func, order])
+  }, [order])
 
   function getLesson() {
     const { match } = props
@@ -50,7 +48,6 @@ const Skill = props => {
   function nextExercise() {
     const newOrder = order + 1 < lesson.exercises.length ? order + 1 : order
     setOrder(newOrder)
-    console.log(lesson)
   }
 
   function previousExercise() {
@@ -68,6 +65,7 @@ const Skill = props => {
   function handleChange(value) {
     setRunned(true)
     setAccept(value)
+
     updateExerciseWithAnswer(value)
     const help = value
       ? () => setTimeout(function () { nextExercise() }, 2000)

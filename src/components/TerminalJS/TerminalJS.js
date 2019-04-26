@@ -15,8 +15,7 @@ const TerminalJS = props => {
   const { task, showButtonTest } = props
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
-  const [accept, setAccept] = useState(false)
-  const [runned, setRunned] = useState(false)
+
   const functionRegex = /function\s*([A-z0-9]+)?\s*\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)\s*\{(?:[^}{]+|\{(?:[^}{]+|\{[^}{]*\})*\})*\}/g
 
   function onChange(newValue) {
@@ -26,7 +25,6 @@ const TerminalJS = props => {
   useEffect(() => {
     setInput(task.appraisedFunction)
     setOuput(' ')
-    setRunned(false)
   }, [task])
 
   function execute() {
@@ -65,10 +63,7 @@ const TerminalJS = props => {
           acc = false
         }
       })
-      setAccept(acc)
-
       onRunTest(acc)
-      setRunned(true)
     } catch (e) {
       setOuput(e.message)
     }
@@ -76,8 +71,6 @@ const TerminalJS = props => {
 
   function clear() {
     setOuput(' ')
-    setAccept(false)
-    setRunned(false)
     onClear()
   }
 
