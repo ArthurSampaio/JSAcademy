@@ -7,11 +7,14 @@ import withStyles from '@material-ui/core/styles/withStyles'
 // @material-ui/icons
 
 // core components
-import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.jsx";
+import GridItem from "components/Grid/GridItem.jsx";
+import Parallax from "components/Parallax/Parallax.jsx";
+import GridContainer from "components/Grid/GridContainer.jsx";
 
 import Header from 'components/Header/Header.jsx'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import SnackNavigation from '../../components/SnackNavigation/SnackNavigation'
+import Button from "components/CustomButtons/Button.jsx";
 
 // sections for this page
 import HeaderProgress from 'components/Header/HeaderProgress.jsx'
@@ -22,7 +25,6 @@ import skillStyle from 'assets/jss/material-kit-react/views/skill.jsx'
 const Skill = props => {
   const { classes, ...rest } = props
   const [task, setTask] = useState({})
-  const [func, setFunc] = useState(' ')
   const [lesson, setLesson] = useState({})
   const [order, setOrder] = useState(0)
   const [accept, setAccept] = useState(false)
@@ -35,12 +37,11 @@ const Skill = props => {
       const res = await getLesson()
       setLesson(res)
       setTask(res.exercises[order])
-      setFunc(res.exercises[order].appraisedFunction)
       setRunned(false)
       setAccept(false)
     }
     fetchData()
-  }, [func, order])
+  }, [order])
 
   function getLesson() {
     const { match } = props
@@ -50,7 +51,6 @@ const Skill = props => {
   function nextExercise() {
     const newOrder = order + 1 < lesson.exercises.length ? order + 1 : order
     setOrder(newOrder)
-    console.log(lesson)
   }
 
   function previousExercise() {
@@ -68,6 +68,7 @@ const Skill = props => {
   function handleChange(value) {
     setRunned(true)
     setAccept(value)
+
     updateExerciseWithAnswer(value)
     const help = value
       ? () => setTimeout(function () { nextExercise() }, 2000)
@@ -92,16 +93,35 @@ const Skill = props => {
       />
 
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <div className={classes.container}>
-          <div className={classes.sections}>
-            <div className={classes.container}>
-              <TerminalJS task={task} onRun={handleChange} onClear={onClear} showButtonTest={runned} />
+        {answers !== 100 ? <div>
+          <div className={classes.container}>
+            <div className={classes.sections}>
+              <div className={classes.container}>
+                <TerminalJS task={task} onRun={handleChange} onClear={onClear} showButtonTest={runned} />
+              </div>
             </div>
           </div>
-        </div>
 
-        <SnackNavigation accept={accept} runned={runned} previousExercise={previousExercise} nextExercise={nextExercise} linearValue={answers} />
+          <SnackNavigation accept={accept} runned={runned} previousExercise={previousExercise} nextExercise={nextExercise} linearValue={answers} />
+        </div> : <div>
+            <Parallax filter image={require("assets/img/bg-finished.png")}>
+              <div className={classes.container}>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <Button
+                      color="warning"
+                      size="lg"
+                    >
+                      <i className="fas fa-play" />
+                      Ir para o menu
+                    </Button>
+                  </GridItem>
+                </GridContainer>
+              </div>
+            </Parallax>
+          </div>}
       </div>
+
     </div>
   )
 }

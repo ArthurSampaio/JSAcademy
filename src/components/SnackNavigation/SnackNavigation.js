@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 import Check from "@material-ui/icons/Check";
@@ -16,7 +16,7 @@ const SnackNavigation = props => {
 
   function renderNavigation() {
     return (
-      <div>
+      <div className={classes.buttonNavigation}>
         <Button
           id="run"
           variant="contained"
@@ -71,7 +71,7 @@ const SnackNavigation = props => {
     <div className={classes.navigation}>
       <CustomLinearProgress
         variant="determinate"
-        color="info"
+        color="warning"
         value={linearValue}
       />
       {runned ? renderSnackConfirmation() : renderNavigation()}
