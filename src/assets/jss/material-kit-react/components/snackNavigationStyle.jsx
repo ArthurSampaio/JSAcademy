@@ -32,6 +32,15 @@ const snackNavigationStyle = {
   buttonNavigation: {
     marginLeft: "10%"
   },
+  title: {
+    ...title,
+    display: "inline-block",
+    position: "relative",
+    marginTop: "30px",
+    minHeight: "32px",
+    color: "#FFFFFF",
+    textDecoration: "none"
+  },
   ...customCheckboxRadioSwitch
 };
 
