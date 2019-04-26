@@ -53,15 +53,17 @@ function Footer({ ...props }) {
         </div>
         <div className={classes.right}>
           &copy; {1900 + new Date().getYear()} ,
-          Inspired by{" "}
-          <a
-            href="https://www.creative-tim.com"
-            className={aClasses}
-            target="_blank"
-          >
-            Creative Tim
-          </a>{" "}
-          for a better web.
+          <small>
+            Inspired by{" "}
+            <a
+              href="https://www.creative-tim.com"
+              className={aClasses}
+              target="_blank"
+            >
+              Creative Tim
+            </a>{" "}
+            for a better web.
+          </small>
         </div>
       </div>
     </footer>

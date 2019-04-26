@@ -91,7 +91,7 @@ const RegisterPage = (props) => {
                     </div>
                   </Fragment>
                 ))}
-                <Button component={Link} to="/skill/5cb524dbd966f426392031fd" className={classes.buttonRegister} id="run" variant="contained" color="primary" >
+                <Button component={Link} to="/skill/5cc34f366fa1ae44102f7605" className={classes.buttonRegister} id="run" variant="contained" color="primary" >
                   Definir Meta.
                 </Button>
               </GridItem>
