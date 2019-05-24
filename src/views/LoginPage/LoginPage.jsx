@@ -20,7 +20,8 @@ import CustomInput from 'components/CustomInput/CustomInput.jsx'
 
 import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage.jsx'
 
-import image from 'assets/img/bg-login.png'
+import imageLogin from 'assets/img/bg-login.png'
+import imageLogout from 'assets/img/bg-logout.png'
 
 const LoginPage = props => {
   const { classes, ...rest } = props
@@ -30,13 +31,14 @@ const LoginPage = props => {
     email: '',
     password: '',
   })
+  const [isLogin, setIsLogin] = useState(true)
+  const [image, setImage] = useState(imageLogin)
 
   const handleChange = value => event => {
     setUser({
       ...user,
       [value]: event.target.value,
     })
-    console.log('user', user)
   }
 
   useEffect(() => {
@@ -46,7 +48,9 @@ const LoginPage = props => {
       }.bind(this),
       700
     )
-  }, [])
+    const img = isLogin ? imageLogin : imageLogout
+    setImage(img)
+  }, [isLogin])
 
   return (
     <div>
@@ -71,55 +75,37 @@ const LoginPage = props => {
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login</h4>
+                    <h4>{isLogin ? 'Login' : 'Registre-se'}</h4>
                     <div className={classes.socialLine}>
+                      {isLogin ? 'ou registre-se' : 'ou faça o login'}
                       <Button
                         justIcon
-                        href="#pablo"
-                        target="_blank"
                         color="transparent"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className={'fab fa-twitter'} />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className={'fab fa-facebook'} />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={e => e.preventDefault()}
+                        onClick={e => setIsLogin(!isLogin)}
                       >
                         <i className={'fab fa-google-plus-g'} />
                       </Button>
                     </div>
                   </CardHeader>
-                  <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
-                    <CustomInput
-                      labelText="First Name..."
-                      id="first"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      inputProps={{
-                        onChange: handleChange('name'),
-                        type: 'text',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
+                    {!isLogin && (
+                      <CustomInput
+                        labelText="First Name..."
+                        id="first"
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                        inputProps={{
+                          onChange: handleChange('name'),
+                          type: 'text',
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <People className={classes.inputIconsColor} />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    )}
                     <CustomInput
                       labelText="Email..."
                       id="email"
