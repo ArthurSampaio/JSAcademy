@@ -49,9 +49,16 @@ const LoginPage = props => {
         email: user.email,
         password: user.password,
       }
-      return AuthService.login(userLogin)
+      return AuthService.login(userLogin).then(user => {
+        const { from } = props.location.state || {
+          from: { pathname: '/' },
+        }
+        props.history.push(from)
+      })
     } else {
-      return UserAPI.createUser(user)
+      return UserAPI.createUser(user).then(user => {
+        setIsLogin(true)
+      })
     }
   }
 
@@ -62,6 +69,11 @@ const LoginPage = props => {
       }.bind(this),
       700
     )
+    setUser({
+      name: '',
+      email: '',
+      password: '',
+    })
     const img = isLogin ? imageLogin : imageLogout
     setImage(img)
   }, [isLogin])
