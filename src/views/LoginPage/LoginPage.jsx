@@ -47,7 +47,7 @@ class LoginPage extends React.Component {
         <Header
           absolute
           color="transparent"
-          brand="Material Kit React"
+          brand="JavaScript Academy"
           rightLinks={<HeaderLinks />}
           {...rest}
         />
