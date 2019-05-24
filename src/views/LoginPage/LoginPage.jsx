@@ -17,6 +17,8 @@ import CardBody from 'components/Card/CardBody.jsx'
 import CardHeader from 'components/Card/CardHeader.jsx'
 import CardFooter from 'components/Card/CardFooter.jsx'
 import CustomInput from 'components/CustomInput/CustomInput.jsx'
+import UserAPI from './../../services/UserAPI'
+import { AuthService } from './../../services/Auth'
 
 import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage.jsx'
 
@@ -39,6 +41,18 @@ const LoginPage = props => {
       ...user,
       [value]: event.target.value,
     })
+  }
+
+  const onClickHandle = event => {
+    if (isLogin) {
+      const userLogin = {
+        email: user.email,
+        password: user.password,
+      }
+      return AuthService.login(userLogin)
+    } else {
+      return UserAPI.createUser(user)
+    }
   }
 
   useEffect(() => {
@@ -142,7 +156,12 @@ const LoginPage = props => {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button
+                      simple
+                      color="primary"
+                      size="lg"
+                      onClick={onClickHandle}
+                    >
                       Get started
                     </Button>
                   </CardFooter>
