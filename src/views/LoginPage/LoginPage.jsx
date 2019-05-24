@@ -9,7 +9,6 @@ import People from '@material-ui/icons/People'
 // core components
 import Header from 'components/Header/Header.jsx'
 import HeaderLinks from 'components/Header/HeaderLinks.jsx'
-import Footer from 'components/Footer/Footer.jsx'
 import GridContainer from 'components/Grid/GridContainer.jsx'
 import GridItem from 'components/Grid/GridItem.jsx'
 import Button from 'components/CustomButtons/Button.jsx'
@@ -26,6 +25,20 @@ import image from 'assets/img/bg-login.png'
 const LoginPage = props => {
   const { classes, ...rest } = props
   const [cardAnimaton, setCardAnimaton] = useState('cardHidden')
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+  })
+
+  const handleChange = value => event => {
+    setUser({
+      ...user,
+      [value]: event.target.value,
+    })
+    console.log('user', user)
+  }
+
   useEffect(() => {
     setTimeout(
       function() {
@@ -98,6 +111,7 @@ const LoginPage = props => {
                         fullWidth: true,
                       }}
                       inputProps={{
+                        onChange: handleChange('name'),
                         type: 'text',
                         endAdornment: (
                           <InputAdornment position="end">
@@ -113,6 +127,7 @@ const LoginPage = props => {
                         fullWidth: true,
                       }}
                       inputProps={{
+                        onChange: handleChange('email'),
                         type: 'email',
                         endAdornment: (
                           <InputAdornment position="end">
@@ -128,6 +143,7 @@ const LoginPage = props => {
                         fullWidth: true,
                       }}
                       inputProps={{
+                        onChange: handleChange('password'),
                         type: 'password',
                         endAdornment: (
                           <InputAdornment position="end">
