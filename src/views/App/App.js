@@ -8,6 +8,8 @@ import ProfilePage from 'views/ProfilePage/ProfilePage.jsx'
 import LoginPage from 'views/LoginPage/LoginPage.jsx'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import RegisterPage from 'views/RegisterPage/RegisterPage'
+import PrivateRoute from 'components/PrivateRouter/PrivateRouter'
+
 import { createBrowserHistory } from 'history'
 
 var hist = createBrowserHistory()
@@ -39,9 +41,9 @@ const App = props => {
     <Router history={hist}>
       <Switch>
         <Route path="/profile-page" component={ProfilePage} />
-        <Route path="/login-page" component={LoginPage} />
+        <Route path="/login" component={LoginPage} />
         <Route path="/test" component={TerminalTest} />
-        <Route path="/skill/:lessonId" component={Skill} />
+        <PrivateRoute path="/skill/:lessonId" component={Skill} />
         <Route path="/register" component={RegisterPage} />
 
         <Route path="/" component={LandingPage} />
