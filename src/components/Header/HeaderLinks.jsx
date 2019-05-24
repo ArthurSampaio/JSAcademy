@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 // react components for routing our app without refresh
 import { Link } from 'react-router-dom'
 
@@ -15,22 +15,40 @@ import { Apps, CloudDownload } from '@material-ui/icons'
 // core components
 import CustomDropdown from 'components/CustomDropdown/CustomDropdown.jsx'
 import Button from 'components/CustomButtons/Button.jsx'
-
 import headerLinksStyle from 'assets/jss/material-kit-react/components/headerLinksStyle.jsx'
+import { AuthService } from './../../services/Auth'
 
-function HeaderLinks({ ...props }) {
+const HeaderLinks = ({ ...props }) => {
   const { classes } = props
+  const [currentUser, setCurrentUser] = useState(AuthService.currentUserValue)
+  const [isLogged, setIsLogged] = useState(false)
+  useEffect(() => {
+    const logged = currentUser ? true : false
+    setIsLogged(logged)
+    AuthService.currentUser.subscribe(x => setCurrentUser(x))
+  }, [currentUser])
+
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        <Button
-          color="transparent"
-          className={classes.navLink}
-          component={Link}
-          to="/login"
-        >
-          <CloudDownload className={classes.icons} /> Entrar
-        </Button>
+        {isLogged ? (
+          <Button
+            color="transparent"
+            className={classes.navLink}
+            onClick={AuthService.logout}
+          >
+            <CloudDownload className={classes.icons} /> Sair
+          </Button>
+        ) : (
+          <Button
+            color="transparent"
+            className={classes.navLink}
+            component={Link}
+            to="/login"
+          >
+            <CloudDownload className={classes.icons} /> Entrar
+          </Button>
+        )}
       </ListItem>
 
       <ListItem className={classes.listItem}>
