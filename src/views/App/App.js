@@ -8,7 +8,6 @@ import LoginPage from 'views/LoginPage/LoginPage.jsx'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import RegisterPage from 'views/RegisterPage/RegisterPage'
 import { createBrowserHistory } from 'history'
-
 var hist = createBrowserHistory()
 
 const App = props => {
