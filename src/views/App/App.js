@@ -9,16 +9,20 @@ import LoginPage from 'views/LoginPage/LoginPage.jsx'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import RegisterPage from 'views/RegisterPage/RegisterPage'
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter'
-
 import { createBrowserHistory } from 'history'
+import { AuthService } from './../../services/Auth'
 
 var hist = createBrowserHistory()
 
 const App = props => {
   axios.interceptors.request.use(
     function(config) {
-      // Do something before request is sent
-      console.log('>>>>>>>>>>', config)
+      const headers = {
+        ...config.headers,
+        Authorization: 'Bearer ' + AuthService.currentUserValue.token,
+      }
+      config.headers = headers
+      console.log('co', config)
       return config
     },
     function(error) {
@@ -35,7 +39,7 @@ const App = props => {
         
         }
         a(b)`
-    return <TerminalJS name="Terminal" func={testValue} />
+    return <TerminalJS name="Terminal" task={testValue} />
   }
   return (
     <Router history={hist}>
