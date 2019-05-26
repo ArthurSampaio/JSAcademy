@@ -109,7 +109,7 @@ const LoginPage = props => {
                         color="transparent"
                         onClick={e => setIsLogin(!isLogin)}
                       >
-                        <i className={'fab fa-google-plus-g'} />
+                        <i className={'fas fa-sign-out-alt'} />
                       </Button>
                     </div>
                   </CardHeader>
