@@ -18,7 +18,7 @@ import { CloudDownload } from '@material-ui/icons'
 import Button from 'components/CustomButtons/Button.jsx'
 import headerLinksStyle from 'assets/jss/material-kit-react/components/headerLinksStyle.jsx'
 import { AuthService } from './../../services/Auth'
-import md5 from 'md5'
+import UtilsService from './../../services/UtilsService'
 
 const HeaderLinks = ({ ...props }) => {
   const { classes } = props
@@ -34,9 +34,7 @@ const HeaderLinks = ({ ...props }) => {
   function renderAvatar() {
     const userDecode = AuthService.currentUserDecodeValue
     if (userDecode) {
-      const hash = md5(userDecode.email, { encoding: 'binary' })
-      const avatarSrc = `//www.gravatar.com/avatar/${hash}?s=30&d=retro`
-
+      const avatarSrc = UtilsService.getCanvasAvatarFromEmail(userDecode.email)
       return (
         <ListItem className={classes.listItem}>
           <ListItemAvatar>
