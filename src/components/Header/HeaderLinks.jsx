@@ -1,45 +1,82 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useState, useEffect } from 'react'
 // react components for routing our app without refresh
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Tooltip from "@material-ui/core/Tooltip";
+import withStyles from '@material-ui/core/styles/withStyles'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Tooltip from '@material-ui/core/Tooltip'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
 
 // @material-ui/icons
-import { Apps, CloudDownload } from "@material-ui/icons";
+import { CloudDownload } from '@material-ui/icons'
 
 // core components
-import CustomDropdown from "components/CustomDropdown/CustomDropdown.jsx";
-import Button from "components/CustomButtons/Button.jsx";
+import Button from 'components/CustomButtons/Button.jsx'
+import headerLinksStyle from 'assets/jss/material-kit-react/components/headerLinksStyle.jsx'
+import { AuthService } from './../../services/Auth'
+import UtilsService from './../../services/UtilsService'
 
-import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx";
+const HeaderLinks = ({ ...props }) => {
+  const { classes } = props
+  const [currentUser, setCurrentUser] = useState(AuthService.currentUserValue)
+  const [isLogged, setIsLogged] = useState(false)
 
-function HeaderLinks({ ...props }) {
-  const { classes } = props;
+  useEffect(() => {
+    AuthService.currentUser.subscribe(x => setCurrentUser(x))
+    const logged = currentUser && currentUser.token ? true : false
+    setIsLogged(logged)
+  }, [currentUser])
+
+  function renderAvatar() {
+    const userDecode = AuthService.currentUserDecodeValue
+    if (userDecode) {
+      const avatarSrc = UtilsService.getCanvasAvatarFromEmail(userDecode.email)
+      return (
+        <ListItem className={classes.listItem}>
+          <ListItemAvatar>
+            <Avatar
+              alt="User login"
+              src={avatarSrc}
+              className={classes.socialIcons}
+            />
+          </ListItemAvatar>
+        </ListItem>
+      )
+    }
+  }
+
   return (
     <List className={classes.list}>
-
       <ListItem className={classes.listItem}>
-        <Button
-          color="transparent"
-          target="_blank"
-          className={classes.navLink}
-          component={Link}
-          to="/login-page">
-          <CloudDownload className={classes.icons} /> Entrar
-        </Button>
-
+        {isLogged ? (
+          <Button
+            color="transparent"
+            className={classes.navLink}
+            onClick={AuthService.logout}
+          >
+            <CloudDownload className={classes.icons} /> Sair
+          </Button>
+        ) : (
+          <Button
+            color="transparent"
+            className={classes.navLink}
+            component={Link}
+            to="/login"
+          >
+            <CloudDownload className={classes.icons} /> Entrar
+          </Button>
+        )}
       </ListItem>
 
       <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-tooltip"
           title="Starred us on github"
-          placement={window.innerWidth > 959 ? "top" : "left"}
+          placement={window.innerWidth > 959 ? 'top' : 'left'}
           classes={{ tooltip: classes.tooltip }}
         >
           <Button
@@ -48,12 +85,13 @@ function HeaderLinks({ ...props }) {
             target="_blank"
             className={classes.navLink}
           >
-            <i className={classes.socialIcons + " fab fa-github"} />
+            <i className={classes.socialIcons + ' fab fa-github'} />
           </Button>
         </Tooltip>
       </ListItem>
+      {renderAvatar()}
     </List>
-  );
+  )
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+export default withStyles(headerLinksStyle)(HeaderLinks)

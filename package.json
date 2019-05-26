@@ -12,6 +12,8 @@
     "concurrently": "^4.1.0",
     "express": "^4.16.4",
     "history": "4.7.2",
+    "jwt-decode": "^2.2.0",
+    "md5": "^2.2.1",
     "moment": "2.24.0",
     "node-sass": "4.11.0",
     "nouislider": "13.1.0",
@@ -24,6 +26,7 @@
     "react-scripts": "2.1.5",
     "react-slick": "0.23.2",
     "react-swipeable-views": "0.13.1",
+    "rxjs": "^6.5.2",
     "terminal-in-react": "^4.3.1"
   },
   "devDependencies": {

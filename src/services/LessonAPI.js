@@ -1,16 +1,11 @@
-import axios from 'axios';
-
-
+import axios from 'axios'
 
 const LessonAPI = {
-
-  getLessonById: function (id) {
+  getLessonById: function(id) {
     return axios(`/api/lesson/${id}`).then(res => {
-      return res.data;
-    });
-  }
-
+      return res.data
+    })
+  },
 }
 
-
-export default LessonAPI;
+export default LessonAPI
