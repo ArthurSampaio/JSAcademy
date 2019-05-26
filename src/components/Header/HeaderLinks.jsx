@@ -12,15 +12,13 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 
 // @material-ui/icons
-import { Apps, CloudDownload } from '@material-ui/icons'
+import { CloudDownload } from '@material-ui/icons'
 
 // core components
-import CustomDropdown from 'components/CustomDropdown/CustomDropdown.jsx'
 import Button from 'components/CustomButtons/Button.jsx'
 import headerLinksStyle from 'assets/jss/material-kit-react/components/headerLinksStyle.jsx'
 import { AuthService } from './../../services/Auth'
 import md5 from 'md5'
-import decode from 'jwt-decode'
 
 const HeaderLinks = ({ ...props }) => {
   const { classes } = props
@@ -29,18 +27,13 @@ const HeaderLinks = ({ ...props }) => {
 
   useEffect(() => {
     AuthService.currentUser.subscribe(x => setCurrentUser(x))
-
     const logged = currentUser && currentUser.token ? true : false
-    console.log('aaa', currentUser)
-
     setIsLogged(logged)
-  }, [currentUser, isLogged])
+  }, [currentUser])
 
   function renderAvatar() {
-    if (currentUser && currentUser.token) {
-      console.log('curr', currentUser)
-      const userDecode = decode(currentUser.token)
-      console.log('123', userDecode)
+    const userDecode = AuthService.currentUserDecodeValue
+    if (userDecode) {
       const hash = md5(userDecode.email, { encoding: 'binary' })
       const avatarSrc = `//www.gravatar.com/avatar/${hash}?s=30&d=retro`
 
