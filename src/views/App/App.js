@@ -17,12 +17,14 @@ var hist = createBrowserHistory()
 const App = props => {
   axios.interceptors.request.use(
     function(config) {
-      const headers = {
-        ...config.headers,
-        Authorization: 'Bearer ' + AuthService.currentUserValue.token,
+      if (AuthService.currentUserValue) {
+        const headers = {
+          ...config.headers,
+          Authorization: 'Bearer ' + AuthService.currentUserValue.token,
+        }
+        config.headers = headers
       }
-      config.headers = headers
-      console.log('co', config)
+
       return config
     },
     function(error) {

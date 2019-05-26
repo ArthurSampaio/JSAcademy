@@ -1,5 +1,6 @@
 import { BehaviorSubject } from 'rxjs'
 import axios from 'axios'
+import decode from 'jwt-decode'
 
 const currentUser = 'currentUser'
 const currentUserSubject = new BehaviorSubject(
@@ -13,12 +14,19 @@ export const AuthService = {
   get currentUserValue() {
     return currentUserSubject.value
   },
+  get currentUserDecodeValue() {
+    return (
+      currentUserSubject.value &&
+      currentUserSubject.value.token &&
+      decode(currentUserSubject.value.token)
+    )
+  },
 }
 
 function login(user) {
   return axios.post('api/token', user).then(res => {
     localStorage.setItem(currentUser, JSON.stringify(res.data))
-    currentUserSubject.next(user)
+    currentUserSubject.next(res.data)
     return user
   })
 }
