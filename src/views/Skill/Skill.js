@@ -7,14 +7,14 @@ import withStyles from '@material-ui/core/styles/withStyles'
 // @material-ui/icons
 
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import Parallax from "components/Parallax/Parallax.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
+import GridItem from 'components/Grid/GridItem.jsx'
+import Parallax from 'components/Parallax/Parallax.jsx'
+import GridContainer from 'components/Grid/GridContainer.jsx'
 
 import Header from 'components/Header/Header.jsx'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import SnackNavigation from '../../components/SnackNavigation/SnackNavigation'
-import Button from "components/CustomButtons/Button.jsx";
+import Button from 'components/CustomButtons/Button.jsx'
 
 // sections for this page
 import HeaderProgress from 'components/Header/HeaderProgress.jsx'
@@ -33,14 +33,21 @@ const Skill = props => {
 
   useEffect(() => {
     // Update the document title using the browser API
-    const fetchData = async () => {
-      const res = await getLesson()
-      setLesson(res)
-      setTask(res.exercises[order])
+    const nextTask = l => {
+      setTask(l.exercises[order])
       setRunned(false)
       setAccept(false)
     }
-    fetchData()
+    const fetchData = async () => {
+      const res = await getLesson()
+      setLesson(res)
+      nextTask(res)
+    }
+    console.log('l', lesson)
+    if (!lesson.exercises) fetchData()
+    else {
+      nextTask(lesson)
+    }
   }, [order])
 
   function getLesson() {
@@ -50,6 +57,7 @@ const Skill = props => {
 
   function nextExercise() {
     const newOrder = order + 1 < lesson.exercises.length ? order + 1 : order
+    console.log('>>>>>>>', lesson)
     setOrder(newOrder)
   }
 
@@ -59,19 +67,23 @@ const Skill = props => {
   }
 
   function updateExerciseWithAnswer(value) {
-    lesson.exercises[order].accept = value
-    setLesson(lesson)
+    // lesson.exercises[order].accept = value
+    // setLesson(lesson)
     const count = answers + (value ? (1 / lesson.exercises.length) * 100 : 0)
     setAnswers(count)
   }
 
   function handleChange(value) {
+    console.log('val', value)
     setRunned(true)
     setAccept(value)
 
     updateExerciseWithAnswer(value)
     const help = value
-      ? () => setTimeout(function () { nextExercise() }, 2000)
+      ? () =>
+          setTimeout(function() {
+            // nextExercise()
+          }, 2000)
       : () => console.log('Errou')
     help()
   }
@@ -79,8 +91,6 @@ const Skill = props => {
   function onClear(value) {
     setRunned(false)
   }
-
-
 
   return (
     <div>
@@ -93,25 +103,36 @@ const Skill = props => {
       />
 
       <div className={classNames(classes.main, classes.mainRaised)}>
-        {answers !== 100 ? <div>
-          <div className={classes.container}>
-            <div className={classes.sections}>
-              <div className={classes.container}>
-                <TerminalJS task={task} onRun={handleChange} onClear={onClear} showButtonTest={runned} />
+        {answers !== 100 ? (
+          <div>
+            <div className={classes.container}>
+              <div className={classes.sections}>
+                <div className={classes.container}>
+                  <TerminalJS
+                    task={task}
+                    onRun={handleChange}
+                    onClear={onClear}
+                    showButtonTest={runned}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <SnackNavigation accept={accept} runned={runned} previousExercise={previousExercise} nextExercise={nextExercise} linearValue={answers} />
-        </div> : <div>
-            <Parallax filter image={require("assets/img/bg-finished.png")}>
+            <SnackNavigation
+              accept={accept}
+              runned={runned}
+              previousExercise={previousExercise}
+              nextExercise={nextExercise}
+              linearValue={answers}
+            />
+          </div>
+        ) : (
+          <div>
+            <Parallax filter image={require('assets/img/bg-finished.png')}>
               <div className={classes.container}>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <Button
-                      color="warning"
-                      size="lg"
-                    >
+                    <Button color="warning" size="lg">
                       <i className="fas fa-play" />
                       Ir para o menu
                     </Button>
@@ -119,9 +140,9 @@ const Skill = props => {
                 </GridContainer>
               </div>
             </Parallax>
-          </div>}
+          </div>
+        )}
       </div>
-
     </div>
   )
 }

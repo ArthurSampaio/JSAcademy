@@ -15,6 +15,7 @@ const TerminalJS = props => {
   const { task, showButtonTest } = props
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
+  const [answer, setAnswer] = useState({})
 
   const functionRegex = /function\s*([A-z0-9]+)?\s*\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)\s*\{(?:[^}{]+|\{(?:[^}{]+|\{[^}{]*\})*\})*\}/g
 
@@ -23,6 +24,15 @@ const TerminalJS = props => {
   }
 
   useEffect(() => {
+    const defaultAnswer = {
+      exercise: task._id,
+      code: '',
+      attempts: 0,
+      startAt: new Date(),
+      endAt: 0,
+      time: 0,
+    }
+    setAnswer(defaultAnswer)
     setInput(task.appraisedFunction)
     setOuput(' ')
   }, [task])
@@ -63,10 +73,31 @@ const TerminalJS = props => {
           acc = false
         }
       })
-      onRunTest(acc)
+      const ans = updateAnswer(acc)
+      console.log('>>>>>>', ans)
+      setAnswer(ans)
+      onRunTest(acc, ans)
     } catch (e) {
+      setAnswer(updateAnswer(false))
       setOuput(e.message)
     }
+  }
+
+  function updateAnswer(acc) {
+    console.log('> answer', answer)
+    const ans = acc
+      ? {
+          ...answer,
+          code: input,
+          attempts: answer.attempts + 1,
+          endAt: new Date(),
+        }
+      : {
+          ...answer,
+          attempts: answer.attempts + 1,
+        }
+
+    return ans
   }
 
   function clear() {
@@ -78,8 +109,18 @@ const TerminalJS = props => {
     props.onClear()
   }
 
-  function onRunTest(acc) {
-    props.onRun(acc)
+  function metricsExercise(ans) {
+    return {
+      exercise: ans.exercise,
+      code: ans.code,
+      attempts: ans.attempts,
+      time: ans.endAt - ans.startAt,
+    }
+  }
+
+  function onRunTest(acc, ans) {
+    console.log(':::::', ans)
+    props.onRun(acc && metricsExercise(ans))
   }
 
   return (
@@ -114,7 +155,12 @@ const TerminalJS = props => {
             Run
           </Button>
 
-          <Button variant="contained" color="warning" onClick={runTests} disabled={showButtonTest}>
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={runTests}
+            disabled={showButtonTest}
+          >
             Execute Tests
           </Button>
           <Button variant="contained" color="danger" onClick={clear}>
