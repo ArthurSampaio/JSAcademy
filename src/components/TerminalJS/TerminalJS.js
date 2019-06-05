@@ -12,7 +12,7 @@ import basicsStyle from 'assets/jss/material-kit-react/views/componentsSections/
 import Button from 'components/CustomButtons/Button.jsx'
 
 const TerminalJS = props => {
-  const { task, showButtonTest } = props
+  const { task, showButtonTest, accept } = props
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
   const [answer, setAnswer] = useState({})
@@ -120,56 +120,69 @@ const TerminalJS = props => {
     props.onRun(acc && metricsExercise(ans))
   }
 
-  return (
-    <div className={`terminal `}>
-      <div>
-        {' '}
-        <div className={'title'}>
-          <h1> {task.title} </h1>
-        </div>
+  function isAcceptExercise() {
+    return (
+      <div className={`terminal `}>
+        <h1>Questao respondida. va para a proxima</h1>
+      </div>
+    )
+  }
+
+  function renderTerminal() {
+    return (
+      <div className={`terminal `}>
         <div>
           {' '}
-          <p>{task.description}</p>
+          <div className={'title'}>
+            <h1> {task.title} </h1>
+          </div>
+          <div>
+            {' '}
+            <p>{task.description}</p>
+          </div>
+        </div>
+
+        <AceEditor
+          mode="javascript"
+          theme="monokai"
+          onChange={onChange}
+          name="terminal-editor"
+          editorProps={{ $blockScrolling: true }}
+          value={input}
+          readOnly={accept}
+        />
+        <div className={'output-container'}>
+          <div className={'buttons-output'}>
+            <Button
+              id="run"
+              variant="contained"
+              color="primary"
+              onClick={execute}
+            >
+              Run
+            </Button>
+
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={runTests}
+              disabled={showButtonTest || accept}
+            >
+              Execute Tests
+            </Button>
+            <Button variant="contained" color="danger" onClick={clear}>
+              Clear
+            </Button>
+          </div>
+          <div className={'console'}>
+            <code>{output}</code>
+          </div>
         </div>
       </div>
+    )
+  }
 
-      <AceEditor
-        mode="javascript"
-        theme="monokai"
-        onChange={onChange}
-        name="terminal-editor"
-        editorProps={{ $blockScrolling: true }}
-        value={input}
-      />
-      <div className={'output-container'}>
-        <div className={'buttons-output'}>
-          <Button
-            id="run"
-            variant="contained"
-            color="primary"
-            onClick={execute}
-          >
-            Run
-          </Button>
-
-          <Button
-            variant="contained"
-            color="warning"
-            onClick={runTests}
-            disabled={showButtonTest}
-          >
-            Execute Tests
-          </Button>
-          <Button variant="contained" color="danger" onClick={clear}>
-            Clear
-          </Button>
-        </div>
-        <div className={'console'}>
-          <code>{output}</code>
-        </div>
-      </div>
-    </div>
-  )
+  return renderTerminal()
 }
 
 export default withStyles(basicsStyle)(TerminalJS)

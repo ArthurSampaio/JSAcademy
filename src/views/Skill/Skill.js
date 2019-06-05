@@ -37,7 +37,7 @@ const Skill = props => {
     const nextTask = l => {
       setTask(l.exercises[order])
       setRunned(false)
-      setAccept(false)
+      setAccept(l.exercises[order].accept)
     }
     const fetchData = async () => {
       const res = await getLesson()
@@ -45,10 +45,7 @@ const Skill = props => {
       nextTask(res)
     }
     console.log('l', lesson)
-    if (!lesson.exercises) fetchData()
-    else {
-      nextTask(lesson)
-    }
+    !lesson.exercises ? fetchData() : nextTask(lesson)
   }, [order])
 
   function getLesson() {
@@ -65,6 +62,7 @@ const Skill = props => {
   function previousExercise() {
     const newOrder = order - 1 >= 0 ? order - 1 : order
     setOrder(newOrder)
+    console.log('T', lesson.exercises[order])
   }
 
   function updateExerciseWithAnswer(value) {
@@ -101,6 +99,11 @@ const Skill = props => {
     setRunned(false)
   }
 
+  function sendLesson() {
+    console.log('metrics', metrics)
+    console.log('lesson', lesson)
+  }
+
   return (
     <div>
       <Header
@@ -122,6 +125,7 @@ const Skill = props => {
                     onRun={handleChange}
                     onClear={onClear}
                     showButtonTest={runned}
+                    accept={accept}
                   />
                 </div>
               </div>
@@ -141,7 +145,7 @@ const Skill = props => {
               <div className={classes.container}>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <Button color="warning" size="lg">
+                    <Button color="warning" size="lg" onClick={sendLesson}>
                       <i className="fas fa-play" />
                       Ir para o menu
                     </Button>
