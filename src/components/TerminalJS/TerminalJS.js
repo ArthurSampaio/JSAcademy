@@ -40,7 +40,6 @@ const TerminalJS = props => {
   function execute() {
     try {
       const evaluate = evaluateCode()
-      console.log(evaluate)
       setOuput((evaluate && JSON.stringify(evaluate)) || '')
     } catch (e) {
       setOuput(e.message)
@@ -84,7 +83,6 @@ const TerminalJS = props => {
   }
 
   function updateAnswer(acc) {
-    console.log('> answer', answer)
     const ans = acc
       ? {
           ...answer,
@@ -119,7 +117,6 @@ const TerminalJS = props => {
   }
 
   function onRunTest(acc, ans) {
-    console.log(':::::', ans)
     props.onRun(acc && metricsExercise(ans))
   }
 

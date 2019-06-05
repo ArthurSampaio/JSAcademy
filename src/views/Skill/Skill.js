@@ -30,6 +30,7 @@ const Skill = props => {
   const [accept, setAccept] = useState(false)
   const [runned, setRunned] = useState(false)
   const [answers, setAnswers] = useState(0)
+  const [metrics, setMetrics] = useState([])
 
   useEffect(() => {
     // Update the document title using the browser API
@@ -57,7 +58,7 @@ const Skill = props => {
 
   function nextExercise() {
     const newOrder = order + 1 < lesson.exercises.length ? order + 1 : order
-    console.log('>>>>>>>', lesson)
+    console.log('>>>>>>>', metrics)
     setOrder(newOrder)
   }
 
@@ -67,8 +68,16 @@ const Skill = props => {
   }
 
   function updateExerciseWithAnswer(value) {
-    // lesson.exercises[order].accept = value
-    // setLesson(lesson)
+    lesson.exercises[order].accept = value ? true : false
+    lesson.exercises[order].appraisedFunction = value
+      ? value.code
+      : lesson.exercises[order].appraisedFunction
+
+    setLesson(lesson)
+    if (value) {
+      metrics.push(value)
+      setMetrics(metrics)
+    }
     const count = answers + (value ? (1 / lesson.exercises.length) * 100 : 0)
     setAnswers(count)
   }
@@ -82,7 +91,7 @@ const Skill = props => {
     const help = value
       ? () =>
           setTimeout(function() {
-            // nextExercise()
+            nextExercise()
           }, 2000)
       : () => console.log('Errou')
     help()
