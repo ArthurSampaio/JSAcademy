@@ -120,14 +120,6 @@ const TerminalJS = props => {
     props.onRun(acc && metricsExercise(ans))
   }
 
-  function isAcceptExercise() {
-    return (
-      <div className={`terminal `}>
-        <h1>Questao respondida. va para a proxima</h1>
-      </div>
-    )
-  }
-
   function renderTerminal() {
     return (
       <div className={`terminal `}>

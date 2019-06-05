@@ -48,10 +48,9 @@ const App = props => {
       <Switch>
         <Route path="/profile-page" component={ProfilePage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/test" component={TerminalTest} />
-        <PrivateRoute path="/skill/:lessonId" component={Skill} />
+        <PrivateRoute path="/test" component={TerminalTest} />
+        <Route path="/skill/:lessonId" component={Skill} />
         <Route path="/register" component={RegisterPage} />
-
         <Route path="/" component={LandingPage} />
       </Switch>
     </Router>

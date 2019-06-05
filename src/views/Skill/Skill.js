@@ -99,9 +99,15 @@ const Skill = props => {
     setRunned(false)
   }
 
+  function getLessonMetrics() {
+    return {
+      lesson: lesson._id,
+      exercisesMetrics: metrics,
+    }
+  }
+
   function sendLesson() {
-    console.log('metrics', metrics)
-    console.log('lesson', lesson)
+    console.log('metrics', getLessonMetrics())
   }
 
   return (
