@@ -107,7 +107,10 @@ const Skill = props => {
   }
 
   function sendLesson() {
-    console.log('metrics', getLessonMetrics())
+    const metric = getLessonMetrics()
+    LessonAPI.sendAnswer(metric).then(res => {
+      console.log(res)
+    })
   }
 
   return (

@@ -6,6 +6,11 @@ const LessonAPI = {
       return res.data
     })
   },
+  sendAnswer: function(metric) {
+    return axios.post(`/api/lesson/send`, metric).then(res => {
+      return res.data
+    })
+  },
 }
 
 export default LessonAPI
