@@ -22,7 +22,7 @@ import 'brace/theme/monokai'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 import LessonAPI from './../../services/LessonAPI'
 
-const MetricLesson = props => {
+const MyAnswers = props => {
   const { classes, ...rest } = props
   const [expanded, setExpanded] = useState(false)
   const [metrics, setMetrics] = useState({})
@@ -155,4 +155,4 @@ const MetricLesson = props => {
   )
 }
 
-export default withStyles(metricLessonStyle)(MetricLesson)
+export default withStyles(metricLessonStyle)(MyAnswers)
