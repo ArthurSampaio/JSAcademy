@@ -71,6 +71,11 @@ const metricLessonStyle = {
     marginBottom: '30px',
     width: '100%',
   },
+  subtitle: {
+    fontSize: '1.313rem',
+    margin: '10px 0 0',
+    width: '100%',
+  },
   root: {
     width: '100%',
   },
@@ -82,6 +87,18 @@ const metricLessonStyle = {
   },
   secondaryHeading: {
     color: 'secondary',
+  },
+  panelTitle: {
+    fontSize: '1.00rem',
+  },
+  codeContent: {
+    padding: '0.250rem 0.5rem',
+  },
+  infoContent: {
+    padding: '0 0.5rem',
+  },
+  panelContent: {
+    margin: '20px 0',
   },
 }
 

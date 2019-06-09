@@ -57,10 +57,16 @@ const MetricLesson = props => {
   }
 
   const renderHeadMetric = () => {
+    const createdAt = new Date(lesson.createdAt)
     return (
       <div className={classes.title}>
         <h2>{lesson.name}</h2>
         <Divider />
+        <div className={classes.subtitle}>
+          <small> Respondido por: {lesson.answered}</small> |
+          <small> Visto por: {lesson.viewed}</small> <br />
+          <small> Criado em: {createdAt.toLocaleDateString()}</small>
+        </div>
       </div>
     )
   }
@@ -71,6 +77,7 @@ const MetricLesson = props => {
       <ExpansionPanel
         expanded={expanded === metric._id}
         onChange={handleChange(metric._id)}
+        className={classes.panelContent}
       >
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -78,7 +85,9 @@ const MetricLesson = props => {
           id="panel1bh-header"
         >
           <div className={classes.column}>
-            <Typography className={classes.heading}>
+            <Typography
+              className={classNames(classes.heading, classes.panelTitle)}
+            >
               {metric.exercise.title}
             </Typography>
           </div>
@@ -90,7 +99,7 @@ const MetricLesson = props => {
         </ExpansionPanelSummary>
         <Divider />
         <ExpansionPanelDetails>
-          <div className={classes.column}>
+          <div className={classNames(classes.column, classes.codeContent)}>
             <AceEditor
               mode="javascript"
               theme="monokai"
@@ -100,10 +109,9 @@ const MetricLesson = props => {
               readOnly
             />
           </div>
-          <div className={classes.column}>
+          <div className={classNames(classes.column, classes.infoContent)}>
             <Typography className={classes.heading}>
-              Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
-              feugiat. Aliquam eget maximus est, id dignissim quam.
+              Descrição: {metric.exercise.description}
             </Typography>
           </div>
         </ExpansionPanelDetails>
