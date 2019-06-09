@@ -20,112 +20,35 @@ import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
-import LessonAPI from './../../services/LessonAPI'
+import UserAPI from './../../services/UserAPI'
+import { AuthService } from './../../services/Auth'
 
+//TODO: adicionar casos quando for um anonymous id
 const MyAnswers = props => {
   const { classes, ...rest } = props
-  const [expanded, setExpanded] = useState(false)
   const [metrics, setMetrics] = useState({})
-  const [lesson, setLesson] = useState({})
+  const [user, setUser] = useState({})
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getMetrics()
-      setLesson(res.lesson)
-      setMetrics(res)
+      const userId = AuthService.currentUserDecodeValue._id
+      const res = await UserAPI.getUser(userId)
+      setUser(res)
     }
     fetchData()
   }, [])
 
-  const getMetrics = () => {
-    const {
-      match: {
-        params: { metricId },
-      },
-    } = props
-    return LessonAPI.getLessonMetrics(metricId)
-  }
+  console.log('>>', user)
 
-  const handleChange = panel => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false)
-  }
-
-  const renderHeadMetric = () => {
-    const createdAt = new Date(lesson.createdAt)
-    const answeredAt = new Date(metrics.createdAt)
+  const renderHead = () => {
     return (
       <div className={classes.title}>
-        <h2>{lesson.name}</h2>
+        <h2>Minhas Respostas</h2>
         <Divider />
         <div className={classes.subtitle}>
-          <small>{`Você respondeu em: ${metrics.totalTime} ms`}</small> <br />
-          <small> Respondido por: {lesson.answered}</small> |
-          <small> Visto por: {lesson.viewed}</small> <br />
-          <small> Você respondeu em: {answeredAt.toLocaleDateString()}</small> |
-          <small>
-            {' '}
-            A lição foi criada em: {createdAt.toLocaleDateString()}
-          </small>
+          <small>{`Suas lições são mostradas aqui`}</small>
         </div>
       </div>
-    )
-  }
-
-  const renderSinglePanel = metric => {
-    console.log(metric)
-    return (
-      <ExpansionPanel
-        expanded={expanded === metric._id}
-        onChange={handleChange(metric._id)}
-        className={classes.panelContent}
-      >
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-          <div className={classes.column}>
-            <Typography
-              className={classNames(classes.heading, classes.panelTitle)}
-            >
-              {metric.exercise.title}
-            </Typography>
-          </div>
-          <div className={classes.column}>
-            <Typography className={classes.heading}>
-              Tempo: {metric.time} ms | Tentativas: {metric.attempts}
-            </Typography>
-          </div>
-        </ExpansionPanelSummary>
-        <Divider />
-        <ExpansionPanelDetails>
-          <div className={classNames(classes.column, classes.codeContent)}>
-            <AceEditor
-              mode="javascript"
-              theme="monokai"
-              name="terminal-editor"
-              editorProps={{ $blockScrolling: false }}
-              value={metric.code}
-              readOnly
-            />
-          </div>
-          <div className={classNames(classes.column, classes.infoContent)}>
-            <Typography className={classes.heading}>
-              Descrição: {metric.exercise.description}
-            </Typography>
-          </div>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    )
-  }
-
-  const renderPanels = () => {
-    const exercisesMetrics = metrics.exercisesMetrics
-    return (
-      exercisesMetrics &&
-      exercisesMetrics.map(item => (
-        <Fragment key={item._id}>{renderSinglePanel(item)}</Fragment>
-      ))
     )
   }
 
@@ -145,8 +68,8 @@ const MyAnswers = props => {
       <div className={classNames(classes.main)}>
         <div>
           <div className={classes.container}>
-            {renderHeadMetric()}
-            <div className={classes.root}>{renderPanels()}</div>
+            {renderHead()}
+            <div className={classes.root}>{'qdasdasd'}</div>
           </div>
         </div>
       </div>
