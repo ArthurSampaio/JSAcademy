@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect } from 'react'
 // nodejs library that concatenates classes
 import classNames from 'classnames'
 // @material-ui/core components
@@ -9,6 +9,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import Header from 'components/Header/Header.jsx'
 import Footer from 'components/Footer/Footer.jsx'
 import HeaderLinks from 'components/Header/HeaderLinks.jsx'
+import ListItemNew from 'components/ListItemNew/ListItemNew'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -26,7 +27,6 @@ import { AuthService } from './../../services/Auth'
 //TODO: adicionar casos quando for um anonymous id
 const MyAnswers = props => {
   const { classes, ...rest } = props
-  const [metrics, setMetrics] = useState({})
   const [user, setUser] = useState({})
 
   useEffect(() => {
@@ -38,8 +38,6 @@ const MyAnswers = props => {
     fetchData()
   }, [])
 
-  console.log('>>', user)
-
   const renderHead = () => {
     return (
       <div className={classes.title}>
@@ -50,6 +48,29 @@ const MyAnswers = props => {
         </div>
       </div>
     )
+  }
+
+  const getAnsweredLessons = () => {
+    console.log(user.answeredLesson)
+
+    const answeredLesson =
+      user.answeredLesson &&
+      user.answeredLesson.map(item => {
+        return {
+          ...item,
+          exercisesMetrics: item.exercisesMetrics.map(el => {
+            return {
+              ...el,
+              exercise: item.lesson.exercises.filter(
+                ex => ex._id === el.exercise
+              )[0],
+            }
+          }),
+        }
+      })
+
+    console.log('>>>>>>> user.answeredLesson.', answeredLesson)
+    return answeredLesson
   }
 
   return (
@@ -69,7 +90,9 @@ const MyAnswers = props => {
         <div>
           <div className={classes.container}>
             {renderHead()}
-            <div className={classes.root}>{'qdasdasd'}</div>
+            <div className={(classes.root, classes.mainRaised)}>
+              <ListItemNew answered={getAnsweredLessons()} {...props} />
+            </div>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ const UserAPI = {
     })
   },
   getUser: function(userId) {
-    return axios(`api/user/${userId}`).then(res => {
+    return axios(`/api/user/${userId}`).then(res => {
       return res.data
     })
   },

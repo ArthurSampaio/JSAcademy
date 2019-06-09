@@ -53,7 +53,7 @@ const App = props => {
         <PrivateRoute path="/test" component={TerminalTest} />
         <Route path="/skill/:lessonId" component={Skill} />
         <Route path="/register" component={RegisterPage} />
-        <Route path="/my-answers" component={MyAnswers} />
+        <Route path="/my-answers/user" component={MyAnswers} />
         <Route path="/my-answers/:metricId" component={MetricLesson} />
         <Route path="/" component={LandingPage} />
       </Switch>

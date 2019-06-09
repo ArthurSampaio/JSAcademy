@@ -23,18 +23,28 @@ import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.
 import LessonAPI from './../../services/LessonAPI'
 
 const MetricLesson = props => {
-  const { classes, ...rest } = props
+  const {
+    classes,
+    location: { state },
+    ...rest
+  } = props
   const [expanded, setExpanded] = useState(false)
   const [metrics, setMetrics] = useState({})
-  const [lesson, setLesson] = useState({})
+  const [lesson, setLesson] = useState(state)
 
+  console.log('props', state)
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await getMetrics()
+    const updateStates = res => {
       setLesson(res.lesson)
       setMetrics(res)
     }
-    fetchData()
+    const fetchData = async () => {
+      console.log('fez refetch')
+
+      const res = await getMetrics()
+      updateStates(res)
+    }
+    lesson.createdAt ? updateStates(lesson) : fetchData()
   }, [])
 
   const getMetrics = () => {
