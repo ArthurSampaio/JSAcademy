@@ -10,15 +10,8 @@ import Header from 'components/Header/Header.jsx'
 import Footer from 'components/Footer/Footer.jsx'
 import HeaderLinks from 'components/Header/HeaderLinks.jsx'
 import ListItemNew from 'components/ListItemNew/ListItemNew'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+
 import Divider from '@material-ui/core/Divider'
-import AceEditor from 'react-ace'
-import 'brace/mode/javascript'
-import 'brace/theme/monokai'
 
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 import UserAPI from './../../services/UserAPI'
@@ -51,8 +44,6 @@ const MyAnswers = props => {
   }
 
   const getAnsweredLessons = () => {
-    console.log(user.answeredLesson)
-
     const answeredLesson =
       user.answeredLesson &&
       user.answeredLesson.map(item => {
@@ -69,7 +60,6 @@ const MyAnswers = props => {
         }
       })
 
-    console.log('>>>>>>> user.answeredLesson.', answeredLesson)
     return answeredLesson
   }
 

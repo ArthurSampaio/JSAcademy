@@ -32,15 +32,13 @@ const MetricLesson = props => {
   const [metrics, setMetrics] = useState({})
   const [lesson, setLesson] = useState(state)
 
-  console.log('props', state)
   useEffect(() => {
     const updateStates = res => {
       setLesson(res.lesson)
       setMetrics(res)
     }
     const fetchData = async () => {
-      console.log('fez refetch')
-
+      console.log('do refetch')
       const res = await getMetrics()
       updateStates(res)
     }
@@ -82,7 +80,6 @@ const MetricLesson = props => {
   }
 
   const renderSinglePanel = metric => {
-    console.log(metric)
     return (
       <ExpansionPanel
         expanded={expanded === metric._id}
