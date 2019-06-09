@@ -6,6 +6,7 @@ import Skill from 'views/Skill/Skill'
 import LandingPage from 'views/LandingPage/LandingPage.jsx'
 import ProfilePage from 'views/ProfilePage/ProfilePage.jsx'
 import LoginPage from 'views/LoginPage/LoginPage.jsx'
+import MetricLesson from 'views/MetricLesson/MetricLesson'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import RegisterPage from 'views/RegisterPage/RegisterPage'
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter'
@@ -51,6 +52,7 @@ const App = props => {
         <PrivateRoute path="/test" component={TerminalTest} />
         <Route path="/skill/:lessonId" component={Skill} />
         <Route path="/register" component={RegisterPage} />
+        <Route path="/my-answers/:metricId" component={MetricLesson} />
         <Route path="/" component={LandingPage} />
       </Switch>
     </Router>

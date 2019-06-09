@@ -11,6 +11,11 @@ const LessonAPI = {
       return res.data
     })
   },
+  getLessonMetrics: function(metricId) {
+    return axios(`/api/lesson/metrics/${metricId}`).then(res => {
+      return res.data
+    })
+  },
 }
 
 export default LessonAPI
