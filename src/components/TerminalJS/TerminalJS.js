@@ -57,8 +57,13 @@ const TerminalJS = props => {
 
   function executeFunctionFromCode() {
     const func = input.match(functionRegex)
-    const evaluate = eval(`(${func})`)
+    //const evaluate = eval(`(${func})`)
+    const evaluate = runCodeWithFunction(func)
     return evaluate
+  }
+
+  function runCodeWithFunction(code) {
+    return Function('"use strict";return (' + code + ')')()
   }
 
   function runTests() {
@@ -73,7 +78,6 @@ const TerminalJS = props => {
         }
       })
       const ans = updateAnswer(acc)
-      console.log('>>>>>>', ans)
       setAnswer(ans)
       onRunTest(acc, ans)
     } catch (e) {
