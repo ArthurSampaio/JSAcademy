@@ -16,6 +16,11 @@ const LessonAPI = {
       return res.data
     })
   },
+  getLessonsForUser: function() {
+    return axios(`/api/lesson/user`).then(res => {
+      return res.data
+    })
+  },
 }
 
 export default LessonAPI

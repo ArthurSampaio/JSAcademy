@@ -14,19 +14,17 @@ import ListItemNew from 'components/ListItemNew/ListItemNew'
 import Divider from '@material-ui/core/Divider'
 
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
-import UserAPI from './../../services/UserAPI'
-import { AuthService } from './../../services/Auth'
+import LessonAPI from './../../services/LessonAPI'
 
 //TODO: adicionar casos quando for um anonymous id
 const ChooseLesson = props => {
   const { classes, ...rest } = props
-  const [user, setUser] = useState({})
+  const [lessons, setLessons] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
-      const userId = AuthService.currentUserDecodeValue._id
-      const res = await UserAPI.getUser(userId)
-      setUser(res)
+      const lsss = await LessonAPI.getLessonsForUser()
+      setLessons(lsss)
     }
     fetchData()
   }, [])
@@ -41,26 +39,6 @@ const ChooseLesson = props => {
         </div>
       </div>
     )
-  }
-
-  const getAnsweredLessons = () => {
-    const answeredLesson =
-      user.answeredLesson &&
-      user.answeredLesson.map(item => {
-        return {
-          ...item,
-          exercisesMetrics: item.exercisesMetrics.map(el => {
-            return {
-              ...el,
-              exercise: item.lesson.exercises.filter(
-                ex => ex._id === el.exercise
-              )[0],
-            }
-          }),
-        }
-      })
-
-    return answeredLesson
   }
 
   return (
@@ -81,7 +59,7 @@ const ChooseLesson = props => {
           <div className={classes.container}>
             {renderHead()}
             <div className={(classes.root, classes.mainRaised)}>
-              <ListItemNew answered={getAnsweredLessons()} {...props} />
+              <ListItemNew isLesson lessons={lessons} {...props} />
             </div>
           </div>
         </div>

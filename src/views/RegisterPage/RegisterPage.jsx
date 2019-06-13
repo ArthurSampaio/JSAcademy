@@ -67,7 +67,9 @@ const RegisterPage = props => {
                   <Button className={classes.buttonChoices}>
                     Quero criar uma lista de exercícios
                   </Button>
-                  <Button>Quero responder uma lista de exercícios</Button>
+                  <Button component={Link} to="/choose-lesson">
+                    Quero responder uma lista de exercícios
+                  </Button>
                 </ButtonGroup>
               </GridItem>
             </GridContainer>

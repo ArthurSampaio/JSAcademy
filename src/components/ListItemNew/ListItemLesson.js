@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
-import PropTypes from 'prop-types'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -16,60 +15,27 @@ import IconButton from '@material-ui/core/IconButton'
 import DraftsIcon from '@material-ui/icons/Drafts'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 
-const ListItemNew = props => {
-  const { classes, answered, lessons, isLesson, ...rest } = props
+const ListItemLesson = props => {
+  const { classes, lessons, ...rest } = props
   const [selectedIndex, setSelectedIndex] = useState(1)
 
+  console.log(lessons)
   function handleListItemClick(event, index) {
     setSelectedIndex(index)
   }
 
-  function createLocation(item, path, id) {
-    console.log('item', item)
-    const location = {
-      pathname: `${path}/${id}`,
-      state: {
-        ...item,
-      },
-    }
-    props.history.push(location)
-  }
+  //   function createLocation(id, item) {
+  //     console.log('item', item)
+  //     const location = {
+  //       pathname: `/my-answers/${id}`,
+  //       state: {
+  //         ...item,
+  //       },
+  //     }
+  //     props.history.push(location)
+  //   }
 
   function renderItems() {
-    return (
-      answered &&
-      answered.map(item => (
-        <Fragment key={item._id}>
-          <ListItem
-            button
-            selected={selectedIndex === item._id}
-            onClick={event => createLocation(item, '/my-answers', item._id)}
-          >
-            <ListItemAvatar>
-              <Avatar>
-                <SendIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={item.lesson.name}
-              secondary={`Respondida em ${new Date(
-                item.createdAt
-              ).toLocaleDateString()} | ${
-                item.lesson.exercises.length
-              } exercícios`}
-            />
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="Delete">
-                <SendIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        </Fragment>
-      ))
-    )
-  }
-
-  function renderLessons() {
     return (
       lessons &&
       lessons.map(item => (
@@ -77,7 +43,7 @@ const ListItemNew = props => {
           <ListItem
             button
             selected={selectedIndex === item._id}
-            onClick={event => createLocation(item, '/skill', item._id)}
+            onClick={e => console.log(e)}
           >
             <ListItemAvatar>
               <Avatar>
@@ -104,18 +70,10 @@ const ListItemNew = props => {
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="Main mailbox folders">
-        {isLesson ? renderLessons() : renderItems()}
+        {renderItems()}
       </List>
     </div>
   )
 }
 
-ListItemNew.propTypes = {
-  isLesson: PropTypes.bool,
-}
-
-ListItemNew.defaultProps = {
-  isLesson: false,
-}
-
-export default withStyles(metricLessonStyle)(ListItemNew)
+export default withStyles(metricLessonStyle)(ListItemLesson)

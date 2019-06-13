@@ -80,7 +80,7 @@ const MyAnswers = props => {
         <div>
           <div className={classes.container}>
             {renderHead()}
-            <div className={(classes.root, classes.mainRaised)}>
+            <div className={classNames(classes.root, classes.mainRaised)}>
               <ListItemNew answered={getAnsweredLessons()} {...props} />
             </div>
           </div>
