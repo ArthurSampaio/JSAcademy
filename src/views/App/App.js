@@ -11,6 +11,7 @@ import MyAnswers from 'views/MyAnswers/MyAnswers'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import RegisterPage from 'views/RegisterPage/RegisterPage'
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter'
+import ChooseLesson from 'views/ChooseLesson/ChooseLesson'
 import { createBrowserHistory } from 'history'
 import { AuthService } from './../../services/Auth'
 
@@ -55,6 +56,7 @@ const App = props => {
         <Route path="/register" component={RegisterPage} />
         <Route path="/my-answers/user" component={MyAnswers} />
         <Route path="/my-answers/:metricId" component={MetricLesson} />
+        <Route path="/choose-lesson" component={ChooseLesson} />
         <Route path="/" component={LandingPage} />
       </Switch>
     </Router>
