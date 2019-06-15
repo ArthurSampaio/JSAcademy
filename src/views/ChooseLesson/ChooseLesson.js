@@ -59,7 +59,7 @@ const ChooseLesson = props => {
           <div className={classes.container}>
             {renderHead()}
             <div className={(classes.root, classes.mainRaised)}>
-              <ListItemNew isLesson lessons={lessons} {...props} />
+              <ListItemNew type={'lesson'} lessons={lessons} {...props} />
             </div>
           </div>
         </div>

@@ -17,7 +17,7 @@ import DraftsIcon from '@material-ui/icons/Drafts'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 
 const ListItemNew = props => {
-  const { classes, answered, lessons, isLesson, ...rest } = props
+  const { classes, answered, lessons, isLesson, type, ...rest } = props
   const [selectedIndex, setSelectedIndex] = useState(1)
 
   function handleListItemClick(event, index) {
@@ -101,10 +101,19 @@ const ListItemNew = props => {
     )
   }
 
+  function chooseType() {
+    switch (type) {
+      case 'lesson':
+        return renderLessons()
+      default:
+        return renderItems()
+    }
+  }
+
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="Main mailbox folders">
-        {isLesson ? renderLessons() : renderItems()}
+        {chooseType()}
       </List>
     </div>
   )
@@ -112,10 +121,12 @@ const ListItemNew = props => {
 
 ListItemNew.propTypes = {
   isLesson: PropTypes.bool,
+  type: PropTypes.string,
 }
 
 ListItemNew.defaultProps = {
   isLesson: false,
+  type: '',
 }
 
 export default withStyles(metricLessonStyle)(ListItemNew)
