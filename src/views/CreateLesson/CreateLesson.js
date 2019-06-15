@@ -8,6 +8,8 @@ import withStyles from '@material-ui/core/styles/withStyles'
 // @material-ui/icons
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
+import CloseIcon from '@material-ui/icons/Close'
+
 import LabelIcon from '@material-ui/icons/Label'
 import NoteAddIcon from '@material-ui/icons/NoteAdd'
 
@@ -27,6 +29,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import Button from 'components/CustomButtons/Button.jsx'
+import Checkbox from '@material-ui/core/Checkbox'
+import CommentIcon from '@material-ui/icons/Comment'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 
 // core components
 import Header from 'components/Header/Header.jsx'
@@ -40,23 +45,31 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import GridContainer from 'components/Grid/GridContainer.jsx'
 import GridItem from 'components/Grid/GridItem.jsx'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import AceEditor from 'react-ace'
+import 'brace/mode/javascript'
+import 'brace/theme/monokai'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import Divider from '@material-ui/core/Divider'
 
 import createLessonStyle from 'assets/jss/material-kit-react/views/createLessonStyle.jsx'
-import UserAPI from './../../services/UserAPI'
-import { AuthService } from './../../services/Auth'
+import ExercisesAPI from './../../services/ExercisesAPI'
 
 //TODO: adicionar casos quando for um anonymous id
 const CreateLesson = props => {
   const { classes, ...rest } = props
-  const [user, setUser] = useState({})
 
   const [values, setValues] = useState({
     name: '',
   })
+  const [repository, setRepository] = useState([])
   const [exercises, setExercises] = useState([])
   const [isOpen, setIsOpen] = useState(false)
+  const [checked, setChecked] = useState([])
+  const [expanded, setExpanded] = useState(false)
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
@@ -64,12 +77,66 @@ const CreateLesson = props => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const userId = AuthService.currentUserDecodeValue._id
-      const res = await UserAPI.getUser(userId)
-      setUser(res)
+      const res = await ExercisesAPI.getExercises()
+      setRepository(res)
     }
     fetchData()
   }, [])
+
+  const handleChangeExpanded = panel => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false)
+  }
+
+  const handleToggle = value => () => {
+    const currentIndex = checked.indexOf(value)
+    const newChecked = [...checked]
+
+    if (currentIndex === -1) {
+      newChecked.push(value)
+    } else {
+      newChecked.splice(currentIndex, 1)
+    }
+    setChecked(newChecked)
+  }
+
+  const handleClose = e => {
+    setIsOpen(false)
+  }
+
+  const handleClickOpen = () => {
+    setIsOpen(true)
+  }
+
+  const exerciseEmpty = () => {
+    console.log(exercises.length === 0)
+    return exercises.length === 0
+  }
+
+  const getAnsweredLessons = () => {
+    // const answeredLesson =
+    //   user.answeredLesson &&
+    //   user.answeredLesson.map(item => {
+    //     return {
+    //       ...item,
+    //       exercisesMetrics: item.exercisesMetrics.map(el => {
+    //         return {
+    //           ...el,
+    //           exercise: item.lesson.exercises.filter(
+    //             ex => ex._id === el.exercise
+    //           )[0],
+    //         }
+    //       }),
+    //     }
+    //   })
+
+    return []
+  }
+
+  const addExercisesToLessonFromRepository = () => {
+    console.log('>>>>>>', checked)
+    setExercises(checked)
+    handleClose()
+  }
 
   const renderHead = () => {
     return (
@@ -88,30 +155,10 @@ const CreateLesson = props => {
     )
   }
 
-  const getAnsweredLessons = () => {
-    const answeredLesson =
-      user.answeredLesson &&
-      user.answeredLesson.map(item => {
-        return {
-          ...item,
-          exercisesMetrics: item.exercisesMetrics.map(el => {
-            return {
-              ...el,
-              exercise: item.lesson.exercises.filter(
-                ex => ex._id === el.exercise
-              )[0],
-            }
-          }),
-        }
-      })
-
-    return answeredLesson
-  }
-
   const renderExercises = () => {
     return (
       <Fragment>
-        <ListItemNew answered={getAnsweredLessons()} {...props} />
+        <ListItemNew items={exercises} type={'exercise'} {...props} />
         {renderAddMoreExercises()}
       </Fragment>
     )
@@ -136,23 +183,103 @@ const CreateLesson = props => {
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  Adicionar questões do meu Banco
+                  {exercises.length === 0
+                    ? 'Nenhum exercício selecionado. Clique aqui para adicionar o primeiro.'
+                    : `Você adicionou ${
+                        exercises.length
+                      } exercícios. Clique aqui para adicionar mais exercícios.`}{' '}
                 </Typography>
               </Fragment>
             }
           />
+          {exercises.length === 0 && (
+            <ListItemSecondaryAction>
+              <Button color="danger" simple>
+                Salvar
+              </Button>
+            </ListItemSecondaryAction>
+          )}
         </ListItem>
       </List>
     )
   }
 
-  const handleClose = e => {
-    console.log('fechou', e)
-    setIsOpen(false)
+  const renderExercisesToBeChoosen = () => {
+    return (
+      <List className={classes.root}>
+        {repository.map(value => {
+          return <Fragment key={value._id}>{renderSinglePanel(value)}</Fragment>
+        })}
+      </List>
+    )
   }
 
-  const handleClickOpen = () => {
-    setIsOpen(true)
+  const renderSinglePanel = value => {
+    const labelId = `checkbox-list-label-${value._id}`
+
+    return (
+      <ExpansionPanel className={classes.panelContent}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+          <div
+            className={classes.listItemModal}
+            style={{
+              width: '100%',
+            }}
+          >
+            <ListItem
+              role={undefined}
+              dense
+              button
+              onClick={handleToggle(value)}
+            >
+              <ListItemIcon>
+                <Checkbox
+                  edge="start"
+                  checked={checked.indexOf(value) !== -1}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
+              </ListItemIcon>
+              <ListItemText
+                id={labelId}
+                primary={`${value.title} | ${value.description}`}
+              />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  aria-label="Comments"
+                  onClick={handleChangeExpanded(value._id)}
+                >
+                  <CommentIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          </div>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails expanded={expanded === value._id}>
+          <div className={classNames(classes.column, classes.codeContent)}>
+            <AceEditor
+              mode="javascript"
+              theme="monokai"
+              name="terminal-editor"
+              editorProps={{ $blockScrolling: false }}
+              value={value.appraisedFunction}
+              readOnly
+            />
+          </div>
+          <div className={classNames(classes.column, classes.infoContent)}>
+            <Typography className={classes.heading}>
+              Descrição: {value.description}
+            </Typography>
+          </div>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    )
   }
 
   const renderDialog = () => {
@@ -180,30 +307,25 @@ const CreateLesson = props => {
                 color="inherit"
                 onClick={handleClose}
               >
-                <SendIcon className={classes.modalClose} />
+                <CloseIcon className={classes.modalClose} />
               </IconButton>
-              <h4 className={classes.modalTitle}>Modal title</h4>
+              <h4 className={classes.modalTitle}>
+                Seus exercícios cadastrados
+              </h4>
             </DialogTitle>
             <DialogContent className={classes.modalBody}>
-              <p>
-                Far far away, behind the word mountains, far from the countries
-                Vokalia and Consonantia, there live the blind texts. Separated
-                they live in Bookmarksgrove right at the coast of the Semantics,
-                a large language ocean. A small river named Duden flows by their
-                place and supplies it with the necessary regelialia. It is a
-                paradisematic country, in which roasted parts of sentences fly
-                into your mouth. Even the all-powerful Pointing has no control
-                about the blind texts it is an almost unorthographic life One
-                day however a small line of blind text by the name of Lorem
-                Ipsum decided to leave for the far World of Grammar.
-              </p>
+              {renderExercisesToBeChoosen()}
             </DialogContent>
             <DialogActions className={classes.modalFooter}>
-              <Button color="transparent" simple>
-                Nice Button
+              <Button
+                color="primary"
+                simple
+                onClick={addExercisesToLessonFromRepository}
+              >
+                Adicionar
               </Button>
               <Button onClick={handleClose} color="danger" simple>
-                Close
+                Fechar
               </Button>
             </DialogActions>
           </Dialog>

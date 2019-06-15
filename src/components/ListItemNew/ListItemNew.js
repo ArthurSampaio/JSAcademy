@@ -17,7 +17,7 @@ import DraftsIcon from '@material-ui/icons/Drafts'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 
 const ListItemNew = props => {
-  const { classes, answered, lessons, isLesson, type, ...rest } = props
+  const { classes, answered, lessons, isLesson, type, items, ...rest } = props
   const [selectedIndex, setSelectedIndex] = useState(1)
 
   function handleListItemClick(event, index) {
@@ -101,10 +101,39 @@ const ListItemNew = props => {
     )
   }
 
+  function renderExercises() {
+    return (
+      items &&
+      items.map(item => (
+        <Fragment key={item._id}>
+          <ListItem
+            button
+            selected={selectedIndex === item._id}
+            //onClick={event => createLocation(item, '/skill', item._id)}
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <SendIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={item.title} secondary={item.description} />
+            <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="Delete">
+                <SendIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        </Fragment>
+      ))
+    )
+  }
+
   function chooseType() {
     switch (type) {
       case 'lesson':
         return renderLessons()
+      case 'exercise':
+        return renderExercises()
       default:
         return renderItems()
     }

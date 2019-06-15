@@ -98,7 +98,7 @@ const createLessonStyle = {
     padding: '0 0.5rem',
   },
   panelContent: {
-    margin: '20px 0',
+    margin: '10px 0',
   },
   fab: {
     margin: '2%',
@@ -111,6 +111,9 @@ const createLessonStyle = {
   form: {
     margin: '15px',
     padding: '10px',
+  },
+  listItemModal: {
+    width: '100%',
   },
 }
 
