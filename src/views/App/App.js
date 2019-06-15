@@ -12,6 +12,7 @@ import TerminalJS from 'components/TerminalJS/TerminalJS'
 import RegisterPage from 'views/RegisterPage/RegisterPage'
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter'
 import ChooseLesson from 'views/ChooseLesson/ChooseLesson'
+import CreateLesson from 'views/CreateLesson/CreateLesson'
 import { createBrowserHistory } from 'history'
 import { AuthService } from './../../services/Auth'
 
@@ -53,10 +54,11 @@ const App = props => {
         <Route path="/login" component={LoginPage} />
         <PrivateRoute path="/test" component={TerminalTest} />
         <Route path="/skill/:lessonId" component={Skill} />
-        <Route path="/register" component={RegisterPage} />
+        <Route path="/what-to-do-today" component={RegisterPage} />
         <Route path="/my-answers/user" component={MyAnswers} />
         <Route path="/my-answers/:metricId" component={MetricLesson} />
         <Route path="/choose-lesson" component={ChooseLesson} />
+        <PrivateRoute path="/create-lesson" component={CreateLesson} />
         <Route path="/" component={LandingPage} />
       </Switch>
     </Router>

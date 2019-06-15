@@ -64,7 +64,11 @@ const RegisterPage = props => {
                   aria-label="group button"
                   color="primary"
                 >
-                  <Button className={classes.buttonChoices}>
+                  <Button
+                    className={classes.buttonChoices}
+                    component={Link}
+                    to="/create-lesson"
+                  >
                     Quero criar uma lista de exercícios
                   </Button>
                   <Button component={Link} to="/choose-lesson">
