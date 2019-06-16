@@ -1,19 +1,16 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/Inbox'
 import SendIcon from '@material-ui/icons/Send'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 
-import DraftsIcon from '@material-ui/icons/Drafts'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 
 const ListItemNew = props => {
@@ -28,10 +25,6 @@ const ListItemNew = props => {
     ...rest
   } = props
   const [selectedIndex, setSelectedIndex] = useState(1)
-
-  function handleListItemClick(event, index) {
-    setSelectedIndex(index)
-  }
 
   function createLocation(item, path, id) {
     console.log('item', item)
@@ -115,11 +108,7 @@ const ListItemNew = props => {
       items &&
       items.map(item => (
         <Fragment key={item._id}>
-          <ListItem
-            button
-            selected={selectedIndex === item._id}
-            //onClick={event => createLocation(item, '/skill', item._id)}
-          >
+          <ListItem button selected={selectedIndex === item._id}>
             <ListItemAvatar>
               <Avatar>
                 <SendIcon />

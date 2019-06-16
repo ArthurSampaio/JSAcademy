@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import clsx from 'clsx'
 
 // nodejs library that concatenates classes
 import classNames from 'classnames'
@@ -19,13 +18,11 @@ import IconButton from '@material-ui/core/IconButton'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import SendIcon from '@material-ui/icons/Send'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
@@ -121,6 +118,17 @@ const CreateLesson = props => {
     handleClose()
   }
 
+  const saveLesson = async () => {
+    const exercisesId = exercises.map(i => i._id)
+    const objectToSave = {
+      name: values['name'],
+      exercises: exercisesId,
+    }
+    const savedLesson = await LessonAPI.save(objectToSave)
+    setSavedLesson(savedLesson)
+    setIsCreated(true)
+  }
+
   const renderHead = () => {
     return (
       <div className={classes.title}>
@@ -145,17 +153,6 @@ const CreateLesson = props => {
         {renderAddMoreExercises()}
       </Fragment>
     )
-  }
-
-  const saveLesson = async () => {
-    const exercisesId = exercises.map(i => i._id)
-    const objectToSave = {
-      name: values['name'],
-      exercises: exercisesId,
-    }
-    const savedLesson = await LessonAPI.save(objectToSave)
-    setSavedLesson(savedLesson)
-    setIsCreated(true)
   }
 
   const renderAddMoreExercises = () => {

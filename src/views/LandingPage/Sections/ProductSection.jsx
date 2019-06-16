@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react'
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles'
 
 // @material-ui/icons
-import School from "@material-ui/icons/School";
-import AvTimer from "@material-ui/icons/AvTimer";
-import DeveloperMode from "@material-ui/icons/DeveloperMode";
+import School from '@material-ui/icons/School'
+import AvTimer from '@material-ui/icons/AvTimer'
+import DeveloperMode from '@material-ui/icons/DeveloperMode'
 // core components
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-import InfoArea from "components/InfoArea/InfoArea.jsx";
+import GridContainer from 'components/Grid/GridContainer.jsx'
+import GridItem from 'components/Grid/GridItem.jsx'
+import InfoArea from 'components/InfoArea/InfoArea.jsx'
 
-import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
+import productStyle from 'assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx'
 
 class ProductSection extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <div className={classes.section}>
         <GridContainer justify="center">
@@ -34,8 +34,8 @@ class ProductSection extends React.Component {
           <GridContainer>
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
-                title="A melhor maneira de aprender Javascript"
-                description="Aprender aqui na JS Academy é muito divertido. Nossos exercícios são 100% práticos e curtinhos, de mode que, com pouco tempo você já saberá as principais feature da linguagem."
+                title="Ideal para produtores de contéudo javascript"
+                description="Nosso ambiente permite a criação e compartilhamento de atividades em javascript."
                 icon={School}
                 iconColor="info"
                 vertical
@@ -62,8 +62,8 @@ class ProductSection extends React.Component {
           </GridContainer>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default withStyles(productStyle)(ProductSection);
+export default withStyles(productStyle)(ProductSection)

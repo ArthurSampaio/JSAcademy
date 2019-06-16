@@ -1,6 +1,5 @@
 import { container, title } from 'assets/jss/material-kit-react.jsx'
 import modalStyle from 'assets/jss/material-kit-react/modalStyle.jsx'
-import javascriptStyles from 'assets/jss/material-kit-react/views/componentsSections/javascriptStyles.jsx'
 import imagesStyle from 'assets/jss/material-kit-react/imagesStyles.jsx'
 const createLessonStyle = {
   container,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 // nodejs library that concatenates classes
 import classNames from 'classnames'
 // @material-ui/core components
@@ -26,13 +26,8 @@ import profilePageStyle from 'assets/jss/material-kit-react/views/profilePage.js
 
 const ProfilePage = props => {
   const { classes, ...rest } = props
-  const imageClasses = classNames(
-    classes.imgRaised,
-    classes.imgRoundedCircle,
-    classes.imgFluid
-  )
+
   const [expanded, setExpanded] = useState(false)
-  const [metrics, setMetrics] = useState({})
   getMetrics()
   const getMetrics = () => {
     const {
@@ -40,7 +35,6 @@ const ProfilePage = props => {
         props: { metricId },
       },
     } = props
-    console.log('::::', metricId)
   }
 
   const handleChange = panel => (event, isExpanded) => {
@@ -49,7 +43,6 @@ const ProfilePage = props => {
     setExpanded(isExpanded ? panel : false)
   }
 
-  const navImageClasses = classNames(classes.imgRounded, classes.imgGallery)
   return (
     <div>
       <Header

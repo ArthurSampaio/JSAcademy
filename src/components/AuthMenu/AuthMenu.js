@@ -1,9 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
-import ListItem from '@material-ui/core/ListItem'
 import { Link } from 'react-router-dom'
 
 import Menu from '@material-ui/core/Menu'
