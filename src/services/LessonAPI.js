@@ -16,13 +16,18 @@ const LessonAPI = {
       return res.data
     })
   },
+  getMetricsForLessonId: function(lessonId) {
+    return axios(`/api/lesson/metrics?lessonId=${lessonId}`).then(res => {
+      return res.data
+    })
+  },
   save: function(lesson) {
     return axios.post(`/api/lesson/`, lesson).then(res => {
       return res.data
     })
   },
   getLessonsForUser: function() {
-    return axios(`/api/lesson/user`).then(res => {
+    return axios(`/api/lesson/study`).then(res => {
       return res.data
     })
   },
