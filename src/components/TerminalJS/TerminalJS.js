@@ -12,9 +12,10 @@ import basicsStyle from 'assets/jss/material-kit-react/views/componentsSections/
 import Button from 'components/CustomButtons/Button.jsx'
 
 const TerminalJS = props => {
-  const { task, showButtonTest } = props
+  const { task, showButtonTest, accept } = props
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
+  const [answer, setAnswer] = useState({})
 
   const functionRegex = /function\s*([A-z0-9]+)?\s*\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)\s*\{(?:[^}{]+|\{(?:[^}{]+|\{[^}{]*\})*\})*\}/g
 
@@ -23,6 +24,15 @@ const TerminalJS = props => {
   }
 
   useEffect(() => {
+    const defaultAnswer = {
+      exercise: task._id,
+      code: '',
+      attempts: 0,
+      startAt: new Date(),
+      endAt: 0,
+      time: 0,
+    }
+    setAnswer(defaultAnswer)
     setInput(task.appraisedFunction)
     setOuput(' ')
   }, [task])
@@ -30,7 +40,6 @@ const TerminalJS = props => {
   function execute() {
     try {
       const evaluate = evaluateCode()
-      console.log(evaluate)
       setOuput((evaluate && JSON.stringify(evaluate)) || '')
     } catch (e) {
       setOuput(e.message)
@@ -48,8 +57,13 @@ const TerminalJS = props => {
 
   function executeFunctionFromCode() {
     const func = input.match(functionRegex)
-    const evaluate = eval(`(${func})`)
+    //const evaluate = eval(`(${func})`)
+    const evaluate = runCodeWithFunction(func)
     return evaluate
+  }
+
+  function runCodeWithFunction(code) {
+    return Function('"use strict";return (' + code + ')')()
   }
 
   function runTests() {
@@ -63,10 +77,29 @@ const TerminalJS = props => {
           acc = false
         }
       })
-      onRunTest(acc)
+      const ans = updateAnswer(acc)
+      setAnswer(ans)
+      onRunTest(acc, ans)
     } catch (e) {
+      setAnswer(updateAnswer(false))
       setOuput(e.message)
     }
+  }
+
+  function updateAnswer(acc) {
+    const ans = acc
+      ? {
+          ...answer,
+          code: input,
+          attempts: answer.attempts + 1,
+          endAt: new Date(),
+        }
+      : {
+          ...answer,
+          attempts: answer.attempts + 1,
+        }
+
+    return ans
   }
 
   function clear() {
@@ -78,55 +111,74 @@ const TerminalJS = props => {
     props.onClear()
   }
 
-  function onRunTest(acc) {
-    props.onRun(acc)
+  function metricsExercise(ans) {
+    return {
+      exercise: ans.exercise,
+      code: ans.code,
+      attempts: ans.attempts,
+      time: ans.endAt - ans.startAt,
+    }
   }
 
-  return (
-    <div className={`terminal `}>
-      <div>
-        {' '}
-        <div className={'title'}>
-          <h1> {task.title} </h1>
-        </div>
+  function onRunTest(acc, ans) {
+    props.onRun(acc && metricsExercise(ans))
+  }
+
+  function renderTerminal() {
+    return (
+      <div className={`terminal `}>
         <div>
           {' '}
-          <p>{task.description}</p>
+          <div className={'title'}>
+            <h1> {task.title} </h1>
+          </div>
+          <div>
+            {' '}
+            <p>{task.description}</p>
+          </div>
+        </div>
+
+        <AceEditor
+          mode="javascript"
+          theme="monokai"
+          onChange={onChange}
+          name="terminal-editor"
+          editorProps={{ $blockScrolling: true }}
+          value={input}
+          readOnly={accept}
+        />
+        <div className={'output-container'}>
+          <div className={'buttons-output'}>
+            <Button
+              id="run"
+              variant="contained"
+              color="primary"
+              onClick={execute}
+            >
+              Run
+            </Button>
+
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={runTests}
+              disabled={showButtonTest || accept}
+            >
+              Execute Tests
+            </Button>
+            <Button variant="contained" color="danger" onClick={clear}>
+              Clear
+            </Button>
+          </div>
+          <div className={'console'}>
+            <code>{output}</code>
+          </div>
         </div>
       </div>
+    )
+  }
 
-      <AceEditor
-        mode="javascript"
-        theme="monokai"
-        onChange={onChange}
-        name="terminal-editor"
-        editorProps={{ $blockScrolling: true }}
-        value={input}
-      />
-      <div className={'output-container'}>
-        <div className={'buttons-output'}>
-          <Button
-            id="run"
-            variant="contained"
-            color="primary"
-            onClick={execute}
-          >
-            Run
-          </Button>
-
-          <Button variant="contained" color="warning" onClick={runTests} disabled={showButtonTest}>
-            Execute Tests
-          </Button>
-          <Button variant="contained" color="danger" onClick={clear}>
-            Clear
-          </Button>
-        </div>
-        <div className={'console'}>
-          <code>{output}</code>
-        </div>
-      </div>
-    </div>
-  )
+  return renderTerminal()
 }
 
 export default withStyles(basicsStyle)(TerminalJS)

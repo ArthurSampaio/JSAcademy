@@ -1,8 +1,7 @@
 import { container, title } from 'assets/jss/material-kit-react.jsx'
-
+import modalStyle from 'assets/jss/material-kit-react/modalStyle.jsx'
 import imagesStyle from 'assets/jss/material-kit-react/imagesStyles.jsx'
-
-const profilePageStyle = {
+const createLessonStyle = {
   container,
   profile: {
     textAlign: 'center',
@@ -35,7 +34,6 @@ const profilePageStyle = {
       '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
   },
   mainRaised: {
-    margin: '-60px 30px 0px',
     borderRadius: '6px',
     boxShadow:
       '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
@@ -68,7 +66,11 @@ const profilePageStyle = {
     fontWeight: '600',
     display: 'inline-block',
     position: 'relative',
-    marginBottom: '30px',
+    width: '100%',
+  },
+  subtitle: {
+    fontSize: '1.313rem',
+    margin: '10px 0 0',
     width: '100%',
   },
   root: {
@@ -83,6 +85,41 @@ const profilePageStyle = {
   secondaryHeading: {
     color: 'secondary',
   },
+  panelTitle: {
+    fontSize: '1.00rem',
+  },
+  codeContent: {
+    padding: '0.250rem 0.5rem',
+  },
+  infoContent: {
+    padding: '0 0.5rem',
+  },
+  panelContent: {
+    margin: '10px 0',
+  },
+  fab: {
+    margin: '2%',
+    float: 'right',
+    overflow: 'auto',
+  },
+  textField: {
+    flexBasis: 200,
+  },
+  form: {
+    margin: '15px',
+    padding: '10px',
+  },
+  listItemModal: {
+    width: '100%',
+  },
+  ...modalStyle,
+  clipboard: {
+    margin: '30px',
+  },
+  clipboardButton: {
+    float: 'right',
+    padding: '5px',
+  },
 }
 
-export default profilePageStyle
+export default createLessonStyle

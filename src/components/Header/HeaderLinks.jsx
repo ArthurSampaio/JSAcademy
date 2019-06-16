@@ -16,11 +16,12 @@ import { CloudDownload } from '@material-ui/icons'
 
 // core components
 import Button from 'components/CustomButtons/Button.jsx'
+import AuthMenu from 'components/AuthMenu/AuthMenu'
 import headerLinksStyle from 'assets/jss/material-kit-react/components/headerLinksStyle.jsx'
 import { AuthService } from './../../services/Auth'
 import UtilsService from './../../services/UtilsService'
 
-const HeaderLinks = ({ ...props }) => {
+const HeaderLinks = props => {
   const { classes } = props
   const [currentUser, setCurrentUser] = useState(AuthService.currentUserValue)
   const [isLogged, setIsLogged] = useState(false)
@@ -31,6 +32,10 @@ const HeaderLinks = ({ ...props }) => {
     setIsLogged(logged)
   }, [currentUser])
 
+  function handleClick(ev) {
+    console.log('click')
+  }
+
   function renderAvatar() {
     const userDecode = AuthService.currentUserDecodeValue
     if (userDecode) {
@@ -38,10 +43,10 @@ const HeaderLinks = ({ ...props }) => {
       return (
         <ListItem className={classes.listItem}>
           <ListItemAvatar>
-            <Avatar
-              alt="User login"
-              src={avatarSrc}
-              className={classes.socialIcons}
+            <AuthMenu
+              avatarSrc={avatarSrc}
+              handleLogout={AuthService.logout}
+              {...props}
             />
           </ListItemAvatar>
         </ListItem>
@@ -52,15 +57,7 @@ const HeaderLinks = ({ ...props }) => {
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        {isLogged ? (
-          <Button
-            color="transparent"
-            className={classes.navLink}
-            onClick={AuthService.logout}
-          >
-            <CloudDownload className={classes.icons} /> Sair
-          </Button>
-        ) : (
+        {!isLogged && (
           <Button
             color="transparent"
             className={classes.navLink}
@@ -70,24 +67,6 @@ const HeaderLinks = ({ ...props }) => {
             <CloudDownload className={classes.icons} /> Entrar
           </Button>
         )}
-      </ListItem>
-
-      <ListItem className={classes.listItem}>
-        <Tooltip
-          id="instagram-tooltip"
-          title="Starred us on github"
-          placement={window.innerWidth > 959 ? 'top' : 'left'}
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <Button
-            color="transparent"
-            href="https://github.com/ArthurSampaio/JSAcademy"
-            target="_blank"
-            className={classes.navLink}
-          >
-            <i className={classes.socialIcons + ' fab fa-github'} />
-          </Button>
-        </Tooltip>
       </ListItem>
       {renderAvatar()}
     </List>

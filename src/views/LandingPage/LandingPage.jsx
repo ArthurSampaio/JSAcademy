@@ -1,65 +1,58 @@
-import React from "react";
+import React from 'react'
 // nodejs library that concatenates classes
-import classNames from "classnames";
+import classNames from 'classnames'
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles'
 
 // @material-ui/icons
-import Explore from "@material-ui/icons/Explore";
-
 
 // core components
-import Header from "components/Header/Header.jsx";
-import Footer from "components/Footer/Footer.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
-import Parallax from "components/Parallax/Parallax.jsx";
-import { Link } from "react-router-dom";
+import Header from 'components/Header/Header.jsx'
+import Footer from 'components/Footer/Footer.jsx'
+import GridContainer from 'components/Grid/GridContainer.jsx'
+import GridItem from 'components/Grid/GridItem.jsx'
+import Button from 'components/CustomButtons/Button.jsx'
+import HeaderLinks from 'components/Header/HeaderLinks.jsx'
+import Parallax from 'components/Parallax/Parallax.jsx'
+import { Link } from 'react-router-dom'
 
-
-import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
+import landingPageStyle from 'assets/jss/material-kit-react/views/landingPage.jsx'
 
 // Sections for this page
-import ProductSection from "./Sections/ProductSection.jsx";
+import ProductSection from './Sections/ProductSection.jsx'
 
-
-const dashboardRoutes = [];
+const dashboardRoutes = []
 
 class LandingPage extends React.Component {
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes, ...rest } = this.props
     return (
       <div>
         <Header
           color="transparent"
           routes={dashboardRoutes}
-          brand={<span>
-            {'Javascript Academy'}</span>}
+          brand={<span>{'Javascript Academy'}</span>}
           rightLinks={<HeaderLinks />}
           fixed
           changeColorOnScroll={{
             height: 400,
-            color: "white"
+            color: 'white',
           }}
           {...rest}
         />
-        <Parallax filter image={require("assets/img/background-ld.png")}>
+        <Parallax filter image={require('assets/img/background-ld.png')}>
           <div className={classes.container}>
             <GridContainer>
-              <GridItem xs={12} sm={12} md={6}>
-                <h1 className={classes.title}>Aprenda Javascript. Agora!</h1>
+              <GridItem xs={12} sm={12} md={12}>
+                <h1 className={classes.title}>
+                  Nunca foi tão fácil ensinar e aprender Javascript!
+                </h1>
                 <br />
-                <Link to="/register">
-                  <Button
-                    color="primary"
-                    size="lg"
-
-                  >
+                <Link to="/what-to-do-today">
+                  <Button color="primary" size="lg">
                     <i className="fas fa-play" />
-                    Começar
-                </Button>
+                    Começar Agora
+                  </Button>
                 </Link>
               </GridItem>
             </GridContainer>
@@ -72,8 +65,8 @@ class LandingPage extends React.Component {
         </div>
         <Footer />
       </div>
-    );
+    )
   }
 }
 
-export default withStyles(landingPageStyle)(LandingPage);
+export default withStyles(landingPageStyle)(LandingPage)

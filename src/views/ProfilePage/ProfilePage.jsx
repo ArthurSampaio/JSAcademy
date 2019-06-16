@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 // nodejs library that concatenates classes
 import classNames from 'classnames'
 // @material-ui/core components
@@ -8,79 +8,177 @@ import withStyles from '@material-ui/core/styles/withStyles'
 // core components
 import Header from 'components/Header/Header.jsx'
 import Footer from 'components/Footer/Footer.jsx'
-import Button from 'components/CustomButtons/Button.jsx'
-import GridContainer from 'components/Grid/GridContainer.jsx'
-import GridItem from 'components/Grid/GridItem.jsx'
 import HeaderLinks from 'components/Header/HeaderLinks.jsx'
-import Parallax from 'components/Parallax/Parallax.jsx'
 
-import profile from 'assets/img/mypic.jpg'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import Divider from '@material-ui/core/Divider'
+import AceEditor from 'react-ace'
+import 'brace/mode/javascript'
+import 'brace/theme/monokai'
 
 import profilePageStyle from 'assets/jss/material-kit-react/views/profilePage.jsx'
 
-class ProfilePage extends React.Component {
-  render() {
-    const { classes, ...rest } = this.props
-    const imageClasses = classNames(
-      classes.imgRaised,
-      classes.imgRoundedCircle,
-      classes.imgFluid
-    )
-    const navImageClasses = classNames(classes.imgRounded, classes.imgGallery)
-    return (
-      <div>
-        <Header
-          color="transparent"
-          brand="Javascript Academy "
-          rightLinks={<HeaderLinks />}
-          fixed
-          changeColorOnScroll={{
-            height: 200,
-            color: 'white',
-          }}
-          {...rest}
-        />
-        <Parallax small filter image={require('assets/img/profile-bg.jpg')} />
-        <div className={classNames(classes.main, classes.mainRaised)}>
-          <div>
-            <div className={classes.container}>
-              <GridContainer justify="center">
-                <GridItem xs={12} sm={12} md={6}>
-                  <div className={classes.profile}>
-                    <div>
-                      <img src={profile} alt="..." className={imageClasses} />
-                    </div>
-                    <div className={classes.name}>
-                      <h3 className={classes.title}>Arthur Sampaio</h3>
-                      <h6>COMPUTER SCIENTIST</h6>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={'fab fa-twitter'} />
-                      </Button>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={'fab fa-instagram'} />
-                      </Button>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={'fab fa-facebook'} />
-                      </Button>
-                    </div>
-                  </div>
-                </GridItem>
-              </GridContainer>
-              <div className={classes.description}>
-                <p>
-                  An artist of considerable range, Chet Faker — the name taken
-                  by Melbourne-raised, Brooklyn-based Nick Murphy — writes,
-                  performs and records all of his own music, giving it a warm,
-                  intimate feel with a solid groove structure.{' '}
-                </p>
-              </div>
+const ProfilePage = props => {
+  const { classes, ...rest } = props
+
+  const [expanded, setExpanded] = useState(false)
+  getMetrics()
+  const getMetrics = () => {
+    const {
+      match: {
+        props: { metricId },
+      },
+    } = props
+  }
+
+  const handleChange = panel => (event, isExpanded) => {
+    getMetrics()
+
+    setExpanded(isExpanded ? panel : false)
+  }
+
+  return (
+    <div>
+      <Header
+        color="white"
+        brand="Javascript Academy "
+        rightLinks={<HeaderLinks />}
+        fixed
+        changeColorOnScroll={{
+          height: 200,
+          color: 'white',
+        }}
+        {...rest}
+      />
+      <div className={classNames(classes.main)}>
+        <div>
+          <div className={classes.container}>
+            <div className={classes.title}>
+              <h2>Basic Elements</h2>
+              <Divider />
             </div>
+            <div className={classes.root}>
+              <ExpansionPanel
+                expanded={expanded === 'panel1'}
+                onChange={handleChange('panel1')}
+              >
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <div className={classes.column}>
+                    <Typography className={classes.heading}>
+                      General settings
+                    </Typography>
+                  </div>
+                  <div className={classes.column}>
+                    <Typography className={classes.heading}>
+                      I am an expansion panel
+                    </Typography>
+                  </div>
+                </ExpansionPanelSummary>
+                <Divider />
+                <ExpansionPanelDetails>
+                  <div className={classes.column}>
+                    <AceEditor
+                      mode="javascript"
+                      theme="monokai"
+                      name="terminal-editor"
+                      editorProps={{ $blockScrolling: false }}
+                      value={
+                        'function filter2 (arr){ return arr.filter(i=>i%2==0)}'
+                      }
+                      readOnly
+                    />
+                  </div>
+                  <div className={classes.column}>
+                    <Typography className={classes.heading}>
+                      Nulla facilisi. Phasellus sollicitudin nulla et quam
+                      mattis feugiat. Aliquam eget maximus est, id dignissim
+                      quam.
+                    </Typography>
+                  </div>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+              <ExpansionPanel
+                expanded={expanded === 'panel2'}
+                onChange={handleChange('panel2')}
+              >
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel2bh-content"
+                  id="panel2bh-header"
+                >
+                  <Typography className={classes.heading}>Users</Typography>
+                  <Typography className={classes.secondaryHeading}>
+                    You are currently not an owner
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography>
+                    Donec placerat, lectus sed mattis semper, neque lectus
+                    feugiat lectus, varius pulvinar diam eros in elit.
+                    Pellentesque convallis laoreet laoreet.
+                  </Typography>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+              <ExpansionPanel
+                expanded={expanded === 'panel3'}
+                onChange={handleChange('panel3')}
+              >
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel3bh-content"
+                  id="panel3bh-header"
+                >
+                  <Typography className={classes.heading}>
+                    Advanced settings
+                  </Typography>
+                  <Typography className={classes.secondaryHeading}>
+                    Filtering has been entirely disabled for whole web server
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography>
+                    Nunc vitae orci ultricies, auctor nunc in, volutpat nisl.
+                    Integer sit amet egestas eros, vitae egestas augue. Duis vel
+                    est augue.
+                  </Typography>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+              <ExpansionPanel
+                expanded={expanded === 'panel4'}
+                onChange={handleChange('panel4')}
+              >
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel4bh-content"
+                  id="panel4bh-header"
+                >
+                  <Typography className={classes.heading}>
+                    Personal data
+                  </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography>
+                    Nunc vitae orci ultricies, auctor nunc in, volutpat nisl.
+                    Integer sit amet egestas eros, vitae egestas augue. Duis vel
+                    est augue.
+                  </Typography>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </div>{' '}
           </div>
         </div>
-        <Footer />
       </div>
-    )
-  }
+      <Footer />
+    </div>
+  )
 }
 
 export default withStyles(profilePageStyle)(ProfilePage)

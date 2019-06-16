@@ -6,9 +6,13 @@ import Skill from 'views/Skill/Skill'
 import LandingPage from 'views/LandingPage/LandingPage.jsx'
 import ProfilePage from 'views/ProfilePage/ProfilePage.jsx'
 import LoginPage from 'views/LoginPage/LoginPage.jsx'
+import MetricLesson from 'views/MetricLesson/MetricLesson'
+import MyAnswers from 'views/MyAnswers/MyAnswers'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import RegisterPage from 'views/RegisterPage/RegisterPage'
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter'
+import ChooseLesson from 'views/ChooseLesson/ChooseLesson'
+import CreateLesson from 'views/CreateLesson/CreateLesson'
 import { createBrowserHistory } from 'history'
 import { AuthService } from './../../services/Auth'
 
@@ -48,10 +52,13 @@ const App = props => {
       <Switch>
         <Route path="/profile-page" component={ProfilePage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/test" component={TerminalTest} />
-        <PrivateRoute path="/skill/:lessonId" component={Skill} />
-        <Route path="/register" component={RegisterPage} />
-
+        <PrivateRoute path="/test" component={TerminalTest} />
+        <Route path="/skill/:lessonId" component={Skill} />
+        <Route path="/what-to-do-today" component={RegisterPage} />
+        <Route path="/my-answers/user" component={MyAnswers} />
+        <Route path="/my-answers/:metricId" component={MetricLesson} />
+        <Route path="/choose-lesson" component={ChooseLesson} />
+        <PrivateRoute path="/create-lesson" component={CreateLesson} />
         <Route path="/" component={LandingPage} />
       </Switch>
     </Router>
