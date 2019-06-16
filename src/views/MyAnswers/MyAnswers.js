@@ -10,6 +10,8 @@ import Header from 'components/Header/Header.jsx'
 import Footer from 'components/Footer/Footer.jsx'
 import HeaderLinks from 'components/Header/HeaderLinks.jsx'
 import ListItemNew from 'components/ListItemNew/ListItemNew'
+import Fade from '@material-ui/core/Fade'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import Divider from '@material-ui/core/Divider'
 
@@ -21,12 +23,15 @@ import { AuthService } from './../../services/Auth'
 const MyAnswers = props => {
   const { classes, ...rest } = props
   const [user, setUser] = useState({})
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       const userId = AuthService.currentUserDecodeValue._id
       const res = await UserAPI.getUser(userId)
       setUser(res)
+      setLoading(false)
     }
     fetchData()
   }, [])
@@ -81,7 +86,11 @@ const MyAnswers = props => {
           <div className={classes.container}>
             {renderHead()}
             <div className={classNames(classes.root, classes.mainRaised)}>
-              <ListItemNew answered={getAnsweredLessons()} {...props} />
+              <ListItemNew
+                answered={getAnsweredLessons()}
+                loading={loading}
+                {...props}
+              />
             </div>
           </div>
         </div>

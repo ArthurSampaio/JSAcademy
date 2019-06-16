@@ -20,11 +20,15 @@ import LessonAPI from './../../services/LessonAPI'
 const ChooseLesson = props => {
   const { classes, ...rest } = props
   const [lessons, setLessons] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
+
       const lsss = await LessonAPI.getLessonsForUser()
       setLessons(lsss)
+      setLoading(false)
     }
     fetchData()
   }, [])
@@ -59,7 +63,12 @@ const ChooseLesson = props => {
           <div className={classes.container}>
             {renderHead()}
             <div className={(classes.root, classes.mainRaised)}>
-              <ListItemNew type={'lesson'} lessons={lessons} {...props} />
+              <ListItemNew
+                type={'lesson'}
+                lessons={lessons}
+                loading={loading}
+                {...props}
+              />
             </div>
           </div>
         </div>

@@ -24,11 +24,18 @@ export const AuthService = {
 }
 
 function login(user) {
-  return axios.post('api/token', user).then(res => {
-    localStorage.setItem(currentUser, JSON.stringify(res.data))
-    currentUserSubject.next(res.data)
-    return user
-  })
+  return axios
+    .post('api/token', user)
+    .then(res => {
+      console.log('reas', res)
+      localStorage.setItem(currentUser, JSON.stringify(res.data))
+      currentUserSubject.next(res.data)
+      return user
+    })
+    .catch(function(error) {
+      console.log(error)
+      throw new Error('Usuario não encontrado')
+    })
 }
 
 function logout() {

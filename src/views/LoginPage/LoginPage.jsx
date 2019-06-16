@@ -3,6 +3,12 @@ import React, { useState, useEffect } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Icon from '@material-ui/core/Icon'
+import ErrorIcon from '@material-ui/icons/Error'
+import IconButton from '@material-ui/core/IconButton'
+import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
+import CloseIcon from '@material-ui/icons/Close'
+
 // @material-ui/icons
 import Email from '@material-ui/icons/Email'
 import People from '@material-ui/icons/People'
@@ -35,6 +41,20 @@ const LoginPage = props => {
   })
   const [isLogin, setIsLogin] = useState(true)
   const [image, setImage] = useState(imageLogin)
+  const [open, setOpen] = useState(false)
+  const [snack, setSnack] = useState({ message: '', open: false })
+
+  function handleClick(message) {
+    setSnack({ message: message, open: true })
+  }
+
+  function handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpen(false)
+  }
 
   const handleChange = value => event => {
     setUser({
@@ -49,12 +69,18 @@ const LoginPage = props => {
         email: user.email,
         password: user.password,
       }
-      return AuthService.login(userLogin).then(user => {
-        const { from } = props.location.state || {
-          from: { pathname: '/' },
-        }
-        props.history.push(from)
-      })
+      return AuthService.login(userLogin)
+        .then(user => {
+          console.log('user', user)
+          const { from } = props.location.state || {
+            from: { pathname: '/' },
+          }
+          props.history.push(from)
+        })
+        .catch(function(error) {
+          console.log(error)
+          handleClick(error.message)
+        })
     } else {
       return UserAPI.createUser(user).then(user => {
         setIsLogin(true)
@@ -183,6 +209,34 @@ const LoginPage = props => {
           </GridContainer>
         </div>
       </div>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={snack.open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        ContentProps={{
+          'aria-describedby': 'message-id',
+        }}
+        message={
+          <div className={classes.error}>
+            <ErrorIcon /> <span id="message-id">{snack.message}</span>
+          </div>
+        }
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            className={classes.close}
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </IconButton>,
+        ]}
+      />
     </div>
   )
 }

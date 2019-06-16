@@ -10,7 +10,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
-
+import Fade from '@material-ui/core/Fade'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 
 const ListItemNew = props => {
@@ -22,6 +23,7 @@ const ListItemNew = props => {
     type,
     items,
     styledScroll,
+    loading,
     ...rest
   } = props
   const [selectedIndex, setSelectedIndex] = useState(1)
@@ -139,6 +141,27 @@ const ListItemNew = props => {
 
   return (
     <div style={styledScroll}>
+      {loading && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            height: '100px',
+            padding: '30px',
+          }}
+        >
+          <Fade
+            in={loading}
+            style={{
+              transitionDelay: loading ? '0ms' : '0ms',
+            }}
+            unmountOnExit
+          >
+            <CircularProgress />
+          </Fade>
+        </div>
+      )}
       <List component="nav" aria-label="Main mailbox folders">
         {chooseType()}
       </List>
@@ -148,12 +171,15 @@ const ListItemNew = props => {
 
 ListItemNew.propTypes = {
   isLesson: PropTypes.bool,
+  loading: PropTypes.bool,
+
   type: PropTypes.string,
   styledScroll: PropTypes.object,
 }
 
 ListItemNew.defaultProps = {
   isLesson: false,
+  loading: false,
   type: '',
   styledScroll: { maxHeight: '600px', overflow: 'auto' },
 }
