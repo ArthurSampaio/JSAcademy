@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import DraftsIcon from '@material-ui/icons/Drafts'
 import SendIcon from '@material-ui/icons/Send'
+import Divider from '@material-ui/core/Divider'
 
 const StyledMenu = withStyles({
   paper: {
@@ -93,6 +94,16 @@ const AuthMenu = props => {
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary="Logout" />
+        </StyledMenuItem>
+        <Divider />
+        <StyledMenuItem
+          href="https://github.com/ArthurSampaio/JSAcademy"
+          target="_blank"
+        >
+          <ListItemIcon>
+            <i className={classes.socialIcons + ' fab fa-github'} />
+          </ListItemIcon>
+          <ListItemText primary="Starred us on Github" />
         </StyledMenuItem>
       </StyledMenu>
     </div>
