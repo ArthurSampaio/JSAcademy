@@ -18,7 +18,7 @@ import UserAPI from './../../services/UserAPI'
 import { AuthService } from './../../services/Auth'
 
 //TODO: adicionar casos quando for um anonymous id
-const MyAnswers = props => {
+const MyLessons = props => {
   const { classes, ...rest } = props
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(false)
@@ -98,4 +98,4 @@ const MyAnswers = props => {
   )
 }
 
-export default withStyles(metricLessonStyle)(MyAnswers)
+export default withStyles(metricLessonStyle)(MyLessons)
