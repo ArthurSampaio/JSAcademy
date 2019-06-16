@@ -20,8 +20,6 @@ import AceEditor from 'react-ace'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 
-import LessonAPI from '../../services/LessonAPI'
-
 import profilePageStyle from 'assets/jss/material-kit-react/views/profilePage.jsx'
 
 const ProfilePage = props => {
