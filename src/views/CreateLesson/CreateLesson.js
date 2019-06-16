@@ -9,6 +9,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
+import FileCopyIcon from '@material-ui/icons/FileCopy'
 
 import LabelIcon from '@material-ui/icons/Label'
 import NoteAddIcon from '@material-ui/icons/NoteAdd'
@@ -32,6 +33,7 @@ import Button from 'components/CustomButtons/Button.jsx'
 import Checkbox from '@material-ui/core/Checkbox'
 import CommentIcon from '@material-ui/icons/Comment'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import TextField from '@material-ui/core/TextField'
 
 // core components
 import Header from 'components/Header/Header.jsx'
@@ -61,6 +63,7 @@ import LessonAPI from './../../services/LessonAPI'
 
 const CreateLesson = props => {
   const { classes, ...rest } = props
+  console.log('propaaaas', props)
 
   const [values, setValues] = useState({
     name: '',
@@ -72,6 +75,7 @@ const CreateLesson = props => {
   const [expanded, setExpanded] = useState(false)
   const [isInputError, setIsInputError] = useState(false)
   const [isCreated, setIsCreated] = useState(false)
+  const [savedLesson, setSavedLesson] = useState({})
 
   const handleChange = prop => event => {
     const input = event.target.value.trim()
@@ -80,6 +84,8 @@ const CreateLesson = props => {
   }
 
   useEffect(() => {
+    console.log('propaaaas', props)
+
     const fetchData = async () => {
       const res = await ExercisesAPI.getExercises()
       setRepository(res)
@@ -149,7 +155,8 @@ const CreateLesson = props => {
       exercises: exercisesId,
     }
     const savedLesson = await LessonAPI.save(objectToSave)
-    console.log('saved', savedLesson)
+    setSavedLesson(savedLesson)
+    setIsCreated(true)
   }
 
   const renderAddMoreExercises = () => {
@@ -167,7 +174,7 @@ const CreateLesson = props => {
               <Fragment>
                 <Typography
                   component="span"
-                  variant="body"
+                  variant="body1"
                   className={classes.inline}
                   color="textPrimary"
                 >
@@ -282,7 +289,6 @@ const CreateLesson = props => {
           <Dialog
             classes={{
               root: classes.center,
-              paper: classes.modal,
             }}
             open={isOpen}
             onClose={handleClose}
@@ -350,6 +356,40 @@ const CreateLesson = props => {
     )
   }
 
+  const renderClipToBoard = () => {
+    return (
+      <div className={classes.clipboard}>
+        <TextField
+          id="outlined-full-width"
+          label="URL"
+          placeholder="Placeholder"
+          helperText="Compartilhe este link para sua lição ser acessível à todos"
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Tooltip title="Copiar Link">
+                  <Fab
+                    color="primary"
+                    aria-label="Add"
+                    className={classes.clipboardButton}
+                  >
+                    <FileCopyIcon />
+                  </Fab>
+                </Tooltip>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
+    )
+  }
+
   return (
     <div>
       <Header
@@ -368,7 +408,7 @@ const CreateLesson = props => {
           <div className={classes.container}>
             {renderHead()}
             <div className={classNames(classes.root, classes.mainRaised)}>
-              {renderFormToCreateLesson()}
+              {renderClipToBoard()}
             </div>
           </div>
         </div>

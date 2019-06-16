@@ -3,7 +3,6 @@ import modalStyle from 'assets/jss/material-kit-react/modalStyle.jsx'
 import javascriptStyles from 'assets/jss/material-kit-react/views/componentsSections/javascriptStyles.jsx'
 import imagesStyle from 'assets/jss/material-kit-react/imagesStyles.jsx'
 const createLessonStyle = {
-  ...javascriptStyles,
   container,
   profile: {
     textAlign: 'center',
@@ -20,7 +19,6 @@ const createLessonStyle = {
     color: '#999',
     textAlign: 'center !important',
   },
-
   name: {
     marginTop: '-80px',
   },
@@ -114,6 +112,14 @@ const createLessonStyle = {
   },
   listItemModal: {
     width: '100%',
+  },
+  ...modalStyle,
+  clipboard: {
+    margin: '30px',
+  },
+  clipboardButton: {
+    float: 'right',
+    padding: '5px',
   },
 }
 
