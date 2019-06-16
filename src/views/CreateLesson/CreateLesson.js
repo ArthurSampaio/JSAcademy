@@ -54,6 +54,7 @@ import AceEditor from 'react-ace'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import Divider from '@material-ui/core/Divider'
 
@@ -76,6 +77,7 @@ const CreateLesson = props => {
   const [isInputError, setIsInputError] = useState(false)
   const [isCreated, setIsCreated] = useState(false)
   const [savedLesson, setSavedLesson] = useState({})
+  const [isCopied, setIsCopied] = useState(false)
 
   const handleChange = prop => event => {
     const input = event.target.value.trim()
@@ -84,7 +86,7 @@ const CreateLesson = props => {
   }
 
   useEffect(() => {
-    console.log('propaaaas', props)
+    console.log('propaaaas', window.location)
 
     const fetchData = async () => {
       const res = await ExercisesAPI.getExercises()
@@ -362,7 +364,7 @@ const CreateLesson = props => {
         <TextField
           id="outlined-full-width"
           label="URL"
-          placeholder="Placeholder"
+          value={savedLesson._id}
           helperText="Compartilhe este link para sua lição ser acessível à todos"
           fullWidth
           margin="normal"
@@ -374,13 +376,18 @@ const CreateLesson = props => {
             endAdornment: (
               <InputAdornment position="end">
                 <Tooltip title="Copiar Link">
-                  <Fab
-                    color="primary"
-                    aria-label="Add"
-                    className={classes.clipboardButton}
+                  <CopyToClipboard
+                    text={savedLesson._id}
+                    onCopy={() => setIsCopied(true)}
                   >
-                    <FileCopyIcon />
-                  </Fab>
+                    <Fab
+                      color="primary"
+                      aria-label="Add"
+                      className={classes.clipboardButton}
+                    >
+                      <FileCopyIcon />
+                    </Fab>
+                  </CopyToClipboard>
                 </Tooltip>
               </InputAdornment>
             ),
@@ -408,7 +415,7 @@ const CreateLesson = props => {
           <div className={classes.container}>
             {renderHead()}
             <div className={classNames(classes.root, classes.mainRaised)}>
-              {renderClipToBoard()}
+              {isCreated ? renderClipToBoard() : renderFormToCreateLesson()}
             </div>
           </div>
         </div>
