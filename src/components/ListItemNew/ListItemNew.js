@@ -17,7 +17,16 @@ import DraftsIcon from '@material-ui/icons/Drafts'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 
 const ListItemNew = props => {
-  const { classes, answered, lessons, isLesson, type, items, ...rest } = props
+  const {
+    classes,
+    answered,
+    lessons,
+    isLesson,
+    type,
+    items,
+    styledScroll,
+    ...rest
+  } = props
   const [selectedIndex, setSelectedIndex] = useState(1)
 
   function handleListItemClick(event, index) {
@@ -140,7 +149,7 @@ const ListItemNew = props => {
   }
 
   return (
-    <div className={classes.root}>
+    <div style={styledScroll}>
       <List component="nav" aria-label="Main mailbox folders">
         {chooseType()}
       </List>
@@ -151,11 +160,13 @@ const ListItemNew = props => {
 ListItemNew.propTypes = {
   isLesson: PropTypes.bool,
   type: PropTypes.string,
+  styledScroll: PropTypes.object,
 }
 
 ListItemNew.defaultProps = {
   isLesson: false,
   type: '',
+  styledScroll: { maxHeight: '600px', overflow: 'auto' },
 }
 
 export default withStyles(metricLessonStyle)(ListItemNew)

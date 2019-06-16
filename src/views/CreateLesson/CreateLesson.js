@@ -57,8 +57,8 @@ import Divider from '@material-ui/core/Divider'
 
 import createLessonStyle from 'assets/jss/material-kit-react/views/createLessonStyle.jsx'
 import ExercisesAPI from './../../services/ExercisesAPI'
+import LessonAPI from './../../services/LessonAPI'
 
-//TODO: adicionar casos quando for um anonymous id
 const CreateLesson = props => {
   const { classes, ...rest } = props
 
@@ -70,9 +70,13 @@ const CreateLesson = props => {
   const [isOpen, setIsOpen] = useState(false)
   const [checked, setChecked] = useState([])
   const [expanded, setExpanded] = useState(false)
+  const [isInputError, setIsInputError] = useState(false)
+  const [isCreated, setIsCreated] = useState(false)
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
+    const input = event.target.value.trim()
+    setIsInputError(input ? false : true)
+    setValues({ ...values, [prop]: input })
   }
 
   useEffect(() => {
@@ -107,33 +111,7 @@ const CreateLesson = props => {
     setIsOpen(true)
   }
 
-  const exerciseEmpty = () => {
-    console.log(exercises.length === 0)
-    return exercises.length === 0
-  }
-
-  const getAnsweredLessons = () => {
-    // const answeredLesson =
-    //   user.answeredLesson &&
-    //   user.answeredLesson.map(item => {
-    //     return {
-    //       ...item,
-    //       exercisesMetrics: item.exercisesMetrics.map(el => {
-    //         return {
-    //           ...el,
-    //           exercise: item.lesson.exercises.filter(
-    //             ex => ex._id === el.exercise
-    //           )[0],
-    //         }
-    //       }),
-    //     }
-    //   })
-
-    return []
-  }
-
   const addExercisesToLessonFromRepository = () => {
-    console.log('>>>>>>', checked)
     setExercises(checked)
     handleClose()
   }
@@ -164,6 +142,16 @@ const CreateLesson = props => {
     )
   }
 
+  const saveLesson = async () => {
+    const exercisesId = exercises.map(i => i._id)
+    const objectToSave = {
+      name: values['name'],
+      exercises: exercisesId,
+    }
+    const savedLesson = await LessonAPI.save(objectToSave)
+    console.log('saved', savedLesson)
+  }
+
   const renderAddMoreExercises = () => {
     return (
       <List component="nav">
@@ -192,9 +180,14 @@ const CreateLesson = props => {
               </Fragment>
             }
           />
-          {exercises.length === 0 && (
+          {exercises.length !== 0 && (
             <ListItemSecondaryAction>
-              <Button color="danger" simple>
+              <Button
+                color="primary"
+                simple
+                onClick={saveLesson}
+                disabled={isInputError}
+              >
                 Salvar
               </Button>
             </ListItemSecondaryAction>
@@ -334,6 +327,29 @@ const CreateLesson = props => {
     )
   }
 
+  const renderFormToCreateLesson = () => {
+    return (
+      <div className={classes.form}>
+        <FormControl fullWidth>
+          <InputLabel htmlFor="adornment-amount" error={isInputError}>
+            Nome da Lição
+          </InputLabel>
+          <Input
+            id="adornment-amount"
+            value={values.amount}
+            onChange={handleChange('name')}
+            startAdornment={
+              <InputAdornment position="start">
+                <LabelIcon />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        {renderExercises()}
+      </div>
+    )
+  }
+
   return (
     <div>
       <Header
@@ -352,24 +368,7 @@ const CreateLesson = props => {
           <div className={classes.container}>
             {renderHead()}
             <div className={classNames(classes.root, classes.mainRaised)}>
-              <div className={classes.form}>
-                <FormControl fullWidth>
-                  <InputLabel htmlFor="adornment-amount">
-                    Nome da Lição
-                  </InputLabel>
-                  <Input
-                    id="adornment-amount"
-                    value={values.amount}
-                    onChange={handleChange('name')}
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <LabelIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-                {renderExercises()}
-              </div>
+              {renderFormToCreateLesson()}
             </div>
           </div>
         </div>
