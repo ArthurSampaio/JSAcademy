@@ -64,7 +64,6 @@ import LessonAPI from './../../services/LessonAPI'
 
 const CreateLesson = props => {
   const { classes, ...rest } = props
-  console.log('propaaaas', props)
 
   const [values, setValues] = useState({
     name: '',
@@ -86,8 +85,6 @@ const CreateLesson = props => {
   }
 
   useEffect(() => {
-    console.log('propaaaas', window.location)
-
     const fetchData = async () => {
       const res = await ExercisesAPI.getExercises()
       setRepository(res)
@@ -343,6 +340,7 @@ const CreateLesson = props => {
             Nome da Lição
           </InputLabel>
           <Input
+            autoFocus
             id="adornment-amount"
             value={values.amount}
             onChange={handleChange('name')}
@@ -359,12 +357,15 @@ const CreateLesson = props => {
   }
 
   const renderClipToBoard = () => {
+    console.log('window', window.location)
+
+    const url = `${window.location.origin}/skill/${savedLesson._id}`
     return (
       <div className={classes.clipboard}>
         <TextField
           id="outlined-full-width"
           label="URL"
-          value={savedLesson._id}
+          value={url}
           helperText="Compartilhe este link para sua lição ser acessível à todos"
           fullWidth
           margin="normal"
@@ -376,10 +377,7 @@ const CreateLesson = props => {
             endAdornment: (
               <InputAdornment position="end">
                 <Tooltip title="Copiar Link">
-                  <CopyToClipboard
-                    text={savedLesson._id}
-                    onCopy={() => setIsCopied(true)}
-                  >
+                  <CopyToClipboard text={url} onCopy={() => setIsCopied(true)}>
                     <Fab
                       color="primary"
                       aria-label="Add"
