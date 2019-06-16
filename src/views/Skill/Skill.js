@@ -21,6 +21,7 @@ import HeaderProgress from 'components/Header/HeaderProgress.jsx'
 import LessonAPI from '../../services/LessonAPI'
 
 import skillStyle from 'assets/jss/material-kit-react/views/skill.jsx'
+import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 
 const Skill = props => {
   const { classes, ...rest } = props
@@ -44,7 +45,6 @@ const Skill = props => {
       setLesson(res)
       nextTask(res)
     }
-    console.log('l', lesson)
     !lesson.exercises ? fetchData() : nextTask(lesson)
   }, [order])
 
@@ -55,7 +55,6 @@ const Skill = props => {
 
   function nextExercise() {
     const newOrder = order + 1 < lesson.exercises.length ? order + 1 : order
-    console.log('>>>>>>>', metrics)
     setOrder(newOrder)
   }
 
@@ -109,7 +108,7 @@ const Skill = props => {
   function sendLesson() {
     const metric = getLessonMetrics()
     LessonAPI.sendAnswer(metric).then(res => {
-      console.log(res)
+      console.log(res) //todo: do something with this action
     })
   }
 
@@ -123,47 +122,46 @@ const Skill = props => {
         {...rest}
       />
 
-      <div className={classNames(classes.main, classes.mainRaised)}>
-        {answers !== 100 ? (
-          <div>
-            <div className={classes.container}>
-              <div className={classes.sections}>
-                <div className={classes.container}>
-                  <TerminalJS
-                    task={task}
-                    onRun={handleChange}
-                    onClear={onClear}
-                    showButtonTest={runned}
-                    accept={accept}
-                  />
-                </div>
+      <div className={classNames(classes.main)}>
+        <div className={classNames(classes.root, classes.mainRaised)}>
+          {/* <ListItemNew answered={getAnsweredLessons()} {...props} /> */}
+          {answers !== 100 ? (
+            <div>
+              <div>
+                <TerminalJS
+                  task={task}
+                  onRun={handleChange}
+                  onClear={onClear}
+                  showButtonTest={runned}
+                  accept={accept}
+                />
               </div>
-            </div>
 
-            <SnackNavigation
-              accept={accept}
-              runned={runned}
-              previousExercise={previousExercise}
-              nextExercise={nextExercise}
-              linearValue={answers}
-            />
-          </div>
-        ) : (
-          <div>
-            <Parallax filter image={require('assets/img/bg-finished.png')}>
-              <div className={classes.container}>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <Button color="warning" size="lg" onClick={sendLesson}>
-                      <i className="fas fa-play" />
-                      Ir para o menu
-                    </Button>
-                  </GridItem>
-                </GridContainer>
-              </div>
-            </Parallax>
-          </div>
-        )}
+              <SnackNavigation
+                accept={accept}
+                runned={runned}
+                previousExercise={previousExercise}
+                nextExercise={nextExercise}
+                linearValue={answers}
+              />
+            </div>
+          ) : (
+            <div>
+              <Parallax filter image={require('assets/img/bg-finished.png')}>
+                <div className={classes.container}>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <Button color="warning" size="lg" onClick={sendLesson}>
+                        <i className="fas fa-play" />
+                        Ir para o menu
+                      </Button>
+                    </GridItem>
+                  </GridContainer>
+                </div>
+              </Parallax>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
