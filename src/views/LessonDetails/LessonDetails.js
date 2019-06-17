@@ -6,9 +6,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 // @material-ui/icons
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 // @material-ui/icons
-import Face from '@material-ui/icons/Face'
-import Chat from '@material-ui/icons/Chat'
-import Build from '@material-ui/icons/Build'
+
 // core components
 
 // core components
@@ -19,7 +17,6 @@ import ListItemNew from 'components/ListItemNew/ListItemNew'
 import List from '@material-ui/core/List'
 
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Typography from '@material-ui/core/Typography'
@@ -32,7 +29,7 @@ import CustomTabs from 'components/CustomTabs/CustomTabs.jsx'
 import AceEditor from 'react-ace'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
-import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
+import lessonDetailsStyle from 'assets/jss/material-kit-react/views/lessonDetailsStyle.jsx'
 
 import LessonAPI from './../../services/LessonAPI'
 //TODO: adicionar casos quando for um anonymous id
@@ -67,16 +64,39 @@ const LessonDetails = props => {
   }
 
   const loadMetrics = async () => {
+    setLoading(true)
     const metrics = await getMetrics()
+    setMetrics(
+      metrics.map(item => {
+        return {
+          ...item,
+          lesson: lesson,
+        }
+      })
+    )
     console.log('metrics', metrics)
+    setLoading(false)
   }
 
   const renderHead = () => {
     return (
-      <div className={classes.title}>
-        <h2>{lesson && lesson.name}</h2>
-        <Divider />
-      </div>
+      lesson && (
+        <div className={classes.title}>
+          <h2>{lesson.name}</h2>
+          <Divider />
+          <div className={classes.subtitle}>
+            <small>{`${
+              lesson.viewed > 0
+                ? `${lesson.viewed} pessoas viram esta lição`
+                : 'Ninguém viu esta lição'
+            } | ${
+              lesson.answered > 0
+                ? `${lesson.answered} pessoas responderam esta lição`
+                : ''
+            } `}</small>
+          </div>
+        </div>
+      )
     )
   }
 
@@ -127,15 +147,6 @@ const LessonDetails = props => {
                 value={exercise.appraisedFunction}
                 readOnly
               />
-              <p>
-                I think that’s a responsibility that I have, to push
-                possibilities, to show people, this is the level that things
-                could be at. So when you get something that has the name Kanye
-                West on it, it’s supposed to be pushing the furthest
-                possibilities. I will be the leader of a company that ends up
-                being worth billions of dollars, because I got the answers. I
-                understand culture. I am the nucleus.
-              </p>
             </Fragment>
           ),
         }
@@ -172,7 +183,12 @@ const LessonDetails = props => {
               {metrics.length === 0 ? (
                 renderMetricsEmpty()
               ) : (
-                <ListItemNew answered={[]} loading={loading} {...props} />
+                <ListItemNew
+                  items={metrics}
+                  loading={loading}
+                  type={'metrics'}
+                  {...props}
+                />
               )}
             </div>
           </div>
@@ -183,4 +199,4 @@ const LessonDetails = props => {
   )
 }
 
-export default withStyles(metricLessonStyle)(LessonDetails)
+export default withStyles(lessonDetailsStyle)(LessonDetails)

@@ -30,7 +30,7 @@ const MetricLesson = props => {
   } = props
   const [expanded, setExpanded] = useState(false)
   const [metrics, setMetrics] = useState({})
-  const [lesson, setLesson] = useState(state)
+  const [lesson, setLesson] = useState(state || {})
 
   useEffect(() => {
     const updateStates = res => {
@@ -42,7 +42,7 @@ const MetricLesson = props => {
       const res = await getMetrics()
       updateStates(res)
     }
-    lesson.createdAt ? updateStates(lesson) : fetchData()
+    lesson && lesson.createdAt ? updateStates(lesson) : fetchData()
   }, [])
 
   const getMetrics = () => {
@@ -79,7 +79,8 @@ const MetricLesson = props => {
     )
   }
 
-  const renderSinglePanel = metric => {
+  const renderSinglePanel = (metric, index) => {
+    console.log(metric)
     return (
       <ExpansionPanel
         expanded={expanded === metric._id}
@@ -95,7 +96,7 @@ const MetricLesson = props => {
             <Typography
               className={classNames(classes.heading, classes.panelTitle)}
             >
-              {metric.exercise.title}
+              {metric.exercise.title || lesson.exercises[index].title}
             </Typography>
           </div>
           <div className={classes.column}>
@@ -118,7 +119,9 @@ const MetricLesson = props => {
           </div>
           <div className={classNames(classes.column, classes.infoContent)}>
             <Typography className={classes.heading}>
-              Descrição: {metric.exercise.description}
+              Descrição:{' '}
+              {metric.exercise.description ||
+                lesson.exercises[index].description}
             </Typography>
           </div>
         </ExpansionPanelDetails>
@@ -128,10 +131,11 @@ const MetricLesson = props => {
 
   const renderPanels = () => {
     const exercisesMetrics = metrics.exercisesMetrics
+    console.log('metrics', metrics)
     return (
       exercisesMetrics &&
-      exercisesMetrics.map(item => (
-        <Fragment key={item._id}>{renderSinglePanel(item)}</Fragment>
+      exercisesMetrics.map((item, index) => (
+        <Fragment key={item._id}>{renderSinglePanel(item, index)}</Fragment>
       ))
     )
   }
