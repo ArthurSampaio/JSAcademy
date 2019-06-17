@@ -51,7 +51,7 @@ const ListItemNew = props => {
           <ListItem
             button
             selected={selectedIndex === item._id}
-            onClick={event => createLocation(item, '/my-answers', item._id)}
+            onClick={event => createLocation(item, '/answers', item._id)}
           >
             <ListItemAvatar>
               <Avatar>
@@ -244,7 +244,7 @@ const ListItemNew = props => {
           <ListItem
             button
             selected={selectedIndex === item._id}
-            onClick={event => createLocation(item, '/my-answers', item._id)}
+            onClick={event => createLocation(item, '/answers', item._id)}
           >
             <ListItemAvatar>{renderOwnerAvatar(item)}</ListItemAvatar>
             {renderListItemOwner(item)}

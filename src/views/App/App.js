@@ -59,7 +59,7 @@ const App = props => {
         <Route path="/skill/:lessonId" component={Skill} />
         <Route path="/what-to-do-today" component={RegisterPage} />
         <Route path="/my-answers/user" component={MyAnswers} />
-        <Route path="/my-answers/:metricId" component={MetricLesson} />
+        <Route path="/answers/:metricId" component={MetricLesson} />
         <Route path="/lesson-details/:lessonId" component={LessonDetails} />
         <Route path="/choose-lesson" component={ChooseLesson} />
         <PrivateRoute path="/create-lesson" component={CreateLesson} />
