@@ -13,6 +13,8 @@ import RegisterPage from 'views/RegisterPage/RegisterPage'
 import PrivateRoute from 'components/PrivateRouter/PrivateRouter'
 import ChooseLesson from 'views/ChooseLesson/ChooseLesson'
 import CreateLesson from 'views/CreateLesson/CreateLesson'
+import LessonDetails from 'views/LessonDetails/LessonDetails'
+
 import MyLessons from 'views/MyLessons/MyLessons'
 import { createBrowserHistory } from 'history'
 import { AuthService } from './../../services/Auth'
@@ -58,6 +60,7 @@ const App = props => {
         <Route path="/what-to-do-today" component={RegisterPage} />
         <Route path="/my-answers/user" component={MyAnswers} />
         <Route path="/my-answers/:metricId" component={MetricLesson} />
+        <Route path="/lesson-details/:lessonId" component={LessonDetails} />
         <Route path="/choose-lesson" component={ChooseLesson} />
         <PrivateRoute path="/create-lesson" component={CreateLesson} />
         <PrivateRoute path="/my-lessons" component={MyLessons} />

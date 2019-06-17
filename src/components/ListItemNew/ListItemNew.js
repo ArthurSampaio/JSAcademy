@@ -133,16 +133,11 @@ const ListItemNew = props => {
   }
 
   function renderMyLessons() {
-    console.log('aaaaaa', items)
-
     return (
       items &&
       items.map(item => (
         <Fragment key={item._id}>
-          <ListItem
-            button
-            // onClick={event => createLocation(item, '/my-answers', item._id)}
-          >
+          <ListItem button>
             <ListItemAvatar>
               <Tooltip
                 title={` ${
@@ -167,7 +162,13 @@ const ListItemNew = props => {
             <ListItemSecondaryAction>
               <Tooltip title="Copiar link">{renderClipBoard(item)}</Tooltip>
               <Tooltip title="Ver detalhes">
-                <IconButton edge="end" aria-label="Delete">
+                <IconButton
+                  edge="end"
+                  aria-label="Delete"
+                  onClick={event =>
+                    createLocation(item, '/lesson-details', item._id)
+                  }
+                >
                   <SendIcon />
                 </IconButton>
               </Tooltip>

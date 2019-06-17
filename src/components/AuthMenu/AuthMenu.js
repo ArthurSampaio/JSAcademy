@@ -86,6 +86,12 @@ const AuthMenu = props => {
           </ListItemIcon>
           <ListItemText primary="Minhas Respostas" />
         </StyledMenuItem>
+        <StyledMenuItem component={Link} to="/my-lessons">
+          <ListItemIcon>
+            <DraftsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Minhas Lições" />
+        </StyledMenuItem>
         <StyledMenuItem onClick={logout} component={Link} to="/">
           <ListItemIcon>
             <InboxIcon />
