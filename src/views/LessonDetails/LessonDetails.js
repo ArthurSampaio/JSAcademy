@@ -42,6 +42,7 @@ const LessonDetails = props => {
   const [lesson, setLesson] = useState(lesson)
   const [loading, setLoading] = useState(false)
   const [metrics, setMetrics] = useState([])
+  const [runned, setRunned] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,6 +76,7 @@ const LessonDetails = props => {
       })
     )
     console.log('metrics', metrics)
+    setRunned(true)
     setLoading(false)
   }
 
@@ -119,7 +121,9 @@ const LessonDetails = props => {
                   className={classes.inline}
                   color="textPrimary"
                 >
-                  Clique aqui para carregar as métricas desta lição
+                  {runned
+                    ? `Ninguém respondeu esta lição ainda`
+                    : `Clique aqui para carregar as métricas desta lição`}
                 </Typography>
               </Fragment>
             }
@@ -168,29 +172,28 @@ const LessonDetails = props => {
         {...rest}
       />
       <div className={classNames(classes.main)}>
-        <div>
-          <div className={classes.container}>
-            {renderHead()}
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={12}>
-                <h3>
-                  <small>Visão Geral da Lição</small>
-                </h3>
-                <CustomTabs headerColor="success" tabs={createTabs() || []} />
-              </GridItem>
-            </GridContainer>
-            <div className={classNames(classes.root, classes.mainRaised)}>
-              {metrics.length === 0 ? (
-                renderMetricsEmpty()
-              ) : (
-                <ListItemNew
-                  items={metrics}
-                  loading={loading}
-                  type={'metrics'}
-                  {...props}
-                />
-              )}
-            </div>
+        <div className={classes.container}>
+          {renderHead()}
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12}>
+              <h3>
+                <small>Visão Geral da Lição</small>
+              </h3>
+              <CustomTabs headerColor="success" tabs={createTabs() || []} />
+            </GridItem>
+          </GridContainer>
+          <div className={classNames(classes.root, classes.mainRaised)}>
+            {metrics.length === 0 ? (
+              renderMetricsEmpty()
+            ) : (
+              <ListItemNew
+                items={metrics}
+                loading={loading}
+                type={'metrics'}
+                styledScroll={{ maxHeight: '200px', overflow: 'auto' }}
+                {...props}
+              />
+            )}
           </div>
         </div>
       </div>
