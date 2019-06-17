@@ -1,6 +1,9 @@
 import React, { useState, Fragment } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -13,7 +16,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Fade from '@material-ui/core/Fade'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
-
+import FileCopyIcon from '@material-ui/icons/FileCopy'
+import UtilsService from './../../services/UtilsService'
 const ListItemNew = props => {
   const {
     classes,
@@ -47,7 +51,7 @@ const ListItemNew = props => {
           <ListItem
             button
             selected={selectedIndex === item._id}
-            onClick={event => createLocation(item, '/my-answers', item._id)}
+            onClick={event => createLocation(item, '/answers', item._id)}
           >
             <ListItemAvatar>
               <Avatar>
@@ -128,12 +132,143 @@ const ListItemNew = props => {
     )
   }
 
+  function renderClipBoard(item) {
+    const url = `${window.location.origin}/skill/${item._id}`
+    return (
+      <CopyToClipboard text={url} onCopy={() => console.log('copiou')}>
+        <IconButton edge="end" aria-label="Copy">
+          <FileCopyIcon />
+        </IconButton>
+      </CopyToClipboard>
+    )
+  }
+
+  function renderMyLessons() {
+    return (
+      items &&
+      items.map(item => (
+        <Fragment key={item._id}>
+          <ListItem
+            button
+            onClick={event => createLocation(item, '/lesson-details', item._id)}
+          >
+            <ListItemAvatar>
+              <Tooltip
+                title={` ${
+                  item.answered > 0
+                    ? `${item.answered} pessoas responderam`
+                    : 'Ninguém respondeu'
+                } esta lição`}
+              >
+                <Avatar
+                  style={{ backgroundColor: '#7AC70C', color: '#ffffff' }}
+                >
+                  {item.answered}
+                </Avatar>
+              </Tooltip>
+            </ListItemAvatar>
+            <ListItemText
+              primary={item.name}
+              secondary={`Atualizada em ${new Date(
+                item.updatedAt
+              ).toLocaleDateString()} | ${item.exercises.length} exercícios`}
+            />
+            <ListItemSecondaryAction>
+              <Tooltip title="Copiar link">{renderClipBoard(item)}</Tooltip>
+              <Tooltip title="Ver detalhes">
+                <IconButton
+                  edge="end"
+                  aria-label="Delete"
+                  onClick={event =>
+                    createLocation(item, '/lesson-details', item._id)
+                  }
+                >
+                  <SendIcon />
+                </IconButton>
+              </Tooltip>
+            </ListItemSecondaryAction>
+          </ListItem>
+        </Fragment>
+      ))
+    )
+  }
+
+  const renderOwnerAvatar = item => {
+    const { owner } = item
+
+    return owner ? (
+      <Avatar
+        alt="User login"
+        src={UtilsService.getCanvasAvatarFromEmail(owner.email)}
+        className={classes.socialIcons}
+      />
+    ) : (
+      <ListItemAvatar>
+        <Avatar>
+          <SendIcon />
+        </Avatar>
+      </ListItemAvatar>
+    )
+  }
+
+  const renderListItemOwner = item => {
+    const { owner } = item
+    console.log('item', item)
+    return owner ? (
+      <ListItemText
+        primary={owner.name}
+        secondary={`Respondida em ${new Date(
+          item.updatedAt
+        ).toLocaleDateString()} | ${
+          item.exercisesMetrics.length
+        } exercícios | Levou ${item.totalTime / 1000} segundos `}
+      />
+    ) : (
+      <ListItemText
+        primary={`Usuário anônimo ${item.userId || ''}`}
+        secondary={`Respondida em ${new Date(
+          item.updatedAt
+        ).toLocaleDateString()} | ${
+          item.exercisesMetrics.length
+        } exercícios | Levou ${item.totalTime / 1000} segundos `}
+      />
+    )
+  }
+
+  const renderMetrics = () => {
+    console.log('aaa', items)
+    return (
+      items &&
+      items.map(item => (
+        <Fragment key={item._id}>
+          <ListItem
+            button
+            selected={selectedIndex === item._id}
+            onClick={event => createLocation(item, '/answers', item._id)}
+          >
+            <ListItemAvatar>{renderOwnerAvatar(item)}</ListItemAvatar>
+            {renderListItemOwner(item)}
+            <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="Delete">
+                <SendIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        </Fragment>
+      ))
+    )
+  }
+
   function chooseType() {
     switch (type) {
       case 'lesson':
         return renderLessons()
       case 'exercise':
         return renderExercises()
+      case 'my-lessons':
+        return renderMyLessons()
+      case 'metrics':
+        return renderMetrics()
       default:
         return renderItems()
     }

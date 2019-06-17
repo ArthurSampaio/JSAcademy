@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
 // @material-ui/icons
 
 // core components
@@ -10,60 +12,55 @@ import Header from 'components/Header/Header.jsx'
 import Footer from 'components/Footer/Footer.jsx'
 import HeaderLinks from 'components/Header/HeaderLinks.jsx'
 import ListItemNew from 'components/ListItemNew/ListItemNew'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import Divider from '@material-ui/core/Divider'
 
-import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
-import UserAPI from './../../services/UserAPI'
-import { AuthService } from './../../services/Auth'
+import myLessonsStyle from 'assets/jss/material-kit-react/views/myLessonsStyle.jsx'
+import LessonAPI from './../../services/LessonAPI'
+import { Link } from 'react-router-dom'
 
 //TODO: adicionar casos quando for um anonymous id
 const MyLessons = props => {
   const { classes, ...rest } = props
-  const [user, setUser] = useState({})
   const [loading, setLoading] = useState(false)
+  const [lessons, setLessons] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const userId = AuthService.currentUserDecodeValue._id
-      const res = await UserAPI.getUser(userId)
-      setUser(res)
+      const resLessons = await getMyLessons()
+      setLessons(resLessons)
       setLoading(false)
     }
     fetchData()
   }, [])
 
+  const getMyLessons = async () => {
+    return await LessonAPI.myLessons()
+  }
+
   const renderHead = () => {
     return (
       <div className={classes.title}>
-        <h2>Minhas Respostas</h2>
+        <Tooltip title="Criar questão" style={{ backgroundColor: '#7AC70C' }}>
+          <Fab
+            color="inherit"
+            component={Link}
+            to="/create-lesson"
+            aria-label="Add"
+            className={classes.fab}
+          >
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+        <h2>Minhas Lições</h2>
         <Divider />
         <div className={classes.subtitle}>
           <small>{`Suas lições são mostradas aqui`}</small>
         </div>
       </div>
     )
-  }
-
-  const getAnsweredLessons = () => {
-    const answeredLesson =
-      user.answeredLesson &&
-      user.answeredLesson.map(item => {
-        return {
-          ...item,
-          exercisesMetrics: item.exercisesMetrics.map(el => {
-            return {
-              ...el,
-              exercise: item.lesson.exercises.filter(
-                ex => ex._id === el.exercise
-              )[0],
-            }
-          }),
-        }
-      })
-
-    return answeredLesson
   }
 
   return (
@@ -85,7 +82,8 @@ const MyLessons = props => {
             {renderHead()}
             <div className={classNames(classes.root, classes.mainRaised)}>
               <ListItemNew
-                answered={getAnsweredLessons()}
+                type={'my-lessons'}
+                items={lessons}
                 loading={loading}
                 {...props}
               />
@@ -98,4 +96,4 @@ const MyLessons = props => {
   )
 }
 
-export default withStyles(metricLessonStyle)(MyLessons)
+export default withStyles(myLessonsStyle)(MyLessons)

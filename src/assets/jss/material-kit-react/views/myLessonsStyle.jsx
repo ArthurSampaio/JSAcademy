@@ -1,7 +1,8 @@
 import { container, title } from 'assets/jss/material-kit-react.jsx'
-import modalStyle from 'assets/jss/material-kit-react/modalStyle.jsx'
+
 import imagesStyle from 'assets/jss/material-kit-react/imagesStyles.jsx'
-const createLessonStyle = {
+
+const myLessonsStyle = {
   container,
   profile: {
     textAlign: 'center',
@@ -34,6 +35,7 @@ const createLessonStyle = {
       '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
   },
   mainRaised: {
+    marginTop: '30px',
     borderRadius: '6px',
     boxShadow:
       '0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)',
@@ -66,6 +68,7 @@ const createLessonStyle = {
     fontWeight: '600',
     display: 'inline-block',
     position: 'relative',
+    marginBottom: '30px',
     width: '100%',
   },
   subtitle: {
@@ -95,43 +98,13 @@ const createLessonStyle = {
     padding: '0 0.5rem',
   },
   panelContent: {
-    margin: '10px 0',
+    margin: '20px 0',
   },
   fab: {
-    margin: '2%',
+    margin: '1%',
     float: 'right',
     overflow: 'auto',
   },
-  textField: {
-    flexBasis: 200,
-  },
-  form: {
-    margin: '15px',
-    padding: '20px',
-  },
-  listItemModal: {
-    width: '100%',
-  },
-  ...modalStyle,
-  clipboard: {
-    margin: '30px',
-  },
-  clipboardButton: {
-    float: 'right',
-    padding: '5px',
-  },
-  headTitle: {
-    fontSize: '2rem',
-    display: 'inline-block',
-    position: 'relative',
-    width: '100%',
-  },
-  margin10: {
-    margin: '10px',
-  },
-  marginTests: {
-    marginRight: '10px',
-  },
 }
 
-export default createLessonStyle
+export default myLessonsStyle

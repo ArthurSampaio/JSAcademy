@@ -11,6 +11,17 @@ const ExercisesAPI = {
       return res.data
     })
   },
+  create: function(exercise) {
+    return axios
+      .post('/api/exercise', exercise)
+      .then(res => {
+        return res.data
+      })
+      .catch(function(error) {
+        console.log(error)
+        throw new Error('Não foi possível adicionar o exercício')
+      })
+  },
 }
 
 export default ExercisesAPI

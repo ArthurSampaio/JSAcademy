@@ -31,6 +31,11 @@ const LessonAPI = {
       return res.data
     })
   },
+  myLessons: function() {
+    return axios(`/api/lesson/my`).then(res => {
+      return res.data
+    })
+  },
 }
 
 export default LessonAPI

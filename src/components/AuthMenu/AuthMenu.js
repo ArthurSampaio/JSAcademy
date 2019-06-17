@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import DraftsIcon from '@material-ui/icons/Drafts'
 import SendIcon from '@material-ui/icons/Send'
+import CastForEducationIcon from '@material-ui/icons/CastForEducation'
 import Divider from '@material-ui/core/Divider'
 
 const StyledMenu = withStyles({
@@ -79,6 +80,12 @@ const AuthMenu = props => {
             <SendIcon />
           </ListItemIcon>
           <ListItemText primary="Home" />
+        </StyledMenuItem>
+        <StyledMenuItem component={Link} to="/my-lessons">
+          <ListItemIcon>
+            <CastForEducationIcon />
+          </ListItemIcon>
+          <ListItemText primary="Minhas Lições" />
         </StyledMenuItem>
         <StyledMenuItem component={Link} to="/my-answers/user">
           <ListItemIcon>
