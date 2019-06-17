@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -128,12 +129,48 @@ const ListItemNew = props => {
     )
   }
 
+  function renderMyLessons() {
+    console.log('aaaaaa', items)
+    return (
+      items &&
+      items.map(item => (
+        <Fragment key={item._id}>
+          <ListItem
+            button
+            // onClick={event => createLocation(item, '/my-answers', item._id)}
+          >
+            <ListItemAvatar>
+              <Tooltip title="title">
+                <Avatar>
+                  <SendIcon />
+                </Avatar>
+              </Tooltip>
+            </ListItemAvatar>
+            <ListItemText
+              primary={item.name}
+              secondary={`Atualizada em ${new Date(
+                item.updatedAt
+              ).toLocaleDateString()} | ${item.exercises.length} exercícios`}
+            />
+            <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="Delete">
+                <SendIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        </Fragment>
+      ))
+    )
+  }
+
   function chooseType() {
     switch (type) {
       case 'lesson':
         return renderLessons()
       case 'exercise':
         return renderExercises()
+      case 'my-lessons':
+        return renderMyLessons()
       default:
         return renderItems()
     }

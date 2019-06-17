@@ -68,7 +68,7 @@ const CreateLesson = props => {
     name: '',
     title: '',
     description: '',
-    appraisedFunction: 'aaaaaaaaaa',
+    appraisedFunction: '',
     numberTests: 6,
   })
   const [repository, setRepository] = useState([])
