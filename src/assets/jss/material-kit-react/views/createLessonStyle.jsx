@@ -107,7 +107,7 @@ const createLessonStyle = {
   },
   form: {
     margin: '15px',
-    padding: '10px',
+    padding: '20px',
   },
   listItemModal: {
     width: '100%',

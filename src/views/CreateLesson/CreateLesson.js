@@ -12,6 +12,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy'
 
 import LabelIcon from '@material-ui/icons/Label'
 import NoteAddIcon from '@material-ui/icons/NoteAdd'
+import ErrorIcon from '@material-ui/icons/Error'
 
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
@@ -31,6 +32,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import CommentIcon from '@material-ui/icons/Comment'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import TextField from '@material-ui/core/TextField'
+import Snackbar from '@material-ui/core/Snackbar'
 
 // core components
 import Header from 'components/Header/Header.jsx'
@@ -83,6 +85,7 @@ const CreateLesson = props => {
     value: 0,
     array: [],
   })
+  const [snack, setSnack] = useState({ message: '', open: false })
 
   const [input, setInput] = useState(`function xpto (args) {
     
@@ -117,6 +120,10 @@ const CreateLesson = props => {
 
   const onChangeEditor = newValue => {
     setInput(newValue)
+  }
+
+  function handleSnack(message) {
+    setSnack({ message: message, open: true })
   }
 
   const handleToggle = value => () => {
@@ -155,7 +162,7 @@ const CreateLesson = props => {
     setIsCreated(true)
   }
 
-  const createExercise = () => {
+  const createExercise = async () => {
     const testsCases = []
     for (const t in tests) {
       testsCases.push(tests[t])
@@ -166,7 +173,19 @@ const CreateLesson = props => {
       appraisedFunction: input,
       testCases: testsCases,
     }
-    console.log('obj', exerciseObj)
+
+    return ExercisesAPI.create(exerciseObj)
+      .then(exerciseSaved => {
+        repository.push(exerciseSaved)
+        setRepository(repository)
+        exercises.push(exerciseSaved)
+        setExercises(exercises)
+        handleSnack('Exercício adicionado')
+        setIsNewQuestion(false)
+      })
+      .catch(error => {
+        handleSnack(error.message)
+      })
   }
 
   const renderHead = () => {
@@ -497,7 +516,8 @@ const CreateLesson = props => {
   }
 
   const handleUpdateList = e => {
-    const value = Number(e.target.value) <= 10 ? Number(e.target.value) : 10
+    const number = Number(e.target.value)
+    const value = number < 0 ? 0 : number <= 10 ? Number(e.target.value) : 10
     const newList = [...Array(value).keys()]
     const obj = {
       value: value,
@@ -576,8 +596,6 @@ const CreateLesson = props => {
   }
 
   const renderClipToBoard = () => {
-    console.log('window', window.location)
-
     const url = `${window.location.origin}/skill/${savedLesson._id}`
     return (
       <div className={classes.clipboard}>
@@ -640,6 +658,34 @@ const CreateLesson = props => {
       <Footer />
       {renderDialog()}
       {newExercise()}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={snack.open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        ContentProps={{
+          'aria-describedby': 'message-id',
+        }}
+        message={
+          <div className={classes.error}>
+            <ErrorIcon /> <span id="message-id">{snack.message}</span>
+          </div>
+        }
+        action={[
+          <IconButton
+            key="close"
+            aria-label="Close"
+            color="inherit"
+            className={classes.close}
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </IconButton>,
+        ]}
+      />
     </div>
   )
 }
