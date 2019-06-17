@@ -64,20 +64,36 @@ const CreateLesson = props => {
 
   const [values, setValues] = useState({
     name: '',
+    title: '',
+    description: '',
+    appraisedFunction: 'aaaaaaaaaa',
+    numberTests: 6,
   })
   const [repository, setRepository] = useState([])
   const [exercises, setExercises] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [checked, setChecked] = useState([])
   const [expanded, setExpanded] = useState(false)
-  const [isInputError, setIsInputError] = useState(false)
   const [isCreated, setIsCreated] = useState(false)
   const [savedLesson, setSavedLesson] = useState({})
   const [isCopied, setIsCopied] = useState(false)
+  const [isNewQuestion, setIsNewQuestion] = useState(false)
+  const [numberOfTests, setNumberOfTests] = useState(1)
+  const [input, setInput] = useState(`function xpto (args) {
+    
+}`)
+
+  const [isInputError, setIsInputError] = useState({
+    name: false,
+    title: false,
+    description: false,
+    appraisedFunction: false,
+    numberTests: false,
+  })
 
   const handleChange = prop => event => {
     const input = event.target.value.trim()
-    setIsInputError(input ? false : true)
+    setIsInputError({ ...isInputError, [prop]: input ? false : true })
     setValues({ ...values, [prop]: input })
   }
 
@@ -85,12 +101,17 @@ const CreateLesson = props => {
     const fetchData = async () => {
       const res = await ExercisesAPI.getExercises()
       setRepository(res)
+      console.log('aaa', numberOfTests)
     }
-    fetchData()
-  }, [])
+    repository.length === 0 && fetchData()
+  }, [numberOfTests])
 
   const handleChangeExpanded = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
+  }
+
+  const onChangeEditor = newValue => {
+    setInput(newValue)
   }
 
   const handleToggle = value => () => {
@@ -129,13 +150,27 @@ const CreateLesson = props => {
     setIsCreated(true)
   }
 
+  const createExercise = () => {
+    const exerciseObj = {
+      title: values.title,
+      description: values.description,
+      appraisedFunction: input,
+    }
+    console.log('obj', exerciseObj)
+  }
+
   const renderHead = () => {
     return (
       <div className={classes.title}>
         <h2>Criar Lição</h2>
         <Divider />
         <Tooltip title="Criar questão">
-          <Fab color="primary" aria-label="Add" className={classes.fab}>
+          <Fab
+            color="primary"
+            aria-label="Add"
+            className={classes.fab}
+            onClick={() => setIsNewQuestion(true)}
+          >
             <AddIcon />
           </Fab>
         </Tooltip>
@@ -189,7 +224,7 @@ const CreateLesson = props => {
                 color="primary"
                 simple
                 onClick={saveLesson}
-                disabled={isInputError}
+                disabled={isInputError.name}
               >
                 Salvar
               </Button>
@@ -304,9 +339,7 @@ const CreateLesson = props => {
               >
                 <CloseIcon className={classes.modalClose} />
               </IconButton>
-              <h4 className={classes.modalTitle}>
-                Seus exercícios cadastrados
-              </h4>
+              <h4 className={classes.headTitle}>Seus exercícios cadastrados</h4>
             </DialogTitle>
             <DialogContent className={classes.modalBody}>
               {renderExercisesToBeChoosen()}
@@ -329,11 +362,172 @@ const CreateLesson = props => {
     )
   }
 
+  const newExercise = () => {
+    return (
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={6} lg={4}>
+          <Dialog
+            classes={{
+              root: classes.center,
+            }}
+            open={isNewQuestion}
+            onClose={() => setIsNewQuestion(false)}
+            aria-labelledby="exercise-modal-title"
+            aria-describedby="exercise-modal-description"
+            keepMounted
+            fullWidth
+            maxWidth={'lg'}
+          >
+            <DialogTitle disableTypography className={classes.modalHeader}>
+              <IconButton
+                className={classes.modalCloseButton}
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                onClick={() => setIsNewQuestion(false)}
+              >
+                <CloseIcon className={classes.modalClose} />
+              </IconButton>
+              <h4 className={classes.modalTitle}>Nova lição</h4>
+              <Divider />
+            </DialogTitle>
+            <DialogContent className={classes.modalBody}>
+              {renderFormToCreateExercise()}
+            </DialogContent>
+            <DialogActions className={classes.modalFooter}>
+              <Button color="primary" simple onClick={createExercise}>
+                Adicionar
+              </Button>
+              <Button
+                onClick={() => setIsNewQuestion(false)}
+                color="danger"
+                simple
+              >
+                Fechar
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </GridItem>
+      </GridContainer>
+    )
+  }
+
+  const renderFormToCreateExercise = () => {
+    return (
+      <div className={classNames(classes.form, classes.mainRaised)}>
+        <FormControl fullWidth className={classes.margin10}>
+          <InputLabel htmlFor="exercise-title" error={isInputError.title}>
+            Titulo do Exercício
+          </InputLabel>
+          <Input
+            autoFocus
+            id="exercise-title"
+            value={values.title}
+            variant="outlined"
+            onChange={handleChange('title')}
+            startAdornment={
+              <InputAdornment position="start">
+                <LabelIcon />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <FormControl fullWidth className={classes.margin10}>
+          <InputLabel
+            htmlFor="exercise-description"
+            error={isInputError.description}
+          >
+            Descrição do Exercício
+          </InputLabel>
+          <Input
+            autoFocus
+            id="exercise-description"
+            value={values.description}
+            onChange={handleChange('description')}
+            startAdornment={
+              <InputAdornment position="start">
+                <LabelIcon />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <div className={classNames(classes.codeContent)}>
+          <InputLabel
+            htmlFor="exercise-code"
+            error={isInputError.description}
+            style={{ marginBottom: '20px' }}
+          >
+            <small>Função Opinionada</small>
+          </InputLabel>
+          <AceEditor
+            mode="javascript"
+            theme="monokai"
+            name="terminal-editor"
+            editorProps={{ $blockScrolling: true }}
+            value={input}
+            onChange={onChangeEditor}
+          />
+        </div>
+        <FormControl className={classes.margin10}>
+          <TextField
+            id="standard-number"
+            label="Número de testes"
+            value={numberOfTests}
+            onChange={e => setNumberOfTests(e.target.value.trim())}
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            margin="normal"
+          />
+        </FormControl>
+        {renderTests(numberOfTests)}
+      </div>
+    )
+  }
+
+  const renderTests = number => {
+    return (
+      <div>
+        {[...Array(number).keys()].map(index => (
+          <Fragment key={index}>
+            <FormControl
+              className={classes.margin10}
+              style={{ display: 'flex', flexFlow: 'row' }}
+            >
+              <TextField
+                id="standard-number"
+                style={{ marginRight: '20px' }}
+                label={`Input ${index + 1}`}
+                value={values.age}
+                onChange={handleChange('age')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                margin="normal"
+              />
+              <TextField
+                id="standard-number"
+                label={`Input ${index + 1}`}
+                value={values.age}
+                onChange={handleChange('age')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                margin="normal"
+              />
+            </FormControl>
+          </Fragment>
+        ))}
+      </div>
+    )
+  }
+
   const renderFormToCreateLesson = () => {
     return (
       <div className={classes.form}>
         <FormControl fullWidth>
-          <InputLabel htmlFor="adornment-amount" error={isInputError}>
+          <InputLabel htmlFor="adornment-amount" error={isInputError.name}>
             Nome da Lição
           </InputLabel>
           <Input
@@ -417,6 +611,7 @@ const CreateLesson = props => {
       </div>
       <Footer />
       {renderDialog()}
+      {newExercise()}
     </div>
   )
 }

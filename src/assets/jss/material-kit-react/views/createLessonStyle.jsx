@@ -120,6 +120,18 @@ const createLessonStyle = {
     float: 'right',
     padding: '5px',
   },
+  headTitle: {
+    fontSize: '2rem',
+    display: 'inline-block',
+    position: 'relative',
+    width: '100%',
+  },
+  margin10: {
+    margin: '10px',
+  },
+  marginTests: {
+    marginRight: '10px',
+  },
 }
 
 export default createLessonStyle
