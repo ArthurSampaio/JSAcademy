@@ -78,7 +78,11 @@ const CreateLesson = props => {
   const [savedLesson, setSavedLesson] = useState({})
   const [isCopied, setIsCopied] = useState(false)
   const [isNewQuestion, setIsNewQuestion] = useState(false)
-  const [numberOfTests, setNumberOfTests] = useState(1)
+  const [list, setList] = useState({
+    value: 0,
+    array: [],
+  })
+
   const [input, setInput] = useState(`function xpto (args) {
     
 }`)
@@ -101,10 +105,10 @@ const CreateLesson = props => {
     const fetchData = async () => {
       const res = await ExercisesAPI.getExercises()
       setRepository(res)
-      console.log('aaa', numberOfTests)
     }
+
     repository.length === 0 && fetchData()
-  }, [numberOfTests])
+  }, [list])
 
   const handleChangeExpanded = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
@@ -472,8 +476,8 @@ const CreateLesson = props => {
           <TextField
             id="standard-number"
             label="Número de testes"
-            value={numberOfTests}
-            onChange={e => setNumberOfTests(e.target.value.trim())}
+            value={list.value}
+            onChange={handleUpdateList}
             type="number"
             InputLabelProps={{
               shrink: true,
@@ -481,15 +485,25 @@ const CreateLesson = props => {
             margin="normal"
           />
         </FormControl>
-        {renderTests(numberOfTests)}
+        {renderTests()}
       </div>
     )
   }
 
-  const renderTests = number => {
+  const handleUpdateList = e => {
+    const value = Number(e.target.value) <= 10 ? Number(e.target.value) : 10
+    const newList = [...Array(value).keys()]
+    const obj = {
+      value: value,
+      array: newList,
+    }
+    setList(obj)
+  }
+
+  const renderTests = () => {
     return (
       <div>
-        {[...Array(number).keys()].map(index => (
+        {list.array.map(index => (
           <Fragment key={index}>
             <FormControl
               className={classes.margin10}
