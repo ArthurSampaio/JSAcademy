@@ -10,6 +10,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import GridItem from 'components/Grid/GridItem.jsx'
 import Parallax from 'components/Parallax/Parallax.jsx'
 import GridContainer from 'components/Grid/GridContainer.jsx'
+import HeaderLinks from 'components/Header/HeaderLinks.jsx'
 
 import Header from 'components/Header/Header.jsx'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
@@ -116,7 +117,7 @@ const Skill = props => {
     <div>
       <Header
         brand="Javascript Academy"
-        rightLinks={<HeaderProgress />}
+        rightLinks={<HeaderLinks />}
         fixed
         color="success"
         {...rest}
