@@ -140,9 +140,15 @@ const ListItemNew = props => {
             // onClick={event => createLocation(item, '/my-answers', item._id)}
           >
             <ListItemAvatar>
-              <Tooltip title="title">
-                <Avatar>
-                  <SendIcon />
+              <Tooltip
+                title={` ${
+                  item.answered > 0
+                    ? `${item.answered} pessoas responderam`
+                    : 'Ninguém respondeu'
+                } esta lição`}
+              >
+                <Avatar style={{ backgroundColor: '#7AC70C' }}>
+                  {item.answered}
                 </Avatar>
               </Tooltip>
             </ListItemAvatar>

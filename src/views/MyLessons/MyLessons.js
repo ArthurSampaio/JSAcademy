@@ -5,7 +5,6 @@ import classNames from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
-
 // @material-ui/icons
 
 // core components
@@ -18,26 +17,20 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Divider from '@material-ui/core/Divider'
 
 import myLessonsStyle from 'assets/jss/material-kit-react/views/myLessonsStyle.jsx'
-import UserAPI from './../../services/UserAPI'
 import LessonAPI from './../../services/LessonAPI'
-import { AuthService } from './../../services/Auth'
+import { Link } from 'react-router-dom'
 
 //TODO: adicionar casos quando for um anonymous id
 const MyLessons = props => {
   const { classes, ...rest } = props
-  const [user, setUser] = useState({})
   const [loading, setLoading] = useState(false)
   const [lessons, setLessons] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const userId = AuthService.currentUserDecodeValue._id
-      const res = await UserAPI.getUser(userId)
       const resLessons = await getMyLessons()
-      console.log('myLessons', resLessons)
       setLessons(resLessons)
-      setUser(res)
       setLoading(false)
     }
     fetchData()
@@ -50,8 +43,14 @@ const MyLessons = props => {
   const renderHead = () => {
     return (
       <div className={classes.title}>
-        <Tooltip title="Criar questão">
-          <Fab color="primary" aria-label="Add" className={classes.fab}>
+        <Tooltip title="Criar questão" style={{ backgroundColor: '#7AC70C' }}>
+          <Fab
+            color="inherit"
+            component={Link}
+            to="/create-lesson"
+            aria-label="Add"
+            className={classes.fab}
+          >
             <AddIcon />
           </Fab>
         </Tooltip>
@@ -62,26 +61,6 @@ const MyLessons = props => {
         </div>
       </div>
     )
-  }
-
-  const getAnsweredLessons = () => {
-    const answeredLesson =
-      user.answeredLesson &&
-      user.answeredLesson.map(item => {
-        return {
-          ...item,
-          exercisesMetrics: item.exercisesMetrics.map(el => {
-            return {
-              ...el,
-              exercise: item.lesson.exercises.filter(
-                ex => ex._id === el.exercise
-              )[0],
-            }
-          }),
-        }
-      })
-
-    return answeredLesson
   }
 
   return (
