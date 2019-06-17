@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 // nodejs library that concatenates classes
 import classNames from 'classnames'
@@ -53,7 +54,6 @@ import AceEditor from 'react-ace'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import Divider from '@material-ui/core/Divider'
 

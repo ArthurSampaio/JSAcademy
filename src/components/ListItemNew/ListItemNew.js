@@ -1,4 +1,6 @@
 import React, { useState, Fragment } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -14,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Fade from '@material-ui/core/Fade'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
+import FileCopyIcon from '@material-ui/icons/FileCopy'
 
 const ListItemNew = props => {
   const {
@@ -131,6 +134,7 @@ const ListItemNew = props => {
 
   function renderMyLessons() {
     console.log('aaaaaa', items)
+
     return (
       items &&
       items.map(item => (
@@ -147,7 +151,9 @@ const ListItemNew = props => {
                     : 'Ninguém respondeu'
                 } esta lição`}
               >
-                <Avatar style={{ backgroundColor: '#7AC70C' }}>
+                <Avatar
+                  style={{ backgroundColor: '#7AC70C', color: '#ffffff' }}
+                >
                   {item.answered}
                 </Avatar>
               </Tooltip>
@@ -159,13 +165,27 @@ const ListItemNew = props => {
               ).toLocaleDateString()} | ${item.exercises.length} exercícios`}
             />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="Delete">
-                <SendIcon />
-              </IconButton>
+              <Tooltip title="Copiar link">{renderClipBoard(item)}</Tooltip>
+              <Tooltip title="Ver detalhes">
+                <IconButton edge="end" aria-label="Delete">
+                  <SendIcon />
+                </IconButton>
+              </Tooltip>
             </ListItemSecondaryAction>
           </ListItem>
         </Fragment>
       ))
+    )
+  }
+
+  function renderClipBoard(item) {
+    const url = `${window.location.origin}/skill/${item._id}`
+    return (
+      <CopyToClipboard text={url} onCopy={() => console.log('copiou')}>
+        <IconButton edge="end" aria-label="Copy">
+          <FileCopyIcon />
+        </IconButton>
+      </CopyToClipboard>
     )
   }
 
