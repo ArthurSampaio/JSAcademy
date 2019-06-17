@@ -78,6 +78,7 @@ const CreateLesson = props => {
   const [savedLesson, setSavedLesson] = useState({})
   const [isCopied, setIsCopied] = useState(false)
   const [isNewQuestion, setIsNewQuestion] = useState(false)
+  const [tests, setTests] = useState({})
   const [list, setList] = useState({
     value: 0,
     array: [],
@@ -96,7 +97,7 @@ const CreateLesson = props => {
   })
 
   const handleChange = prop => event => {
-    const input = event.target.value.trim()
+    const input = event.target.value
     setIsInputError({ ...isInputError, [prop]: input ? false : true })
     setValues({ ...values, [prop]: input })
   }
@@ -155,10 +156,15 @@ const CreateLesson = props => {
   }
 
   const createExercise = () => {
+    const testsCases = []
+    for (const t in tests) {
+      testsCases.push(tests[t])
+    }
     const exerciseObj = {
       title: values.title,
       description: values.description,
       appraisedFunction: input,
+      testCases: testsCases,
     }
     console.log('obj', exerciseObj)
   }
@@ -500,6 +506,14 @@ const CreateLesson = props => {
     setList(obj)
   }
 
+  const handleUpdateTest = (index, prop) => event => {
+    const value = event.target.value
+    const singleTest = tests[index] || {}
+    const singleTestUpdate = { ...singleTest, [prop]: value }
+    const testsUpdate = { ...tests, [index]: singleTestUpdate }
+    setTests(testsUpdate)
+  }
+
   const renderTests = () => {
     return (
       <div>
@@ -513,8 +527,8 @@ const CreateLesson = props => {
                 id="standard-number"
                 style={{ marginRight: '20px' }}
                 label={`Input ${index + 1}`}
-                value={values.age}
-                onChange={handleChange('age')}
+                value={(tests[index] && tests[index].input) || ''}
+                onChange={handleUpdateTest(index, 'input')}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -522,9 +536,9 @@ const CreateLesson = props => {
               />
               <TextField
                 id="standard-number"
-                label={`Input ${index + 1}`}
-                value={values.age}
-                onChange={handleChange('age')}
+                label={`Output ${index + 1}`}
+                value={(tests[index] && tests[index].output) || ''}
+                onChange={handleUpdateTest(index, 'output')}
                 InputLabelProps={{
                   shrink: true,
                 }}
