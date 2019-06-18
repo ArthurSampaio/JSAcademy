@@ -200,7 +200,7 @@ const LoginPage = props => {
                       size="lg"
                       onClick={onClickHandle}
                     >
-                      Get started
+                      Go
                     </Button>
                   </CardFooter>
                 </form>

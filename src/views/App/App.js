@@ -58,9 +58,12 @@ const App = props => {
         <PrivateRoute path="/test" component={TerminalTest} />
         <Route path="/skill/:lessonId" component={Skill} />
         <Route path="/what-to-do-today" component={RegisterPage} />
-        <Route path="/my-answers/user" component={MyAnswers} />
-        <Route path="/answers/:metricId" component={MetricLesson} />
-        <Route path="/lesson-details/:lessonId" component={LessonDetails} />
+        <PrivateRoute path="/my-answers/user" component={MyAnswers} />
+        <PrivateRoute path="/answers/:metricId" component={MetricLesson} />
+        <PrivateRoute
+          path="/lesson-details/:lessonId"
+          component={LessonDetails}
+        />
         <Route path="/choose-lesson" component={ChooseLesson} />
         <PrivateRoute path="/create-lesson" component={CreateLesson} />
         <PrivateRoute path="/my-lessons" component={MyLessons} />

@@ -16,6 +16,7 @@ import Header from 'components/Header/Header.jsx'
 import TerminalJS from 'components/TerminalJS/TerminalJS'
 import SnackNavigation from '../../components/SnackNavigation/SnackNavigation'
 import Button from 'components/CustomButtons/Button.jsx'
+import { Route, Redirect } from 'react-router-dom'
 
 // sections for this page
 import HeaderProgress from 'components/Header/HeaderProgress.jsx'
@@ -108,8 +109,12 @@ const Skill = props => {
 
   function sendLesson() {
     const metric = getLessonMetrics()
-    LessonAPI.sendAnswer(metric).then(res => {
+    return LessonAPI.sendAnswer(metric).then(res => {
       console.log(res) //todo: do something with this action
+      const location = {
+        pathname: `/choose-lesson`,
+      }
+      props.history.push(location)
     })
   }
 
@@ -154,7 +159,7 @@ const Skill = props => {
                     <GridItem xs={12} sm={12} md={6}>
                       <Button color="warning" size="lg" onClick={sendLesson}>
                         <i className="fas fa-play" />
-                        Ir para o menu
+                        Enviar questionário
                       </Button>
                     </GridItem>
                   </GridContainer>
