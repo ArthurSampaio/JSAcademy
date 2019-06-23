@@ -17,12 +17,16 @@ const TerminalJS = props => {
   const [input, setInput] = useState(task.appraisedFunction)
   const [output, setOuput] = useState(' ')
   const [answer, setAnswer] = useState({})
-  const [worker, setWorker] = useState(null)
+  const [worker, setWorker] = useState(
+    new WebWorker(WorkerService.codeToRun(task.appraisedFunction))
+  )
+  const [stackOutput, setStackOutput] = useState([])
 
   const functionRegex = /function\s*([A-z0-9]+)?\s*\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)\s*\{(?:[^}{]+|\{(?:[^}{]+|\{[^}{]*\})*\})*\}/g
 
   function onChange(newValue) {
     setInput(newValue)
+    setWorker(new WebWorker(WorkerService.codeToRun(newValue)))
   }
 
   useEffect(() => {
@@ -34,33 +38,40 @@ const TerminalJS = props => {
       endAt: 0,
       time: 0,
     }
-
+    new WebWorker(WorkerService.codeToRun(task.appraisedFunction))
     setAnswer(defaultAnswer)
     setInput(task.appraisedFunction)
-
+    setWorker()
     setOuput(' ')
   }, [task])
 
   function execute() {
-    // console.log('works', worker)
-    // worker.postMessage('run code')
-    // console.log('começou', Date.now)
-    // setTimeout(function() {
-    //   console.log('terminou')
-    //   worker.terminate()
-    // }, 3000)
-    // worker.addEventListener('message', event => {
-    //   console.log('eventaaa', event)
-    //   setOuput(event.data)
-    // })
-    try {
-      const evaluate = evaluateCode()
-      console.log('evaluate', evaluate)
-      setOuput((evaluate && JSON.stringify(evaluate)) || '')
-    } catch (e) {
-      console.log('ERRROOO', e)
-      setOuput(e.message)
-    }
+    worker.postMessage('run code')
+    console.log('começou', Date.now)
+    setTimeout(function() {
+      console.log('terminou')
+      worker.terminate()
+    }, 3000)
+    worker.addEventListener('message', event => {
+      console.log('eventaaa', event)
+      stackOutput.push(event.data)
+      console.log('stack', stackOutput)
+
+      setStackOutput(stackOutput)
+      setOuput(
+        stackOutput.reduce((acc, val) => {
+          return acc + `> ${val} <br> `
+        }, '')
+      )
+    })
+    // try {
+    //   const evaluate = evaluateCode()
+    //   console.log('evaluate', evaluate)
+    //   setOuput((evaluate && JSON.stringify(evaluate)) || '')
+    // } catch (e) {
+    //   console.log('ERRROOO', e)
+    //   setOuput(e.message)
+    // }
   }
 
   function codeToRun(code) {
@@ -106,31 +117,31 @@ const TerminalJS = props => {
 
   function runTests() {
     try {
-      // const evaluate = executeFunctionFromCode()
-      // let acc = true
-      // task.testCases.map(item => {
-      //   const inp = JSON.parse(item.input)
-      //   const out = JSON.parse(item.output)
-      //   if (evaluate(inp).toString() !== out.toString()) {
-      //     acc = false
-      //   }
-      // })
-      const code = input.match(functionRegex)
-      setWorker(new WebWorker(WorkerService.codeToRunTests(code, task)))
-      console.log('works', worker)
-      worker.postMessage('run code')
-      console.log('começou', Date.now)
+      const evaluate = executeFunctionFromCode()
+      let acc = true
+      task.testCases.map(item => {
+        const inp = JSON.parse(item.input)
+        const out = JSON.parse(item.output)
+        if (evaluate(inp).toString() !== out.toString()) {
+          acc = false
+        }
+      })
+      const ans = updateAnswer(acc)
+      setAnswer(ans)
+      onRunTest(acc, ans)
+      // const code = input.match(functionRegex)
+      // setWorker(new WebWorker(WorkerService.codeToRunTests(code, task)))
+      // console.log('works', worker)
+      // worker.postMessage('run code')
+      // console.log('começou', Date.now)
       // setTimeout(function() {
       //   console.log('terminou')
       //   worker.terminate()
       // }, 3000)
-      worker.addEventListener('message', event => {
-        console.log('eventaaa', event)
-        const acc = event.data
-        const ans = updateAnswer(acc)
-        setAnswer(ans)
-        onRunTest(acc, ans)
-      })
+      // worker.addEventListener('message', event => {
+      //   console.log('eventaaa', event)
+
+      // })
     } catch (e) {
       setAnswer(updateAnswer(false))
       setOuput(e.message)
@@ -156,6 +167,7 @@ const TerminalJS = props => {
   function clear() {
     setOuput(' ')
     onClear()
+    setStackOutput([])
   }
 
   function onClear() {
@@ -222,7 +234,11 @@ const TerminalJS = props => {
             </Button>
           </div>
           <div className={'console'}>
-            <code>{output}</code>
+            <code className={'styleOverflow'}>
+              {stackOutput.map((item, index) => (
+                <li key={index}>{item.toString()}</li>
+              ))}
+            </code>
           </div>
         </div>
       </div>
