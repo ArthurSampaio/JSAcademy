@@ -1,46 +1,34 @@
 /*eslint-disable*/
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 // nodejs library to set properties for components
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 // nodejs library that concatenates classes
-import classNames from "classnames";
-import { List, ListItem, withStyles } from "@material-ui/core";
-import Button from "components/CustomButtons/Button.jsx";
-
+import classNames from 'classnames'
+import { List, ListItem, withStyles } from '@material-ui/core'
+import Button from 'components/CustomButtons/Button.jsx'
 
 // @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
+import Favorite from '@material-ui/icons/Favorite'
 
-import footerStyle from "assets/jss/material-kit-react/components/footerStyle.jsx";
+import footerStyle from 'assets/jss/material-kit-react/components/footerStyle.jsx'
 
 function Footer({ ...props }) {
-  const { classes, whiteFont } = props;
+  const { classes, whiteFont } = props
   const footerClasses = classNames({
     [classes.footer]: true,
-    [classes.footerWhiteFont]: whiteFont
-  });
+    [classes.footerWhiteFont]: whiteFont,
+  })
   const aClasses = classNames({
     [classes.a]: true,
-    [classes.footerWhiteFont]: whiteFont
-  });
+    [classes.footerWhiteFont]: whiteFont,
+  })
   return (
     <footer className={footerClasses}>
       <div className={classes.container}>
         <div className={classes.left}>
           <List className={classes.list}>
-
-            <ListItem className={classes.inlineBlock}>
-
-              <Button color="transparent" className={classes.block} component={Link} to="/profile-page">
-
-
-                About
-
-              </Button>
-            </ListItem>
-
-            <ListItem className={classes.inlineBlock}>
+            {/* <ListItem className={classes.inlineBlock}>
               <a
                 href="https://www.creative-tim.com/license"
                 className={classes.block}
@@ -48,31 +36,22 @@ function Footer({ ...props }) {
               >
                 Licenses
               </a>
-            </ListItem>
+            </ListItem> */}
           </List>
         </div>
         <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} ,
-          <small>
-            Inspired by{" "}
-            <a
-              href="https://www.creative-tim.com"
-              className={aClasses}
-              target="_blank"
-            >
-              Creative Tim
-            </a>{" "}
-            for a better web.
-          </small>
+          {' '}
+          {'Javascript Academy '}
+          &copy; {1900 + new Date().getYear()}
         </div>
       </div>
     </footer>
-  );
+  )
 }
 
 Footer.propTypes = {
   classes: PropTypes.object.isRequired,
-  whiteFont: PropTypes.bool
-};
+  whiteFont: PropTypes.bool,
+}
 
-export default withStyles(footerStyle)(Footer);
+export default withStyles(footerStyle)(Footer)

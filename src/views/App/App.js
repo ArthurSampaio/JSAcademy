@@ -4,7 +4,6 @@ import axios from 'axios'
 
 import Skill from 'views/Skill/Skill'
 import LandingPage from 'views/LandingPage/LandingPage.jsx'
-import ProfilePage from 'views/ProfilePage/ProfilePage.jsx'
 import LoginPage from 'views/LoginPage/LoginPage.jsx'
 import MetricLesson from 'views/MetricLesson/MetricLesson'
 import MyAnswers from 'views/MyAnswers/MyAnswers'
@@ -53,7 +52,6 @@ const App = props => {
   return (
     <Router history={hist}>
       <Switch>
-        <Route path="/profile-page" component={ProfilePage} />
         <Route path="/login" component={LoginPage} />
         <PrivateRoute path="/test" component={TerminalTest} />
         <Route path="/skill/:lessonId" component={Skill} />
