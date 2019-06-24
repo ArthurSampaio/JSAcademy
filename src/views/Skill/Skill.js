@@ -56,12 +56,12 @@ const Skill = props => {
   }
 
   function nextExercise() {
-    const newOrder = order + 1 < lesson.exercises.length ? order + 1 : order
+    const newOrder = (order + 1) % lesson.exercises.length
     setOrder(newOrder)
   }
 
   function previousExercise() {
-    const newOrder = order - 1 >= 0 ? order - 1 : order
+    const newOrder = order > 0 ? (order - 1) % lesson.exercises.length : order
     setOrder(newOrder)
     console.log('T', lesson.exercises[order])
   }
