@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import AceEditor from 'react-ace'
 import 'brace/mode/javascript'
@@ -124,6 +125,14 @@ const TerminalJS = props => {
     props.onRun(acc && metricsExercise(ans))
   }
 
+  function renderButtonTooltip(children, message) {
+    return (
+      <Tooltip placement="right-start" title={message}>
+        {children}
+      </Tooltip>
+    )
+  }
+
   function renderTerminal() {
     return (
       <div className={`terminal `}>
@@ -149,26 +158,34 @@ const TerminalJS = props => {
         />
         <div className={'output-container'}>
           <div className={'buttons-output'}>
-            <Button
-              id="run"
-              variant="contained"
-              color="primary"
-              onClick={execute}
-            >
-              Run
-            </Button>
-
-            <Button
-              variant="contained"
-              color="warning"
-              onClick={runTests}
-              disabled={showButtonTest || accept}
-            >
-              Execute Tests
-            </Button>
-            <Button variant="contained" color="danger" onClick={clear}>
-              Clear
-            </Button>
+            {renderButtonTooltip(
+              <Button
+                id="run"
+                variant="contained"
+                color="primary"
+                onClick={execute}
+              >
+                Executar
+              </Button>,
+              'Executar código'
+            )}
+            {renderButtonTooltip(
+              <Button
+                variant="contained"
+                color="warning"
+                onClick={runTests}
+                disabled={showButtonTest || accept}
+              >
+                Executar Testes
+              </Button>,
+              'Executar Testes'
+            )}
+            {renderButtonTooltip(
+              <Button variant="contained" color="danger" onClick={clear}>
+                Clear
+              </Button>,
+              'Limpar'
+            )}
           </div>
           <div className={'console'}>
             <code>{output}</code>

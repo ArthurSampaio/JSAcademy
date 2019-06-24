@@ -1,18 +1,25 @@
 import React from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 
-import Check from "@material-ui/icons/Check";
+import Check from '@material-ui/icons/Check'
 
-import snackbarStyle from "assets/jss/material-kit-react/components/snackNavigationStyle.jsx";
+import snackbarStyle from 'assets/jss/material-kit-react/components/snackNavigationStyle.jsx'
 
-import CustomLinearProgress from "components/CustomLinearProgress/CustomLinearProgress.jsx";
+import CustomLinearProgress from 'components/CustomLinearProgress/CustomLinearProgress.jsx'
 import SnackbarContent from 'components/Snackbar/SnackbarContent.jsx'
 
 import Button from 'components/CustomButtons/Button.jsx'
 
 const SnackNavigation = props => {
-
-  const { classes, accept, runned, previousExercise, nextExercise, linearValue, ...rest } = props
+  const {
+    classes,
+    accept,
+    runned,
+    previousExercise,
+    nextExercise,
+    linearValue,
+    ...rest
+  } = props
 
   function renderNavigation() {
     return (
@@ -23,7 +30,7 @@ const SnackNavigation = props => {
           color="primary"
           onClick={previousExercise}
         >
-          previous
+          anterior
         </Button>
         <Button
           id="run"
@@ -31,7 +38,7 @@ const SnackNavigation = props => {
           color="primary"
           onClick={nextExercise}
         >
-          next
+          próximo
         </Button>
       </div>
     )
@@ -42,7 +49,8 @@ const SnackNavigation = props => {
       <SnackbarContent
         message={
           <span>
-            <b>RESPOSTA CORRETA:</b> Parabéns. Você será redirecionado para a próxima questão em instantes. 
+            <b>RESPOSTA CORRETA:</b> Parabéns. Você será redirecionado para a
+            próxima questão em instantes.
           </span>
         }
         close
@@ -54,7 +62,8 @@ const SnackNavigation = props => {
       <SnackbarContent
         message={
           <span>
-            <b>RESPOSTA INCORRETA:</b> :( clique <b>Clear</b> para tentar novamente.
+            <b>RESPOSTA INCORRETA:</b> :( clique <b>Clear</b> para tentar
+            novamente.
           </span>
         }
         color="danger"
@@ -65,7 +74,6 @@ const SnackNavigation = props => {
   }
 
   return (
-
     <div className={classes.navigation}>
       <CustomLinearProgress
         variant="determinate"
@@ -73,7 +81,6 @@ const SnackNavigation = props => {
         value={linearValue}
       />
       {runned ? renderSnackConfirmation() : renderNavigation()}
-
     </div>
   )
 }
