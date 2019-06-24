@@ -150,6 +150,7 @@ const LoginPage = props => {
                         inputProps={{
                           onChange: handleChange('name'),
                           type: 'text',
+                          value: user.name,
                           endAdornment: (
                             <InputAdornment position="end">
                               <People className={classes.inputIconsColor} />
@@ -167,6 +168,8 @@ const LoginPage = props => {
                       inputProps={{
                         onChange: handleChange('email'),
                         type: 'email',
+                        value: user.email,
+
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputIconsColor} />
@@ -183,6 +186,7 @@ const LoginPage = props => {
                       inputProps={{
                         onChange: handleChange('password'),
                         type: 'password',
+                        value: user.password,
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
