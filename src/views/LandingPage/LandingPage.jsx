@@ -45,13 +45,13 @@ class LandingPage extends React.Component {
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <h1 className={classes.title}>
-                  Nunca foi tão fácil ensinar e aprender Javascript!
+                  Praticar Javascript nunca foi tão facil
                 </h1>
                 <br />
                 <Link to="/what-to-do-today">
                   <Button color="primary" size="lg">
                     <i className="fas fa-play" />
-                    Começar Agora
+                    Comece Agora
                   </Button>
                 </Link>
               </GridItem>

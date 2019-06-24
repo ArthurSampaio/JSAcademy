@@ -53,7 +53,7 @@ class ProductSection extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
                 title="Javascript para progamadores"
-                description="Somos focados em ensinar Javascript e Programação Funcional para programadores ativos, que estão querendo atualizar seus conhecimentos ou simplesmente estudar um pouco mais."
+                description="São pessoas como você que criam as lições que estudamos. Aqui é programador para programador."
                 icon={DeveloperMode}
                 iconColor="danger"
                 vertical
