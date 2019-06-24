@@ -4,7 +4,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
 import Tooltip from '@material-ui/core/Tooltip'
-
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -18,6 +17,8 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
 import UtilsService from './../../services/UtilsService'
+import SnackbarContent from 'components/Snackbar/SnackbarContent.jsx'
+
 const ListItemNew = props => {
   const {
     classes,
@@ -44,8 +45,7 @@ const ListItemNew = props => {
   }
 
   function renderItems() {
-    return (
-      answered &&
+    return answered && answered.length > 0 ? (
       answered.map(item => (
         <Fragment key={item._id}>
           <ListItem
@@ -74,6 +74,16 @@ const ListItemNew = props => {
           </ListItem>
         </Fragment>
       ))
+    ) : (
+      <SnackbarContent
+        message={
+          <div>
+            <b>Não possuimos nenhuma questão para você hoje</b>
+          </div>
+        }
+        color="warning"
+        icon="info_outline"
+      />
     )
   }
 
@@ -144,52 +154,70 @@ const ListItemNew = props => {
   }
 
   function renderMyLessons() {
-    return (
-      items &&
-      items.map(item => (
-        <Fragment key={item._id}>
-          <ListItem
-            button
-            onClick={event => createLocation(item, '/lesson-details', item._id)}
-          >
-            <ListItemAvatar>
-              <Tooltip
-                title={` ${
-                  item.answered > 0
-                    ? `${item.answered} pessoas responderam`
-                    : 'Ninguém respondeu'
-                } esta lição`}
+    return items.length > 0
+      ? items &&
+          items.map(item => (
+            <Fragment key={item._id}>
+              <ListItem
+                button
+                onClick={event =>
+                  createLocation(item, '/lesson-details', item._id)
+                }
               >
-                <Avatar
-                  style={{ backgroundColor: '#7AC70C', color: '#ffffff' }}
-                >
-                  {item.answered}
-                </Avatar>
-              </Tooltip>
-            </ListItemAvatar>
-            <ListItemText
-              primary={item.name}
-              secondary={`Atualizada em ${new Date(
-                item.updatedAt
-              ).toLocaleDateString()} | ${item.exercises.length} exercícios`}
-            />
-            <ListItemSecondaryAction>
-              <Tooltip title="Copiar link">{renderClipBoard(item)}</Tooltip>
-              <Tooltip title="Ver detalhes">
-                <IconButton
-                  edge="end"
-                  aria-label="Delete"
-                  onClick={event =>
-                    createLocation(item, '/lesson-details', item._id)
-                  }
-                >
-                  <SendIcon />
-                </IconButton>
-              </Tooltip>
-            </ListItemSecondaryAction>
-          </ListItem>
-        </Fragment>
-      ))
+                <ListItemAvatar>
+                  <Tooltip
+                    title={` ${
+                      item.answered > 0
+                        ? `${item.answered} pessoas responderam`
+                        : 'Ninguém respondeu'
+                    } esta lição`}
+                  >
+                    <Avatar
+                      style={{ backgroundColor: '#7AC70C', color: '#ffffff' }}
+                    >
+                      {item.answered}
+                    </Avatar>
+                  </Tooltip>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.name}
+                  secondary={`Atualizada em ${new Date(
+                    item.updatedAt
+                  ).toLocaleDateString()} | ${
+                    item.exercises.length
+                  } exercícios`}
+                />
+                <ListItemSecondaryAction>
+                  <Tooltip title="Copiar link">{renderClipBoard(item)}</Tooltip>
+                  <Tooltip title="Ver detalhes">
+                    <IconButton
+                      edge="end"
+                      aria-label="Delete"
+                      onClick={event =>
+                        createLocation(item, '/lesson-details', item._id)
+                      }
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  </Tooltip>
+                </ListItemSecondaryAction>
+              </ListItem>
+            </Fragment>
+          ))
+      : renderSnackbar('Você não respondeu nenhuma lição ainda')
+  }
+
+  const renderSnackbar = message => {
+    return (
+      <SnackbarContent
+        message={
+          <div>
+            <b>{message}</b>
+          </div>
+        }
+        color="warning"
+        icon="info_outline"
+      />
     )
   }
 

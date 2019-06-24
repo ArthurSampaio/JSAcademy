@@ -4,17 +4,22 @@ import classNames from 'classnames'
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles'
 // @material-ui/icons
+import SvgIcon from '@material-ui/core/SvgIcon'
 
 // core components
 import Header from 'components/Header/Header.jsx'
 import Footer from 'components/Footer/Footer.jsx'
 import HeaderLinks from 'components/Header/HeaderLinks.jsx'
 import ListItemNew from 'components/ListItemNew/ListItemNew'
+import SnackbarContent from 'components/Snackbar/SnackbarContent.jsx'
 
 import Divider from '@material-ui/core/Divider'
 
 import metricLessonStyle from 'assets/jss/material-kit-react/views/metricLesson.jsx'
 import LessonAPI from './../../services/LessonAPI'
+import { ReactComponent as Sad } from '../../assets/img/sad.svg'
+import Button from 'components/CustomButtons/Button.jsx'
+import { Link } from 'react-router-dom'
 
 //TODO: adicionar casos quando for um anonymous id
 const ChooseLesson = props => {
@@ -63,12 +68,33 @@ const ChooseLesson = props => {
           <div className={classes.container}>
             {renderHead()}
             <div className={(classes.root, classes.mainRaised)}>
-              <ListItemNew
-                type={'lesson'}
-                lessons={lessons}
-                loading={loading}
-                {...props}
-              />
+              {lessons.length > 0 ? (
+                <ListItemNew
+                  type={'lesson'}
+                  lessons={lessons}
+                  loading={loading}
+                  {...props}
+                />
+              ) : (
+                <div>
+                  <SnackbarContent
+                    message={
+                      <div>
+                        <b>Não possuimos nenhuma questão para você hoje</b>
+                        <Button
+                          color={'transparent'}
+                          component={Link}
+                          to={'/create-lesson'}
+                        >
+                          Mas, não desanime. Você pode criar lição aqui uma aqui
+                        </Button>
+                      </div>
+                    }
+                    color="warning"
+                    icon="info_outline"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

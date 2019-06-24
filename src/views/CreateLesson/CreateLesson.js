@@ -34,6 +34,7 @@ import CommentIcon from '@material-ui/icons/Comment'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import TextField from '@material-ui/core/TextField'
 import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarContent from 'components/Snackbar/SnackbarContent.jsx'
 
 // core components
 import Header from 'components/Header/Header.jsx'
@@ -266,11 +267,30 @@ const CreateLesson = props => {
 
   const renderExercisesToBeChoosen = () => {
     return (
-      <List className={classes.root}>
-        {repository.map(value => {
-          return <Fragment key={value._id}>{renderSinglePanel(value)}</Fragment>
-        })}
-      </List>
+      <div>
+        {repository.length > 0 ? (
+          <List className={classes.root}>
+            {repository.map(value => {
+              return (
+                <Fragment key={value._id}>{renderSinglePanel(value)}</Fragment>
+              )
+            })}
+          </List>
+        ) : (
+          <SnackbarContent
+            message={
+              <div>
+                <b>
+                  Você não possui exercícios cadastrados no seu repositório.
+                  Para cadastrar, feche o modal e clique em (+){' '}
+                </b>
+              </div>
+            }
+            color="warning"
+            icon="info_outline"
+          />
+        )}
+      </div>
     )
   }
 
