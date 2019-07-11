@@ -71,7 +71,6 @@ const LoginPage = props => {
       }
       return AuthService.login(userLogin)
         .then(user => {
-          console.log('user', user)
           const { from } = props.location.state || {
             from: { pathname: '/' },
           }
@@ -83,7 +82,10 @@ const LoginPage = props => {
         })
     } else {
       return UserAPI.createUser(user).then(user => {
-        setIsLogin(true)
+        handleClick('Usuário cadastrado com sucesso')
+        setTimeout(function() {
+          setIsLogin(true)
+        }, 1000)
       })
     }
   }
@@ -142,7 +144,7 @@ const LoginPage = props => {
                   <CardBody>
                     {!isLogin && (
                       <CustomInput
-                        labelText="First Name..."
+                        labelText="Nome..."
                         id="first"
                         formControlProps={{
                           fullWidth: true,
