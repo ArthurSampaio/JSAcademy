@@ -85,12 +85,16 @@ const LoginPage = props => {
           handleClick(error.message)
         })
     } else {
-      return UserAPI.createUser(user).then(user => {
-        handleClick('Usuário cadastrado com sucesso')
-        setTimeout(function() {
-          setIsLogin(true)
-        }, 1000)
-      })
+      if (user.password === user.passwordConfirm) {
+        return UserAPI.createUser(user).then(user => {
+          handleClick('Usuário cadastrado com sucesso')
+          setTimeout(function() {
+            setIsLogin(true)
+          }, 1000)
+        })
+      } else {
+        handleClick('O password e sua confirmação não são iguais')
+      }
     }
   }
 
