@@ -31,13 +31,16 @@ import loginPageStyle from 'assets/jss/material-kit-react/views/loginPage.jsx'
 import imageLogin from 'assets/img/bg-login.png'
 import imageLogout from 'assets/img/bg-logout.png'
 
+const initPass = ''
+
 const LoginPage = props => {
   const { classes, ...rest } = props
   const [cardAnimaton, setCardAnimaton] = useState('cardHidden')
   const [user, setUser] = useState({
     name: '',
     email: '',
-    password: '',
+    password: initPass,
+    passwordConfirm: initPass,
   })
   const [isLogin, setIsLogin] = useState(true)
   const [image, setImage] = useState(imageLogin)
@@ -61,6 +64,8 @@ const LoginPage = props => {
       ...user,
       [value]: event.target.value,
     })
+    console.log(user.password)
+    console.log(user.passwordConfirm)
   }
 
   const onClickHandle = event => {
@@ -71,20 +76,25 @@ const LoginPage = props => {
       }
       return AuthService.login(userLogin)
         .then(user => {
-          console.log('user', user)
           const { from } = props.location.state || {
             from: { pathname: '/' },
           }
           props.history.push(from)
         })
         .catch(function(error) {
-          console.log(error)
           handleClick(error.message)
         })
     } else {
-      return UserAPI.createUser(user).then(user => {
-        setIsLogin(true)
-      })
+      if (user.password === user.passwordConfirm) {
+        return UserAPI.createUser(user).then(user => {
+          handleClick('Usuário cadastrado com sucesso')
+          setTimeout(function() {
+            setIsLogin(true)
+          }, 1000)
+        })
+      } else {
+        handleClick('O password e sua confirmação não são iguais')
+      }
     }
   }
 
@@ -142,7 +152,7 @@ const LoginPage = props => {
                   <CardBody>
                     {!isLogin && (
                       <CustomInput
-                        labelText="First Name..."
+                        labelText="Nome..."
                         id="first"
                         formControlProps={{
                           fullWidth: true,
@@ -196,6 +206,27 @@ const LoginPage = props => {
                         ),
                       }}
                     />
+                    {!isLogin && user.password && (
+                      <CustomInput
+                        labelText="Confirme o password"
+                        id="passConf"
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                        inputProps={{
+                          onChange: handleChange('passwordConfirm'),
+                          type: 'password',
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Icon className={classes.inputIconsColor}>
+                                lock_outline
+                              </Icon>
+                            </InputAdornment>
+                          ),
+                        }}
+                        error={user.password !== user.passwordConfirm}
+                      />
+                    )}
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button
