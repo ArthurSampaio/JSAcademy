@@ -14,7 +14,7 @@
     "history": "4.7.2",
     "jwt-decode": "^2.2.0",
     "md5": "^2.2.1",
-    "moment": "2.24.0",
+    "moment": "2.29.4",
     "node-sass": "4.11.0",
     "nouislider": "13.1.0",
     "prop-types": "15.7.1",
