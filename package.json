@@ -10,7 +10,7 @@
     "axios": "^0.18.0",
     "classnames": "2.2.6",
     "concurrently": "^4.1.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "history": "4.7.2",
     "jwt-decode": "^2.2.0",
     "md5": "^2.2.1",
